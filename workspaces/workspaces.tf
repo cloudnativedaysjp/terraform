@@ -11,6 +11,18 @@ variable "oauth_token_id" {
   default = "ot-25zDMn4WC9dFQ2mX"
 }
 
+resource "tfe_organization_membership" "members" {
+  for_each = toset(var.members)
+  organization  = data.tfe_organization.org.name
+  email = each.value
+}
+
+resource "tfe_team_organization_member" "members" {
+  for_each = tfe_organization_membership.members
+  team_id   = tfe_team.cloudnativedays.id
+  organization_membership_id  = each.value.id
+}
+
 resource "tfe_workspace" "sakuracloud" {
   name                = "sakuracloud"
   organization        = data.tfe_organization.org.name
@@ -93,4 +105,8 @@ resource "tfe_team_access" "broadcast_switcher" {
   access       = "admin"
   team_id      = tfe_team.cloudnativedays.id
   workspace_id = tfe_workspace.broadcast_switcher.id
+}
+
+variable "members" {
+  default = []
 }
