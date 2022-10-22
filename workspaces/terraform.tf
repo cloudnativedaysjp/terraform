@@ -1,7 +1,7 @@
 terraform {
   backend "remote" {
     hostname     = "app.terraform.io"
-    organization = "kusama"
+    organization = "cloudnativedaysjp"
 
     workspaces {
       name = "workspaces"

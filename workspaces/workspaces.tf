@@ -1,14 +1,14 @@
 data "tfe_organization" "org" {
-  name = "kusama"
+  name = "cloudnativedaysjp"
 }
 
-data "tfe_team" "cloudnativedays" {
+resource "tfe_team" "cloudnativedays" {
   name         = "cloudnativedays"
-  organization = "kusama"
+  organization = "cloudnativedaysjp"
 }
 
 variable "oauth_token_id" {
-  default = "ot-TXWpAfuW6HpR3aCT"
+  default = "ot-25zDMn4WC9dFQ2mX"
 }
 
 resource "tfe_workspace" "nextcloud" {
@@ -17,10 +17,10 @@ resource "tfe_workspace" "nextcloud" {
   auto_apply          = false
   queue_all_runs      = false
   speculative_enabled = false
-  working_directory   = "terraform/nextcloud"
+  working_directory   = "nextcloud"
   execution_mode = "remote"
   vcs_repo {
-    identifier         = "cloudnativedaysjp/dreamkast-infra"
+    identifier         = "cloudnativedaysjp/terraform"
     ingress_submodules = false
     oauth_token_id     = var.oauth_token_id
   }
@@ -28,7 +28,7 @@ resource "tfe_workspace" "nextcloud" {
 
 resource "tfe_team_access" "nextcloud" {
   access       = "admin"
-  team_id      = data.tfe_team.cloudnativedays.id
+  team_id      = tfe_team.cloudnativedays.id
   workspace_id = tfe_workspace.nextcloud.id
 }
 
@@ -38,10 +38,10 @@ resource "tfe_workspace" "github" {
   auto_apply          = false
   queue_all_runs      = false
   speculative_enabled = false
-  working_directory   = "terraform/github"
+  working_directory   = "github"
   execution_mode = "remote"
   vcs_repo {
-    identifier         = "cloudnativedaysjp/dreamkast-infra"
+    identifier         = "cloudnativedaysjp/terraform"
     ingress_submodules = false
     oauth_token_id     = var.oauth_token_id
   }
@@ -49,7 +49,7 @@ resource "tfe_workspace" "github" {
 
 resource "tfe_team_access" "github" {
   access       = "admin"
-  team_id      = data.tfe_team.cloudnativedays.id
+  team_id      = tfe_team.cloudnativedays.id
   workspace_id = tfe_workspace.github.id
 }
 
@@ -59,10 +59,10 @@ resource "tfe_workspace" "uptime_robot" {
   auto_apply          = false
   queue_all_runs      = false
   speculative_enabled = false
-  working_directory   = "terraform/uptime_robot"
+  working_directory   = "uptime_robot"
   execution_mode = "remote"
   vcs_repo {
-    identifier         = "cloudnativedaysjp/dreamkast-infra"
+    identifier         = "cloudnativedaysjp/terraform"
     ingress_submodules = false
     oauth_token_id     = var.oauth_token_id
   }
@@ -70,7 +70,7 @@ resource "tfe_workspace" "uptime_robot" {
 
 resource "tfe_team_access" "uptime_robot" {
   access       = "admin"
-  team_id      = data.tfe_team.cloudnativedays.id
+  team_id      = tfe_team.cloudnativedays.id
   workspace_id = tfe_workspace.uptime_robot.id
 }
 
@@ -83,7 +83,7 @@ resource "tfe_workspace" "broadcast_switcher" {
   working_directory   = "terraform/broadcast-switcher"
   execution_mode = "remote"
   vcs_repo {
-    identifier         = "cloudnativedaysjp/dreamkast-infra"
+    identifier         = "cloudnativedaysjp/terraform"
     ingress_submodules = false
     oauth_token_id     = var.oauth_token_id
   }
@@ -91,6 +91,6 @@ resource "tfe_workspace" "broadcast_switcher" {
 
 resource "tfe_team_access" "broadcast_switcher" {
   access       = "admin"
-  team_id      = data.tfe_team.cloudnativedays.id
+  team_id      = tfe_team.cloudnativedays.id
   workspace_id = tfe_workspace.broadcast_switcher.id
 }
