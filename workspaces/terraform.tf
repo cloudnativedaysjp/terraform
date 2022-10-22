@@ -7,4 +7,8 @@ terraform {
       name = "workspaces"
     }
   }
+  tfe = {
+    source  = "hashicorp/tfe"
+    version = ">= 0.37.0"
+  }
 }
