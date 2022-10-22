@@ -23,90 +23,6 @@ resource "tfe_team_organization_member" "members" {
   organization_membership_id  = each.value.id
 }
 
-resource "tfe_workspace" "sakuracloud" {
-  name                = "sakuracloud"
-  organization        = data.tfe_organization.org.name
-  auto_apply          = false
-  queue_all_runs      = false
-  speculative_enabled = true
-  working_directory   = "sakuracloud"
-  execution_mode = "remote"
-  vcs_repo {
-    identifier         = "cloudnativedaysjp/terraform"
-    ingress_submodules = false
-    oauth_token_id     = var.oauth_token_id
-  }
-}
-
-resource "tfe_team_access" "sakuracloud" {
-  access       = "admin"
-  team_id      = tfe_team.cloudnativedays.id
-  workspace_id = tfe_workspace.sakuracloud.id
-}
-
-resource "tfe_workspace" "github" {
-  name                = "github"
-  organization        = data.tfe_organization.org.name
-  auto_apply          = false
-  queue_all_runs      = false
-  speculative_enabled = true
-  working_directory   = "github"
-  execution_mode = "remote"
-  vcs_repo {
-    identifier         = "cloudnativedaysjp/terraform"
-    ingress_submodules = false
-    oauth_token_id     = var.oauth_token_id
-  }
-}
-
-resource "tfe_team_access" "github" {
-  access       = "admin"
-  team_id      = tfe_team.cloudnativedays.id
-  workspace_id = tfe_workspace.github.id
-}
-
-resource "tfe_workspace" "uptime_robot" {
-  name                = "uptime_robot"
-  organization        = data.tfe_organization.org.name
-  auto_apply          = false
-  queue_all_runs      = false
-  speculative_enabled = true
-  working_directory   = "uptime_robot"
-  execution_mode = "remote"
-  vcs_repo {
-    identifier         = "cloudnativedaysjp/terraform"
-    ingress_submodules = false
-    oauth_token_id     = var.oauth_token_id
-  }
-}
-
-resource "tfe_team_access" "uptime_robot" {
-  access       = "admin"
-  team_id      = tfe_team.cloudnativedays.id
-  workspace_id = tfe_workspace.uptime_robot.id
-}
-
-resource "tfe_workspace" "broadcast_switcher" {
-  name                = "broadcast_switcher"
-  organization        = data.tfe_organization.org.name
-  auto_apply          = false
-  queue_all_runs      = false
-  speculative_enabled = true
-  working_directory   = "broadcast-switcher"
-  execution_mode = "remote"
-  vcs_repo {
-    identifier         = "cloudnativedaysjp/terraform"
-    ingress_submodules = false
-    oauth_token_id     = var.oauth_token_id
-  }
-}
-
-resource "tfe_team_access" "broadcast_switcher" {
-  access       = "admin"
-  team_id      = tfe_team.cloudnativedays.id
-  workspace_id = tfe_workspace.broadcast_switcher.id
-}
-
 resource "tfe_workspace" "workspaces" {
   name                = "workspaces"
   organization        = data.tfe_organization.org.name
@@ -126,6 +42,81 @@ resource "tfe_team_access" "workspaces" {
   access       = "admin"
   team_id      = tfe_team.cloudnativedays.id
   workspace_id = tfe_workspace.workspaces.id
+}
+
+locals {
+  ws = [
+    "sakuracloud",
+    "github",
+    "uptime_robot",
+    "broadcast_switcher",
+  ]
+}
+resource "tfe_workspace" "ws" {
+  for_each = toset(local.ws)
+  name                = each.value
+  organization        = data.tfe_organization.org.name
+  auto_apply          = false
+  queue_all_runs      = false
+  speculative_enabled = true
+  working_directory   = each.value
+  execution_mode = "remote"
+  vcs_repo {
+    identifier         = "cloudnativedaysjp/terraform"
+    ingress_submodules = false
+    oauth_token_id     = var.oauth_token_id
+  }
+}
+
+resource "tfe_team_access" "ws" {
+  for_each = toset(local.ws)
+  access       = "admin"
+  team_id      = tfe_team.cloudnativedays.id
+  workspace_id = tfe_workspace.ws[each.value].id
+}
+
+moved {
+  from = tfe_workspace.sakuracloud
+  to = tfe_workspace.ws["sakuracloud"]
+}
+
+moved {
+  from = tfe_team_access.sakuracloud
+  to = tfe_team_access.ws["sakuracloud"]
+}
+
+moved {
+  from = tfe_workspace.github
+  to = tfe_workspace.ws["github"]
+}
+
+moved {
+  from = tfe_team_access.github
+  to = tfe_team_access.ws["github"]
+}
+
+
+
+moved {
+  from = tfe_workspace.broadcast_switcher
+  to = tfe_workspace.ws["broadcast_switcher"]
+}
+
+moved {
+  from = tfe_team_access.broadcast_switcher
+  to = tfe_team_access.ws["broadcast_switcher"]
+}
+
+
+
+moved {
+  from = tfe_workspace.uptime_robot
+  to = tfe_workspace.ws["uptime_robot"]
+}
+
+moved {
+  from = tfe_team_access.uptime_robot
+  to = tfe_team_access.ws["uptime_robot"]
 }
 
 variable "members" {
