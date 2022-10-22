@@ -1,11 +1,11 @@
 terraform {
-  #  backend "remote" {
-  #    hostname     = "app.terraform.io"
-  #    organization = "kusama"
-  #    workspaces {
-  #      name = "sakuracloud"
-  #    }
-  #  }
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "cloudnativedaysjp"
+    workspaces {
+      name = "sakuracloud"
+    }
+  }
   required_providers {
     sakuracloud = {
       source  = "sacloud/sakuracloud"

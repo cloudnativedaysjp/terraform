@@ -1,12 +1,12 @@
 terraform {
-  #  backend "remote" {
-  #    hostname     = "app.terraform.io"
-  #    organization = "kusama"
-  #
-  #    workspaces {
-  #      name = "github"
-  #    }
-  #  }
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "cloudnativedaysjp"
+
+    workspaces {
+      name = "github"
+    }
+  }
   required_providers {
     github = {
       source  = "integrations/github"

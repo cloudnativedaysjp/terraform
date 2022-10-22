@@ -4,7 +4,7 @@ data "tfe_organization" "org" {
 
 resource "tfe_team" "cloudnativedays" {
   name         = "cloudnativedays"
-  organization = "cloudnativedaysjp"
+  organization = data.tfe_organization.org.name
 }
 
 variable "oauth_token_id" {
@@ -80,7 +80,7 @@ resource "tfe_workspace" "broadcast_switcher" {
   auto_apply          = false
   queue_all_runs      = false
   speculative_enabled = false
-  working_directory   = "terraform/broadcast-switcher"
+  working_directory   = "broadcast-switcher"
   execution_mode = "remote"
   vcs_repo {
     identifier         = "cloudnativedaysjp/terraform"
