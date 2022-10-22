@@ -28,7 +28,7 @@ resource "tfe_workspace" "sakuracloud" {
   organization        = data.tfe_organization.org.name
   auto_apply          = false
   queue_all_runs      = false
-  speculative_enabled = false
+  speculative_enabled = true
   working_directory   = "sakuracloud"
   execution_mode = "remote"
   vcs_repo {
@@ -49,7 +49,7 @@ resource "tfe_workspace" "github" {
   organization        = data.tfe_organization.org.name
   auto_apply          = false
   queue_all_runs      = false
-  speculative_enabled = false
+  speculative_enabled = true
   working_directory   = "github"
   execution_mode = "remote"
   vcs_repo {
@@ -70,7 +70,7 @@ resource "tfe_workspace" "uptime_robot" {
   organization        = data.tfe_organization.org.name
   auto_apply          = false
   queue_all_runs      = false
-  speculative_enabled = false
+  speculative_enabled = true
   working_directory   = "uptime_robot"
   execution_mode = "remote"
   vcs_repo {
@@ -91,7 +91,7 @@ resource "tfe_workspace" "broadcast_switcher" {
   organization        = data.tfe_organization.org.name
   auto_apply          = false
   queue_all_runs      = false
-  speculative_enabled = false
+  speculative_enabled = true
   working_directory   = "broadcast-switcher"
   execution_mode = "remote"
   vcs_repo {
@@ -105,6 +105,27 @@ resource "tfe_team_access" "broadcast_switcher" {
   access       = "admin"
   team_id      = tfe_team.cloudnativedays.id
   workspace_id = tfe_workspace.broadcast_switcher.id
+}
+
+resource "tfe_workspace" "workspaces" {
+  name                = "workspaces"
+  organization        = data.tfe_organization.org.name
+  auto_apply          = false
+  queue_all_runs      = false
+  speculative_enabled = true
+  working_directory   = "workspaces"
+  execution_mode = "remote"
+  vcs_repo {
+    identifier         = "cloudnativedaysjp/terraform"
+    ingress_submodules = false
+    oauth_token_id     = var.oauth_token_id
+  }
+}
+
+resource "tfe_team_access" "workspaces" {
+  access       = "admin"
+  team_id      = tfe_team.cloudnativedays.id
+  workspace_id = tfe_workspace.workspaces.id
 }
 
 variable "members" {
