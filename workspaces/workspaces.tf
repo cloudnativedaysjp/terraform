@@ -61,6 +61,7 @@ resource "tfe_workspace" "ws" {
   speculative_enabled = true
   working_directory   = each.value
   execution_mode = "remote"
+  trigger_patterns = each.value
   vcs_repo {
     identifier         = "cloudnativedaysjp/terraform"
     ingress_submodules = false
