@@ -11,13 +11,13 @@ variable "oauth_token_id" {
   default = "ot-25zDMn4WC9dFQ2mX"
 }
 
-resource "tfe_workspace" "nextcloud" {
-  name                = "nextcloud"
+resource "tfe_workspace" "sakuracloud" {
+  name                = "sakuracloud"
   organization        = data.tfe_organization.org.name
   auto_apply          = false
   queue_all_runs      = false
   speculative_enabled = false
-  working_directory   = "nextcloud"
+  working_directory   = "sakuracloud"
   execution_mode = "remote"
   vcs_repo {
     identifier         = "cloudnativedaysjp/terraform"
@@ -26,10 +26,10 @@ resource "tfe_workspace" "nextcloud" {
   }
 }
 
-resource "tfe_team_access" "nextcloud" {
+resource "tfe_team_access" "sakuracloud" {
   access       = "admin"
   team_id      = tfe_team.cloudnativedays.id
-  workspace_id = tfe_workspace.nextcloud.id
+  workspace_id = tfe_workspace.sakuracloud.id
 }
 
 resource "tfe_workspace" "github" {

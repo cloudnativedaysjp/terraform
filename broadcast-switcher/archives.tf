@@ -8,8 +8,8 @@ data "sakuracloud_archive" "ubuntu2204" {
     id = "113401132828"
   }
 }
-data "sakuracloud_archive" "windows" {
-  filter {
-    id = "113401184142"
-  }
-}
+#data "sakuracloud_archive" "windows" {
+#  filter {
+#    id = "113401184142"
+#  }
+#}
