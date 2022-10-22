@@ -69,6 +69,16 @@ resource "tfe_workspace" "ws" {
   }
 }
 
+resource "tfe_notification_configuration" "ws" {
+  for_each         = toset(local.ws)
+  name             = each.value
+  enabled          = true
+  destination_type = "slack"
+  triggers         = ["run:created", "run:planning", "run:errored"]
+  url              = var.slack_url
+  workspace_id     = tfe_workspace.ws[each.value].id
+}
+
 resource "tfe_team_access" "ws" {
   for_each     = toset(local.ws)
   access       = "admin"
@@ -76,50 +86,11 @@ resource "tfe_team_access" "ws" {
   workspace_id = tfe_workspace.ws[each.value].id
 }
 
-moved {
-  from = tfe_workspace.sakuracloud
-  to   = tfe_workspace.ws["sakuracloud"]
-}
-
-moved {
-  from = tfe_team_access.sakuracloud
-  to   = tfe_team_access.ws["sakuracloud"]
-}
-
-moved {
-  from = tfe_workspace.github
-  to   = tfe_workspace.ws["github"]
-}
-
-moved {
-  from = tfe_team_access.github
-  to   = tfe_team_access.ws["github"]
-}
-
-
-
-moved {
-  from = tfe_workspace.broadcast_switcher
-  to   = tfe_workspace.ws["broadcast_switcher"]
-}
-
-moved {
-  from = tfe_team_access.broadcast_switcher
-  to   = tfe_team_access.ws["broadcast_switcher"]
-}
-
-
-
-moved {
-  from = tfe_workspace.uptime_robot
-  to   = tfe_workspace.ws["uptime_robot"]
-}
-
-moved {
-  from = tfe_team_access.uptime_robot
-  to   = tfe_team_access.ws["uptime_robot"]
-}
 
 variable "members" {
   default = []
+}
+
+variable "slack_url" {
+  default = ""
 }
