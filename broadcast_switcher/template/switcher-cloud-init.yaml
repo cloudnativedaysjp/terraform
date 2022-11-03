@@ -50,3 +50,13 @@ runcmd:
   - sudo x11vnc -storepasswd ${vnc_password} /etc/.vncpasswd  
   - curl -sSL https://raw.githubusercontent.com/cloudnativedaysjp/terraform/main/scripts/setup-switcher.sh | sh -
   - curl -sSL https://raw.githubusercontent.com/cloudnativedaysjp/terraform/main/scripts/install-docker.sh | sh -
+  - |
+    cat - << EOF | sudo tee /etc/netplan/51-secondary-nic.yaml
+    network:
+        ethernets:
+            ens4:
+                dhcp4: false
+                addresses: [${secondary_ip}/24]
+        version: 2
+    EOF
+  - sudo netplan apply
