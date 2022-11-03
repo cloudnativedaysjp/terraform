@@ -21,6 +21,15 @@ resource "aws_route53_record" "instances" {
   records  = [sakuracloud_server.instances[each.key].ip_address]
 }
 
+resource "aws_route53_record" "local_nginx" {
+  for_each = { for i in local.instances : i.hostname => i }
+  zone_id  = data.aws_route53_zone.cloudnativedays.zone_id
+  name     = "local-${each.key}.cloudnativedays.jp"
+  type     = "A"
+  ttl      = "300"
+  records  = [each.value.secondary_ip]
+}
+
 resource "aws_route53_record" "windows" {
   for_each = { for i in local.windows : i.hostname => i }
   zone_id  = data.aws_route53_zone.cloudnativedays.zone_id
