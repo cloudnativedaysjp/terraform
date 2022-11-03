@@ -15,9 +15,6 @@ locals {
     },
     {
       hostname = "switcher05"
-    },
-    {
-      hostname = "switcher06"
     }
   ]
 }
