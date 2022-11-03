@@ -33,6 +33,10 @@ locals {
     {
       name = "ijokarumawak",
       ip   = "114.146.66.9"
+    },
+    {
+      name = "kameneko",
+      ip   = "123.198.149.243"
     }
   ]
 }
