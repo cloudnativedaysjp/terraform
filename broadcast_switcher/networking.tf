@@ -28,7 +28,7 @@ locals {
     },
     {
       name = "jacopen",
-      ip   = "127.0.0.1"
+      ip   = "124.36.216.208"
     },
     {
       name = "ijokarumawak",
