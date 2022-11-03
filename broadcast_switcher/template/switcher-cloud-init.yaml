@@ -48,5 +48,5 @@ packages:
   - ibus-mozc
 runcmd:
   - sudo x11vnc -storepasswd ${vnc_password} /etc/.vncpasswd  
-  - curl -sSL https://raw.githubusercontent.com/cloudnativedaysjp/broadcast/main/switcher/setup.sh | sh -
-  - curl -sSL https://raw.githubusercontent.com/cloudnativedaysjp/broadcast/main/switcher/install-docker.sh | sh -
+  - curl -sSL https://raw.githubusercontent.com/cloudnativedaysjp/terraform/main/scripts/setup-switcher.sh | sh -
+  - curl -sSL https://raw.githubusercontent.com/cloudnativedaysjp/terraform/main/scripts/install-docker.sh | sh -

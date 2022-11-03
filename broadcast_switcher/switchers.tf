@@ -9,9 +9,6 @@ locals {
     },
     {
       hostname = "switcher03"
-    },
-    {
-      hostname = "switcher04"
     }
   ]
 }

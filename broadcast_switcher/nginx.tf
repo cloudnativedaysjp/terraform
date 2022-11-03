@@ -2,11 +2,17 @@ locals {
   ## NOTE: Please modify this if you want to add a new instance.
   instances = [
     {
-      hostname = "nginx01"
+      hostname = "nginx01",
+      secondary_ip = "192.168.71.21"
     },
     {
-      hostname = "nginx02"
-    }
+      hostname = "nginx02",
+      secondary_ip = "192.168.71.22"
+    },
+    {
+      hostname = "nginx03",
+      secondary_ip = "192.168.71.23"
+    },
   ]
 }
 
@@ -45,9 +51,10 @@ resource "sakuracloud_server" "instances" {
     upstream = sakuracloud_switch.switcher.id
   }
 
-  user_data = templatefile("./template/gui-cloud-init.yaml", {
+  user_data = templatefile("./template/nginx-cloud-init.yaml", {
     vm_password  = var.vm_password,
-    hostname     = each.value.hostname
+    hostname     = each.value.hostname,
+    secondary_ip = each.value.secondary_ip
   })
 
   lifecycle {
