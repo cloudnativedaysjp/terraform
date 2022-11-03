@@ -6,18 +6,6 @@ locals {
     },
     {
       hostname = "nginx02"
-    },
-    {
-      hostname = "nginx03"
-    },
-    {
-      hostname = "nginx04"
-    },
-    {
-      hostname = "nginx05"
-    },
-    {
-      hostname = "nginx06"
     }
   ]
 }
