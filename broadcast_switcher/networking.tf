@@ -49,7 +49,7 @@ resource "sakuracloud_packet_filter_rules" "switcher_rules" {
   packet_filter_id = sakuracloud_packet_filter.switcher.id
 
   dynamic "expression" {
-    for_each = {for i in local.global_ips : i.name => i }
+    for_each = { for i in local.global_ips : i.name => i }
     content {
       protocol         = "tcp"
       destination_port = "22"
@@ -58,7 +58,7 @@ resource "sakuracloud_packet_filter_rules" "switcher_rules" {
   }
 
   dynamic "expression" {
-    for_each = {for i in local.global_ips : i.name => i }
+    for_each = { for i in local.global_ips : i.name => i }
     content {
       protocol         = "tcp"
       destination_port = "5900"
@@ -67,7 +67,7 @@ resource "sakuracloud_packet_filter_rules" "switcher_rules" {
   }
 
   dynamic "expression" {
-    for_each = {for i in local.global_ips : i.name => i }
+    for_each = { for i in local.global_ips : i.name => i }
     content {
       protocol         = "tcp"
       destination_port = "3389"
@@ -85,15 +85,15 @@ resource "sakuracloud_packet_filter_rules" "switcher_rules" {
   }
 
   expression {
-    protocol    = "udp"
+    protocol         = "udp"
     destination_port = "10000-11000"
   }
 
   expression {
-    protocol    = "tcp"
+    protocol         = "tcp"
     destination_port = "10000-11000"
   }
-  
+
   expression {
     protocol         = "udp"
     destination_port = "68"

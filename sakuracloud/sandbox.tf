@@ -23,7 +23,7 @@ resource "sakuracloud_server" "nc_sandbox" {
   tags        = ["app=nextcloud", "stage=staging"]
 
   network_interface {
-    upstream = "shared"
+    upstream         = "shared"
     packet_filter_id = sakuracloud_packet_filter.nextcloud.id
   }
 

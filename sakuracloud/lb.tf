@@ -1,8 +1,8 @@
-resource sakuracloud_proxylb_acme "uploader" {
-  proxylb_id        = sakuracloud_proxylb.uploader.id
-  accept_tos        = true
-  common_name       = "uploader.cloudnativedays.jp"
-  update_delay_sec  = 120
+resource "sakuracloud_proxylb_acme" "uploader" {
+  proxylb_id       = sakuracloud_proxylb.uploader.id
+  accept_tos       = true
+  common_name      = "uploader.cloudnativedays.jp"
+  update_delay_sec = 120
   depends_on = [
     aws_route53_record.uploader
   ]
@@ -19,8 +19,8 @@ resource "sakuracloud_proxylb" "uploader" {
   region         = "is1"
 
   health_check {
-    protocol    = "tcp"
-    delay_loop  = 10
+    protocol   = "tcp"
+    delay_loop = 10
   }
 
   bind_port {
@@ -33,10 +33,10 @@ resource "sakuracloud_proxylb" "uploader" {
   }
 
   bind_port {
-    proxy_mode = "https"
-    port       = 443
-    ssl_policy        = "TLS-1-2-2019-04"
-    support_http2     = true
+    proxy_mode    = "https"
+    port          = 443
+    ssl_policy    = "TLS-1-2-2019-04"
+    support_http2 = true
     response_header {
       header = "Cache-Control"
       value  = "public, max-age=10"

@@ -98,7 +98,7 @@ resource "sakuracloud_server" "nextcloud2" {
   tags        = ["app=nextcloud", "stage=production", "starred"]
 
   network_interface {
-    upstream = "shared"
+    upstream         = "shared"
     packet_filter_id = sakuracloud_packet_filter.nextcloud.id
   }
 

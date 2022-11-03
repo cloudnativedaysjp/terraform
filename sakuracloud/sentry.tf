@@ -27,7 +27,7 @@ resource "sakuracloud_server" "sentry" {
   }
 
   user_data = templatefile("./template/cloud-init.yaml", {
-    vm_password  = random_password.password.result,
-    hostname     = "sentry"
+    vm_password = random_password.password.result,
+    hostname    = "sentry"
   })
 }
