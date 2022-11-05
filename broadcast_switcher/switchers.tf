@@ -17,6 +17,14 @@ locals {
       hostname     = "switcher04",
       secondary_ip = "192.168.71.14"
     },
+    {
+      hostname     = "switcher05",
+      secondary_ip = "192.168.71.15"
+    },
+    {
+      hostname     = "switcher06",
+      secondary_ip = "192.168.71.16"
+    },
   ]
 }
 
