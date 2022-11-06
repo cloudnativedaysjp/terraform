@@ -70,14 +70,6 @@ resource "sakuracloud_packet_filter_rules" "switcher_rules" {
     }
   }
 
-  dynamic "expression" {
-    for_each = { for i in local.global_ips : i.name => i }
-    content {
-      protocol         = "tcp"
-      destination_port = "3389"
-      source_network   = expression.value.ip
-    }
-  }
   expression {
     protocol         = "tcp"
     destination_port = "80"
