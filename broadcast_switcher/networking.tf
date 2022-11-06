@@ -49,6 +49,10 @@ locals {
     {
       name = "capsmalt",
       ip   = "159.28.72.169"
+    },
+    {
+      name = "morimori",
+      ip   = "60.236.94.32"
     }
   ]
 }
