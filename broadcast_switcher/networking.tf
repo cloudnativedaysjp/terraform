@@ -85,6 +85,11 @@ resource "sakuracloud_packet_filter_rules" "switcher_rules" {
 
   expression {
     protocol         = "tcp"
+    destination_port = "8080"
+  }
+
+  expression {
+    protocol         = "tcp"
     destination_port = "443"
   }
 
