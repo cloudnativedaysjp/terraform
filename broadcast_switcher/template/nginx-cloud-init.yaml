@@ -61,3 +61,4 @@ runcmd:
   - sudo netplan apply
   - sleep 3 && git clone https://github.com/cloudnativedaysjp/broadcast.git /home/ubuntu/broadcast
   - cd /home/ubuntu/broadcast/nginx-rtmp && sudo docker compose up -d
+  - cd /home/ubuntu/broadcast/srs && sudo docker compose up -d
