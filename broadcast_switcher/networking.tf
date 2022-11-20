@@ -40,7 +40,7 @@ locals {
     },
     {
       name = "capsmalt",
-      ip   = "159.28.72.169"
+      ip   = "153.246.198.141"
     },
     {
       name = "morimori",
