@@ -58,6 +58,10 @@ locals {
       name = "gaku_temp",
       ip   = "133.106.154.14"
     },
+    {
+      name = "ariake_room3",
+      ip   = "133.106.154.14"
+    },
   ]
 }
 
