@@ -51,8 +51,8 @@ locals {
       ip   = "114.159.226.190"
     },
     {
-      name = "gaku_temp",
-      ip   = "118.238.253.113"
+      name = "room3_wired",
+      ip   = "58.88.211.157"
     },
     {
       name = "ariake_room3",
