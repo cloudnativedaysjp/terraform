@@ -1,0 +1,1 @@
+variable "vm_password" {}

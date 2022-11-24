@@ -53,4 +53,15 @@ runcmd:
   - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
   - unzip awscliv2.zip
   - sudo ./aws/install
-
+  - sleep 3 && git clone https://github.com/cloudnativedaysjp/broadcast-config /home/ubuntu/broadcast-config
+  - cd /home/ubuntu/broadcast-config/nextcloud && sudo docker compose up -d
+  - |
+    cat - << EOF | sudo tee /etc/netplan/51-secondary-nic.yaml
+    network:
+        ethernets:
+            ens4:
+                dhcp4: false
+                addresses: [${secondary_ip}/24]
+        version: 2
+    EOF
+  - sudo netplan apply

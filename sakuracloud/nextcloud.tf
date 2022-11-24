@@ -73,7 +73,7 @@ resource "sakuracloud_disk" "nextcloud_boot" {
 resource "sakuracloud_server" "nextcloud" {
   name = "nextcloud"
   disks = [
-    sakuracloud_disk.nc_sandbox_boot.id,
+    sakuracloud_disk.nextcloud_boot.id,
   ]
   core        = 4
   memory      = 8
@@ -89,9 +89,10 @@ resource "sakuracloud_server" "nextcloud" {
     upstream = data.sakuracloud_switch.switcher.id
   }
 
-  user_data = templatefile("./template/cloud-init.yaml", {
-    vm_password = random_password.password.result,
-    hostname    = "nextcloud"
+  user_data = templatefile("./template/nextcloud.yaml", {
+    vm_password = var.vm_password,
+    hostname    = "nextcloud",
+    secondary_ip = "192.168.71.111"
   })
 
   lifecycle {
