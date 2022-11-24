@@ -51,7 +51,7 @@ locals {
       ip   = "58.88.211.157"
     },
     {
-      name = "ariake_room3",
+      name = "gaku_Izu-Oshima",
       ip   = "133.106.154.14"
     },
   ]
