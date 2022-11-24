@@ -58,4 +58,3 @@ resource "sakuracloud_proxylb" "uploader" {
   description = "LB for uploader"
   tags        = ["app=uploader", "stage=production"]
 }
-
