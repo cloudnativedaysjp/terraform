@@ -42,3 +42,11 @@ resource "aws_route53_record" "nextcloud_internal" {
   ttl     = "300"
   records = ["192.168.71.111"]
 }
+
+resource "aws_route53_record" "uploader" {
+  zone_id = data.aws_route53_zone.cloudnativedays.zone_id
+  name    = "uploader.cloudnativedays.jp"
+  type    = "A"
+  ttl     = "300"
+  records = [sakuracloud_server.nextcloud.ip_address]
+}
