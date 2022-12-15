@@ -45,3 +45,11 @@ resource "aws_route53_record" "elk" {
   ttl     = "300"
   records = [sakuracloud_server.elk.ip_address]
 }
+
+resource "aws_route53_record" "nc-sandbox" {
+  zone_id = data.aws_route53_zone.cloudnativedays.zone_id
+  name    = "nc-sandbox.cloudnativedays.jp"
+  type    = "A"
+  ttl     = "300"
+  records = [sakuracloud_server.nc_sandbox.ip_address]
+}

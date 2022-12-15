@@ -101,3 +101,51 @@ resource "sakuracloud_server" "nextcloud" {
     ]
   }
 }
+
+
+# Resources for sandbox
+resource "sakuracloud_disk" "nc_sandbox_boot" {
+  name              = "nc-sandbox-boot"
+  source_archive_id = data.sakuracloud_archive.ubuntu.id
+  plan              = "ssd"
+  connector         = "virtio"
+  size              = 1024
+
+  lifecycle {
+    ignore_changes = [
+      source_archive_id,
+    ]
+  }
+}
+
+resource "sakuracloud_server" "nc_sandbox" {
+  name = "nc-sandbox"
+  disks = [
+    sakuracloud_disk.nc_sandbox_boot.id,
+  ]
+  core        = 2
+  memory      = 4
+  description = "Sandbox for Nextcloud"
+  tags        = ["app=nextcloud", "stage=dev"]
+
+  network_interface {
+    upstream         = "shared"
+    packet_filter_id = sakuracloud_packet_filter.nextcloud.id
+  }
+
+  network_interface {
+    upstream = data.sakuracloud_switch.switcher.id
+  }
+
+  user_data = templatefile("./template/nextcloud.yaml", {
+    vm_password = var.vm_password,
+    hostname    = "nc-sandbox",
+    secondary_ip = "192.168.71.112"
+  })
+
+  lifecycle {
+    ignore_changes = [
+      user_data,
+    ]
+  }
+}
