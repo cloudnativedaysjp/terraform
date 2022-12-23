@@ -19,7 +19,7 @@ resource "sakuracloud_simple_monitor" "uploader" {
 
   description = "Monitoring for NextCloud"
 
-  notify_interval = 0
+  notify_interval = 2
   notify_email_enabled = false
   notify_slack_enabled = true
   notify_slack_webhook = var.slack_webhook_url
@@ -46,7 +46,7 @@ resource "sakuracloud_simple_monitor" "dreamkast" {
 
   description = "Monitoring for Dreamkast"
 
-  notify_interval = 0
+  notify_interval = 2
   notify_email_enabled = false
   notify_slack_enabled = true
   notify_slack_webhook = var.slack_webhook_url
@@ -73,7 +73,7 @@ resource "sakuracloud_simple_monitor" "grafana" {
 
   description = "Monitoring for Grafana"
 
-  notify_interval = 0
+  notify_interval = 2
   notify_email_enabled = false
   notify_slack_enabled = true
   notify_slack_webhook = var.slack_webhook_url
@@ -100,7 +100,7 @@ resource "sakuracloud_simple_monitor" "prometheus" {
 
   description = "Monitoring for Prometheus"
 
-  notify_interval = 0
+  notify_interval = 2
   notify_email_enabled = false
   notify_slack_enabled = true
   notify_slack_webhook = var.slack_webhook_url
