@@ -64,8 +64,8 @@ resource "sakuracloud_simple_monitor" "grafana" {
   health_check {
     protocol        = "https"
     port            = 443
-    path            = "/"
-    status          = "302"
+    path            = "/api/health"
+    status          = "200"
     host_header     = "grafana.cloudnativedays.jp"
     sni             = true
     http2           = true
