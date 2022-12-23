@@ -95,7 +95,7 @@ resource "sakuracloud_simple_monitor" "prometheus" {
     status          = "200"
     host_header     = "prometheus.cloudnativedays.jp"
     sni             = true
-    http2           = false
+    http2           = true
   }
 
   description = "Monitoring for Prometheus"
