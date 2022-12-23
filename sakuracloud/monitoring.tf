@@ -40,7 +40,7 @@ resource "sakuracloud_simple_monitor" "dreamkast" {
     path            = "/"
     status          = "200"
     host_header     = "event.cloudnativedays.jp"
-    sni             = false
+    sni             = true
     http2           = false
   }
 
@@ -67,7 +67,7 @@ resource "sakuracloud_simple_monitor" "grafana" {
     path            = "/"
     status          = "200"
     host_header     = "grafana.cloudnativedays.jp"
-    sni             = false
+    sni             = true
     http2           = false
   }
 
@@ -94,7 +94,7 @@ resource "sakuracloud_simple_monitor" "prometheus" {
     path            = "/"
     status          = "200"
     host_header     = "prometheus.cloudnativedays.jp"
-    sni             = false
+    sni             = true
     http2           = false
   }
 
