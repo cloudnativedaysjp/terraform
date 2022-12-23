@@ -68,7 +68,7 @@ resource "sakuracloud_simple_monitor" "grafana" {
     status          = "200"
     host_header     = "grafana.cloudnativedays.jp"
     sni             = true
-    http2           = false
+    http2           = true
   }
 
   description = "Monitoring for Grafana"
@@ -91,7 +91,7 @@ resource "sakuracloud_simple_monitor" "prometheus" {
   health_check {
     protocol        = "https"
     port            = 443
-    path            = "/"
+    path            = "/-/healthy"
     status          = "200"
     host_header     = "prometheus.cloudnativedays.jp"
     sni             = true
