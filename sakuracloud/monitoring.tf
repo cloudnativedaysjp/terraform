@@ -65,7 +65,7 @@ resource "sakuracloud_simple_monitor" "grafana" {
     protocol        = "https"
     port            = 443
     path            = "/"
-    status          = "200"
+    status          = "302"
     host_header     = "grafana.cloudnativedays.jp"
     sni             = true
     http2           = true
@@ -92,10 +92,12 @@ resource "sakuracloud_simple_monitor" "prometheus" {
     protocol        = "https"
     port            = 443
     path            = "/-/healthy"
-    status          = "200"
+    status          = "401" # prometheusのpassword忘れた・・・
     host_header     = "prometheus.cloudnativedays.jp"
     sni             = true
     http2           = true
+    # username        = "prometheus"
+    # password        = var.prometheus_password
   }
 
   description = "Monitoring for Prometheus"
