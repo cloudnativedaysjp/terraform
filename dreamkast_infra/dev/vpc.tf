@@ -1,37 +1,27 @@
+data "aws_availability_zones" "available" {}
+
+locals {
+  azs = slice(data.aws_availability_zones.available.names, 0, 3)
+}
+
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.19.0"
 
   name = "${var.prj_prefix}-vpc"
-  cidr = "10.110.0.0/16"
+  cidr = var.vpc_cidr
 
-  azs             = ["us-west-2a", "us-west-2b"]
-  public_subnets  = ["10.110.0.0/19", "10.110.32.0/19"]
-  private_subnets = ["10.110.64.0/19", "10.110.96.0/19"]
-  intra_subnets   = ["10.110.128.0/19", "10.110.160.0/19"]
-
-  public_subnet_names  = ["${var.prj_prefix}-public-subnet-a", "${var.prj_prefix}-public-subnet-b"]
-  private_subnet_names = ["${var.prj_prefix}-private-subnet-a", "${var.prj_prefix}-private-subnet-b"]
-  intra_subnet_names   = ["${var.prj_prefix}-intra-subnet-a", "${var.prj_prefix}-intra-subnet-b"]
+  azs             = local.azs
+  private_subnets = [for k, v in local.azs : cidrsubnet(var.vpc_cidr, 4, k)]
+  public_subnets  = [for k, v in local.azs : cidrsubnet(var.vpc_cidr, 4, k + 3)]
+  intra_subnets   = [for k, v in local.azs : cidrsubnet(var.vpc_cidr, 4, k + 6)]
 
   # One NAT Gateway per availability zone
-  enable_nat_gateway = true
-  single_nat_gateway = false
-
+  enable_nat_gateway     = true
+  single_nat_gateway     = false
   one_nat_gateway_per_az = true
 
-  enable_vpn_gateway = false
+  enable_dns_hostnames = true
 
 }
-
-# ------------------------------------------------------------#
-#  VPC
-# ------------------------------------------------------------#
-# resource "aws_vpc" "vpc" {
-#   cidr_block           = "${var.vpc_cidr_block}"
-#   enable_dns_hostnames = true
-#   enable_dns_support   = true
-#   tags                 = {
-#     Name = "${var.prj_prefix}-vpc"
-#   }
-# }
