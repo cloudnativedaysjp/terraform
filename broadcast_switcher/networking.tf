@@ -26,34 +26,10 @@ locals {
       name = "sakura",
       ip   = "61.211.224.11"
     },
-    {
-      name = "jacopen",
-      ip   = "124.36.216.208"
-    },
-    {
-      name = "ijokarumawak",
-      ip   = "114.146.66.9"
-    },
-    {
-      name = "kameneko",
-      ip   = "123.198.149.243"
-    },
-    {
-      name = "capsmalt",
-      ip   = "153.246.198.141"
-    },
-    {
-      name = "room3",
-      ip   = "114.159.226.190"
-    },
-    {
-      name = "room3_wired",
-      ip   = "58.88.211.157"
-    },
-    {
-      name = "gaku_Izu-Oshima",
-      ip   = "210.139.3.185"
-    },
+#    {
+#      name = "jacopen",
+#      ip   = "124.36.216.208"
+#    },
   ]
 }
 
