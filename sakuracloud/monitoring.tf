@@ -82,11 +82,11 @@ resource "sakuracloud_simple_monitor" "website" {
 resource "sakuracloud_simple_monitor" "grafana" {
   target = "grafana.cloudnativedays.jp"
 
-  delay_loop = 60
-  timeout    = 10
+  delay_loop = 120
+  timeout    = 20
 
-  max_check_attempts = 3
-  retry_interval     = 10
+  max_check_attempts = 5
+  retry_interval     = 20
 
   health_check {
     protocol        = "https"
@@ -109,11 +109,11 @@ resource "sakuracloud_simple_monitor" "grafana" {
 resource "sakuracloud_simple_monitor" "prometheus" {
   target = "prometheus.cloudnativedays.jp"
 
-  delay_loop = 60
-  timeout    = 10
+  delay_loop = 120
+  timeout    = 20
 
-  max_check_attempts = 3
-  retry_interval     = 10
+  max_check_attempts = 5
+  retry_interval     = 20
 
   health_check {
     protocol        = "https"
