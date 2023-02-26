@@ -28,3 +28,7 @@ variable "node_min_size" {
 variable "ecr_name" {
   default = "dk-us-ecs"
 }
+
+variable "s3_bucket_name" {
+  default = "bucket"
+}
