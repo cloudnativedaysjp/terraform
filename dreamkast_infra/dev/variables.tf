@@ -24,3 +24,7 @@ variable "node_max_size" {
 variable "node_min_size" {
   default = 2
 }
+
+variable "ecr_name" {
+  default = "dk-us-ecs"
+}
