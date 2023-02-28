@@ -91,6 +91,7 @@ resource "aws_db_instance" "rds_instance" {
   backup_retention_period    = 7
   auto_minor_version_upgrade = false
   copy_tags_to_snapshot      = true
+  skip_final_snapshot        = true
 
   tags = { Name = "${var.db_instance_name}" }
 }
