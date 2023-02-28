@@ -25,7 +25,7 @@ resource "aws_s3_bucket_public_access_block" "bucket_block" {
 
 # https://github.com/cloudnativedaysjp/dreamkast/issues/1243
 resource "aws_s3_bucket_lifecycle_configuration" "bucket_lifecycle" {
-  bucket = aws_s3_bucket.s3_bucket.id
+  bucket = aws_s3_bucket.bucket.id
 
   rule {
     id     = "delete_shrine_cache"
