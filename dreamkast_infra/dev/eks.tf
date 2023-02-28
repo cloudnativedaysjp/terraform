@@ -107,9 +107,11 @@ module "eks" {
       max_size     = 5
       desired_size = 2
 
-      ami_type       = "BOTTLEROCKET_x86_64"
-      platform       = "bottlerocket"
-      instance_types = ["m5.xlarge", "m4.xlarge", "m3.xlarge", "t3.xlarge", "t2.xlarge"]
+      # ami_type       = "BOTTLEROCKET_x86_64"
+      ami_type = "BOTTLEROCKET_ARM_64"
+      platform = "bottlerocket"
+      # instance_types = ["m5.xlarge", "m4.xlarge", "m3.xlarge", "t3.xlarge", "t2.xlarge"]
+      instance_types = ["m6g.xlarge", "t4g.xlarge", "r6g.xlarge"]
       capacity_type  = "SPOT"
       # create_security_group = false
       # attach_cluster_primary_security_group = true
