@@ -9,12 +9,12 @@ resource "aws_s3_bucket" "bucket" {
   }
 }
 
-resource "aws_s3_bucket_acl" "bucket-acl" {
+resource "aws_s3_bucket_acl" "bucket_acl" {
   bucket = aws_s3_bucket.bucket.id
   acl    = "private"
 }
 
-resource "aws_s3_bucket_public_access_block" "bucket-block" {
+resource "aws_s3_bucket_public_access_block" "bucket_block" {
   bucket = aws_s3_bucket.bucket.id
 
   block_public_acls       = true

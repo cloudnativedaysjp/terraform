@@ -2,7 +2,7 @@ resource "aws_ecr_repository" "ecr" {
   name = var.ecr_name
 }
 
-resource "aws_ecr_lifecycle_policy" "ecr-policy" {
+resource "aws_ecr_lifecycle_policy" "ecr_policy" {
   repository = aws_ecr_repository.ecr.name
 
   policy = <<EOF
