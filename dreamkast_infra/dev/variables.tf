@@ -20,7 +20,7 @@ variable "cluster_name" {
   default = "dk-us-dev-cluster"
 }
 variable "cluster_version" {
-  default = 1.24
+  default = 1.25
 }
 
 variable "node_desired_size" {
@@ -73,7 +73,7 @@ variable "db_instance_storage_size" {
 }
 
 variable "db_instance_storage_type" {
-  default = "gp2"
+  default = "gp3"
 }
 
 variable "db_name" {
