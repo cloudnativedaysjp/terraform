@@ -5,6 +5,13 @@ terraform {
       version = "~> 4.0"
     }
   }
+  cloud {
+    organization = "cloudnativedaysjp"
+
+    workspaces {
+      name = "dreamkast_infra_dev"
+    }
+  }
 }
 
 provider "aws" {
