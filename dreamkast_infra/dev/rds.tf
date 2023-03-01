@@ -101,7 +101,7 @@ resource "aws_db_instance" "rds_instance" {
 # ------------------------------------------------------------#
 
 resource "aws_secretsmanager_secret" "rds-secret" {
-  name        = "${var.prj_prefix}-rds"
+  name        = "${var.prj_prefix}-rds-secret"
   description = "This is a Secrets Manager secret for an RDS DB instance"
 }
 
