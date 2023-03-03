@@ -9,10 +9,10 @@ locals {
      hostname     = "switcher02",
      secondary_ip = "192.168.71.12"
    },
-  #  {
-  #    hostname     = "switcher03",
-  #    secondary_ip = "192.168.71.13"
-  #  },
+   {
+     hostname     = "switcher03",
+     secondary_ip = "192.168.71.13"
+   },
   #  {
   #    hostname     = "switcher04",
   #    secondary_ip = "192.168.71.14"
