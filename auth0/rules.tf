@@ -13,7 +13,7 @@ function (user, context, callback) {
 }
 
 resource "auth0_rule" "userinfo" {
-  name = "add-userinfo-claim"
+  name   = "add-userinfo-claim"
   script = <<EOF
 function addUserInfoClaim(user, context, callback) {
   const namespace = 'https://cloudnativedays.jp/';
@@ -33,7 +33,7 @@ function addUserInfoClaim(user, context, callback) {
 }
 
 resource "auth0_rule" "accountlink" {
-  name = "auth0-account-link-extension"
+  name   = "auth0-account-link-extension"
   script = <<EOF
 function (user, context, callback) {
   /**
