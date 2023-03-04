@@ -263,12 +263,12 @@ resource "auth0_client" "tfer--9xGK1rAjX2ixlWVWhE0Ycva14B6PQhiH_auth0-account-li
 
   refresh_token {
     expiration_type              = "non-expiring"
-    idle_token_lifetime          = "0"
-    infinite_idle_token_lifetime = "false"
-    infinite_token_lifetime      = "false"
+    idle_token_lifetime          = "1296000"
+    infinite_idle_token_lifetime = "true"
+    infinite_token_lifetime      = "true"
     leeway                       = "0"
     rotation_type                = "non-rotating"
-    token_lifetime               = "0"
+    token_lifetime               = "2592000"
   }
 
   sso          = "false"
@@ -690,12 +690,12 @@ resource "auth0_client" "tfer--bqg8diqDm14YYRIyYKHYhlEMuFhD48yd_Default-0020-App
 
   refresh_token {
     expiration_type              = "non-expiring"
-    idle_token_lifetime          = "0"
-    infinite_idle_token_lifetime = "false"
-    infinite_token_lifetime      = "false"
+    idle_token_lifetime          = "1296000"
+    infinite_idle_token_lifetime = "true"
+    infinite_token_lifetime      = "true"
     leeway                       = "0"
     rotation_type                = "non-rotating"
-    token_lifetime               = "0"
+    token_lifetime               = "2592000"
   }
 
   sso          = "false"
