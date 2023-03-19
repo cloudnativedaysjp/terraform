@@ -48,7 +48,7 @@ resource "sakuracloud_disk" "switcher_data" {
   name              = "${each.value.hostname}-data"
   plan              = "ssd"
   connector         = "virtio"
-  size              = 512
+  size              = 500
 
   lifecycle {
     ignore_changes = [
