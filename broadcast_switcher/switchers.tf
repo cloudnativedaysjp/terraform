@@ -43,11 +43,26 @@ resource "sakuracloud_disk" "switcher_boot" {
   }
 }
 
+resource "sakuracloud_disk" "switcher_data" {
+  for_each          = { for i in local.switchers : i.hostname => i }
+  name              = "${each.value.hostname}-data"
+  plan              = "ssd"
+  connector         = "virtio"
+  size              = 200
+
+  lifecycle {
+    ignore_changes = [
+      source_archive_id,
+    ]
+  }
+}
+
 resource "sakuracloud_server" "switcher" {
   for_each = { for i in local.switchers : i.hostname => i }
   name     = each.value.hostname
   disks = [
-    sakuracloud_disk.switcher_boot[each.key].id
+    sakuracloud_disk.switcher_boot[each.key].id,
+    sakuracloud_disk.switcher_data[each.key].id
   ]
   core        = 4
   memory      = 56
