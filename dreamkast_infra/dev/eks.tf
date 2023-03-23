@@ -163,8 +163,6 @@ module "eks" {
     # },
   ]
 
-  aws_auth_users = var.eks_users_list
-
   tags = { "karpenter.sh/discovery" = "${var.cluster_name}" }
 }
 
