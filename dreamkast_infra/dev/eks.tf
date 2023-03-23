@@ -106,9 +106,9 @@ module "eks" {
 
       subnet_ids = module.vpc.private_subnets
 
-      min_size     = 2
-      max_size     = 5
-      desired_size = 2
+      min_size     = var.node_min_size
+      max_size     = var.node_max_size
+      desired_size = var.node_desired_size
 
       # ami_type       = "BOTTLEROCKET_x86_64"
       ami_type = "BOTTLEROCKET_ARM_64"
