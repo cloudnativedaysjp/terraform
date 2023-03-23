@@ -35,10 +35,7 @@ variable "node_min_size" {
   default = 2
 }
 
-variable "eks_users_list" {
-  default = []
-}
-
+variable "aws_account_id" {}
 
 # ------------------------------------------------------------#
 #  ECR

@@ -142,22 +142,22 @@ module "eks" {
       ]
     },
     {
-      rolearn  = "arn:aws:iam::607167088920:role/AWSReservedSSO_dreamkast-core_07d1ae507f1df69c"
+      rolearn  = "arn:aws:iam::${var.aws_account_id}:role/AWSReservedSSO_dreamkast-core_07d1ae507f1df69c"
       username = "AWSReservedSSO_dreamkast-core_07d1ae507f1df69c:{{SessionName}}"
       groups   = ["system:masters"]
     },
     {
-      rolearn  = "arn:aws:iam::607167088920:role/AWSReservedSSO_AdministratorAccess_4f7317794a64f92f"
+      rolearn  = "arn:aws:iam::${var.aws_account_id}:role/AWSReservedSSO_AdministratorAccess_4f7317794a64f92f"
       username = "AWSReservedSSO_AdministratorAccess_4f7317794a64f92f:{{SessionName}}"
       groups   = ["system:masters"]
     },
     {
-      rolearn  = "arn:aws:iam::607167088920:role/AWSReservedSSO_PowerUserAccess_4a4e805b5dd6347d"
+      rolearn  = "arn:aws:iam::${var.aws_account_id}:role/AWSReservedSSO_PowerUserAccess_4a4e805b5dd6347d"
       username = "AWSReservedSSO_PowerUserAccess_4a4e805b5dd6347d:{{SessionName}}"
       groups   = ["system:masters"]
     }
     # {
-    #   rolearn  = "arn:aws:iam::607167088920:role/KarpenterNodeRole-dreamkast-dev-cluster"
+    #   rolearn  = "arn:aws:iam::${var.aws_account_id}:role/KarpenterNodeRole-dreamkast-dev-cluster"
     #   username = "system:node:{{EC2PrivateDNSName}}"
     #   groups   = ["system:boottrappers", "system:nodes"]
     # },
