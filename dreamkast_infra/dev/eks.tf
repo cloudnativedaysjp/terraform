@@ -220,7 +220,8 @@ resource "kubernetes_service_account" "lb_sa" {
 
 resource "kubernetes_secret" "lb_token" {
   metadata {
-    name = "aws-load-balancer-controller-token"
+    name      = "aws-load-balancer-controller-token"
+    namespace = "kube-system"
     annotations = {
       "kubernetes.io/service-account.name" = "aws-load-balancer-controller"
     }
@@ -266,7 +267,8 @@ resource "kubernetes_service_account" "ebs_csi_controller_sa" {
 
 resource "kubernetes_secret" "ebs_csi_token" {
   metadata {
-    name = "ebs-csi-controller-sa-token"
+    name      = "ebs-csi-controller-sa-token"
+    namespace = "kube-system"
     annotations = {
       "kubernetes.io/service-account.name" = "ebs-csi-controller-sa"
     }
