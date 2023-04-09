@@ -213,6 +213,20 @@ resource "kubernetes_service_account" "lb_sa" {
       "eks.amazonaws.com/sts-regional-endpoints" = "true"
     }
   }
+  secret {
+    name = kubernetes_secret.lb_token.metadata.0.name
+  }
+}
+
+resource "kubernetes_secret" "lb_token" {
+  metadata {
+    name = "aws-load-balancer-controller-token"
+    annotations = {
+      "kubernetes.io/service-account.name" = "aws-load-balancer-controller"
+    }
+  }
+
+  type = "kubernetes.io/service-account-token"
 }
 
 # ------------------------------------------------------------#
@@ -245,4 +259,18 @@ resource "kubernetes_service_account" "ebs_csi_controller_sa" {
       "eks.amazonaws.com/role-arn" = module.ebs_csi_irsa.iam_role_arn
     }
   }
+  secret {
+    name = kubernetes_secret.ebs_csi_token.metadata.0.name
+  }
+}
+
+resource "kubernetes_secret" "ebs_csi_token" {
+  metadata {
+    name = "ebs-csi-controller-sa-token"
+    annotations = {
+      "kubernetes.io/service-account.name" = "ebs-csi-controller-sa"
+    }
+  }
+
+  type = "kubernetes.io/service-account-token"
 }
