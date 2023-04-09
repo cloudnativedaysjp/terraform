@@ -213,7 +213,6 @@ resource "kubernetes_service_account" "lb_sa" {
       "eks.amazonaws.com/sts-regional-endpoints" = "true"
     }
   }
-  automount_service_account_token = false
 }
 
 resource "kubernetes_secret" "lb_token" {
@@ -258,7 +257,6 @@ resource "kubernetes_service_account" "ebs_csi_controller_sa" {
       "eks.amazonaws.com/role-arn" = module.ebs_csi_irsa.iam_role_arn
     }
   }
-  automount_service_account_token = false
 }
 
 resource "kubernetes_secret" "ebs_csi_token" {
