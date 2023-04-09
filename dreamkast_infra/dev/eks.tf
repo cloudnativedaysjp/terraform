@@ -200,6 +200,18 @@ module "lb_irsa" {
   }
 }
 
+resource "kubernetes_secret" "lb_token" {
+  metadata {
+    name      = "aws-load-balancer-controller-token"
+    namespace = "kube-system"
+    annotations = {
+      "kubernetes.io/service-account.name" = "aws-load-balancer-controller"
+    }
+  }
+
+  type = "kubernetes.io/service-account-token"
+}
+
 resource "kubernetes_service_account" "lb_sa" {
   metadata {
     name      = "aws-load-balancer-controller"
@@ -213,18 +225,9 @@ resource "kubernetes_service_account" "lb_sa" {
       "eks.amazonaws.com/sts-regional-endpoints" = "true"
     }
   }
-}
-
-resource "kubernetes_secret" "lb_token" {
-  metadata {
-    name      = "aws-load-balancer-controller-token"
-    namespace = "kube-system"
-    annotations = {
-      "kubernetes.io/service-account.name" = "aws-load-balancer-controller"
-    }
+  secret {
+    name = kubernetes_secret.lb_token.metadata.0.name
   }
-
-  type = "kubernetes.io/service-account-token"
 }
 
 # ------------------------------------------------------------#
@@ -245,6 +248,18 @@ module "ebs_csi_irsa" {
   }
 }
 
+resource "kubernetes_secret" "ebs_csi_token" {
+  metadata {
+    name      = "ebs-csi-controller-sa-token"
+    namespace = "kube-system"
+    annotations = {
+      "kubernetes.io/service-account.name" = "ebs-csi-controller-sa"
+    }
+  }
+
+  type = "kubernetes.io/service-account-token"
+}
+
 resource "kubernetes_service_account" "ebs_csi_controller_sa" {
   metadata {
     name      = "ebs-csi-controller-sa"
@@ -257,16 +272,7 @@ resource "kubernetes_service_account" "ebs_csi_controller_sa" {
       "eks.amazonaws.com/role-arn" = module.ebs_csi_irsa.iam_role_arn
     }
   }
-}
-
-resource "kubernetes_secret" "ebs_csi_token" {
-  metadata {
-    name      = "ebs-csi-controller-sa-token"
-    namespace = "kube-system"
-    annotations = {
-      "kubernetes.io/service-account.name" = "ebs-csi-controller-sa"
-    }
+  secret {
+    name = kubernetes_secret.ebs_csi_token.metadata.0.name
   }
-
-  type = "kubernetes.io/service-account-token"
 }
