@@ -232,3 +232,17 @@ module "ebs_csi_irsa" {
     }
   }
 }
+
+resource "kubernetes_service_account" "ebs_csi_controller_sa" {
+  metadata {
+    name      = "ebs-csi-controller-sa"
+    namespace = "kube-system"
+    labels = {
+      "app.kubernetes.io/name"      = "ebs-csi-controller-sa"
+      "app.kubernetes.io/component" = "controller"
+    }
+    annotations = {
+      "eks.amazonaws.com/role-arn" = module.ebs_csi_irsa.iam_role_arn
+    }
+  }
+}
