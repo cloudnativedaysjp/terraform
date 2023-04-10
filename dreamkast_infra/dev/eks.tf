@@ -288,7 +288,6 @@ module "cluster_autoscaler_irsa" {
 
   role_name                        = "${var.prj_prefix}-cluster-autoscaler-irsa"
   attach_cluster_autoscaler_policy = true
-  cluster_autoscaler_cluster_ids   = [module.eks.cluster_id]
 
   oidc_providers = {
     main = {
