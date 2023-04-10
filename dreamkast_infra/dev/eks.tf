@@ -299,10 +299,10 @@ module "cluster_autoscaler_irsa" {
 
 resource "kubernetes_secret" "cluster_autoscaler_token" {
   metadata {
-    name      = "cluster-autoscaler-token"
-    namespace = "kube-system"
+    namespace     = "kube-system"
+    generate_name = "${kubernetes_service_account.cluster_autoscaler_sa.metadata.0.name}-token-"
     annotations = {
-      "kubernetes.io/service-account.name" = "cluster-autoscaler"
+      "kubernetes.io/service-account.name" = kubernetes_service_account.cluster_autoscaler_sa.metadata.0.name
     }
   }
 
@@ -314,14 +314,5 @@ resource "kubernetes_service_account" "cluster_autoscaler_sa" {
   metadata {
     name      = "cluster-autoscaler"
     namespace = "kube-system"
-    labels = {
-      "app.kubernetes.io/name" = "cluster-autoscaler"
-    }
-    annotations = {
-      "eks.amazonaws.com/role-arn" = module.cluster_autoscaler_irsa.iam_role_arn
-    }
-  }
-  secret {
-    name = kubernetes_secret.cluster_autoscaler_token.metadata.0.name
   }
 }
