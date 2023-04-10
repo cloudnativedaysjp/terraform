@@ -209,7 +209,8 @@ resource "kubernetes_secret" "lb_token" {
     }
   }
 
-  type = "kubernetes.io/service-account-token"
+  type                           = "kubernetes.io/service-account-token"
+  wait_for_service_account_token = true
 }
 
 resource "kubernetes_service_account" "lb_sa" {
@@ -257,7 +258,8 @@ resource "kubernetes_secret" "ebs_csi_token" {
     }
   }
 
-  type = "kubernetes.io/service-account-token"
+  type                           = "kubernetes.io/service-account-token"
+  wait_for_service_account_token = true
 }
 
 resource "kubernetes_service_account" "ebs_csi_controller_sa" {
@@ -296,6 +298,19 @@ module "cluster_autoscaler_irsa" {
   }
 }
 
+resource "kubernetes_secret" "cluster_autoscaler_token" {
+  metadata {
+    name      = "cluster-autoscaler-token"
+    namespace = "kube-system"
+    annotations = {
+      "kubernetes.io/service-account.name" = "cluster-autoscaler"
+    }
+  }
+
+  type                           = "kubernetes.io/service-account-token"
+  wait_for_service_account_token = true
+}
+
 resource "kubernetes_service_account" "cluster_autoscaler_sa" {
   metadata {
     name      = "cluster-autoscaler"
@@ -308,18 +323,6 @@ resource "kubernetes_service_account" "cluster_autoscaler_sa" {
     }
   }
   secret {
-    name = "cluster-autoscaler-token"
+    name = kubernetes_secret.cluster_autoscaler_token.metadata.0.name
   }
-}
-
-resource "kubernetes_secret" "cluster_autoscaler_token" {
-  metadata {
-    name      = "cluster-autoscaler-token"
-    namespace = "kube-system"
-    annotations = {
-      "kubernetes.io/service-account.name" = "cluster-autoscaler"
-    }
-  }
-
-  type = "kubernetes.io/service-account-token"
 }
