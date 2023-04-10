@@ -276,3 +276,49 @@ resource "kubernetes_service_account" "ebs_csi_controller_sa" {
     name = kubernetes_secret.ebs_csi_token.metadata.0.name
   }
 }
+
+# ------------------------------------------------------------#
+#  EBS CSI Driver
+# ------------------------------------------------------------#
+
+module "cluster_autoscaler_irsa" {
+  source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+
+  role_name                        = "${var.prj_prefix}-cluster-autoscaler-irsa"
+  attach_cluster_autoscaler_policy = true
+
+  oidc_providers = {
+    main = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["kube-system:cluster-autoscaler"]
+    }
+  }
+}
+
+resource "kubernetes_secret" "cluster_autoscaler_token" {
+  metadata {
+    name      = "cluster-autoscaler-token"
+    namespace = "kube-system"
+    annotations = {
+      "kubernetes.io/service-account.name" = "cluster-autoscaler"
+    }
+  }
+
+  type = "kubernetes.io/service-account-token"
+}
+
+resource "kubernetes_service_account" "cluster_autoscaler_sa" {
+  metadata {
+    name      = "cluster-autoscaler"
+    namespace = "kube-system"
+    labels = {
+      "app.kubernetes.io/name" = "cluster-autoscaler"
+    }
+    annotations = {
+      "eks.amazonaws.com/role-arn" = module.cluster_autoscaler_irsa.iam_role_arn
+    }
+  }
+  secret {
+    name = kubernetes_secret.cluster_autoscaler_token.metadata.0.name
+  }
+}
