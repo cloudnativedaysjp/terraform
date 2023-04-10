@@ -295,18 +295,6 @@ module "cluster_autoscaler_irsa" {
   }
 }
 
-resource "kubernetes_secret" "cluster_autoscaler_token" {
-  metadata {
-    name      = "cluster-autoscaler-token"
-    namespace = "kube-system"
-    annotations = {
-      "kubernetes.io/service-account.name" = "cluster-autoscaler"
-    }
-  }
-
-  type = "kubernetes.io/service-account-token"
-}
-
 resource "kubernetes_service_account" "cluster_autoscaler_sa" {
   metadata {
     name      = "cluster-autoscaler"
@@ -319,6 +307,18 @@ resource "kubernetes_service_account" "cluster_autoscaler_sa" {
     }
   }
   secret {
-    name = kubernetes_secret.cluster_autoscaler_token.metadata.0.name
+    name = "cluster-autoscaler-token"
   }
+}
+
+resource "kubernetes_secret" "cluster_autoscaler_token" {
+  metadata {
+    name      = "cluster-autoscaler-token"
+    namespace = "kube-system"
+    annotations = {
+      "kubernetes.io/service-account.name" = "cluster-autoscaler"
+    }
+  }
+
+  type = "kubernetes.io/service-account-token"
 }
