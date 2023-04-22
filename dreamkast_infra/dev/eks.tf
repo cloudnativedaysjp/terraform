@@ -180,6 +180,13 @@ resource "aws_iam_policy" "additional" {
       {
         Action = [
           "route53:ListHostedZonesByName",
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:GetRepositoryPolicy",
+          "ecr:DescribeRepositories",
+          "ecr:ListImages",
+          "ecr:BatchGetImage",
         ]
         Effect   = "Allow"
         Resource = "*"
