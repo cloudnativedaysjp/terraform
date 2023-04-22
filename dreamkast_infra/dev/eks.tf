@@ -182,19 +182,26 @@ resource "aws_iam_policy" "eks_additional_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = [
-          "route53:ListHostedZonesByName",
-          "ecr:GetAuthorizationToken",
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:GetRepositoryPolicy",
-          "ecr:DescribeRepositories",
-          "ecr:ListImages",
-          "ecr:BatchGetImage",
-        ]
-        Effect   = "Allow"
-        Resource = "*"
+        # cert-manager用
+        "Effect" : "Allow",
+        "Action" : "route53:GetChange",
+        "Resource" : "arn:aws:route53:::change/*"
       },
+      {
+        # cert-manager用
+        "Effect" : "Allow",
+        "Action" : [
+          "route53:ChangeResourceRecordSets",
+          "route53:ListResourceRecordSets"
+        ],
+        "Resource" : "arn:aws:route53:::hostedzone/*"
+      },
+      {
+        # cert-manager用
+        "Effect" : "Allow",
+        "Action" : "route53:ListHostedZonesByName",
+        "Resource" : "*"
+      }
     ]
   })
 }
