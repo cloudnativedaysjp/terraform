@@ -131,6 +131,10 @@ module "eks" {
       # See https://github.com/aws/containers-roadmap/issues/1666 for more context
       iam_role_attach_cni_policy = true
 
+      iam_role_additional_policies = {
+        additional = aws_iam_policy.additional.arn
+      }
+
     }
   }
 
