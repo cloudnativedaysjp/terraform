@@ -35,10 +35,6 @@ module "eks" {
     }
   }
 
-  iam_role_additional_policies = {
-    additional = aws_iam_policy.eks_additional_policy.arn
-  }
-
   vpc_id                   = module.vpc.vpc_id
   subnet_ids               = module.vpc.private_subnets
   control_plane_subnet_ids = module.vpc.intra_subnets
@@ -114,15 +110,15 @@ module "eks" {
       max_size     = var.node_max_size
       desired_size = var.node_desired_size
 
-      # ami_type       = "BOTTLEROCKET_x86_64"
-      ami_type = "BOTTLEROCKET_ARM_64"
-      platform = "bottlerocket"
-      # instance_types = ["m5.xlarge", "m4.xlarge", "m3.xlarge", "t3.xlarge", "t2.xlarge"]
-      instance_types = ["m6g.xlarge", "t4g.xlarge", "r6g.xlarge"]
-      capacity_type  = "SPOT"
-      # create_security_group = false
-      # attach_cluster_primary_security_group = true
-      # vpc_security_group_ids                = [aws_security_group.additional.id]
+      platform       = "bottlerocket"
+      ami_type       = "BOTTLEROCKET_x86_64"
+      instance_types = ["m5.xlarge", "m4.xlarge", "m3.xlarge", "t3.xlarge", "t2.xlarge"]
+
+      # Graviton対応時にコメントアウト解除
+      # ami_type = "BOTTLEROCKET_ARM_64"
+      # instance_types = ["m6g.xlarge", "t4g.xlarge", "r6g.xlarge"]
+
+      capacity_type = "SPOT"
 
       # We are using the IRSA created below for permissions
       # However, we have to deploy with the policy attached FIRST (when creating a fresh cluster)
@@ -130,6 +126,10 @@ module "eks" {
       # the VPC CNI fails to assign IPs and nodes cannot join the cluster
       # See https://github.com/aws/containers-roadmap/issues/1666 for more context
       iam_role_attach_cni_policy = true
+
+      iam_role_additional_policies = {
+        additional = aws_iam_policy.eks_additional_policy.arn
+      }
 
     }
   }
@@ -178,19 +178,26 @@ resource "aws_iam_policy" "eks_additional_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = [
-          "route53:ListHostedZonesByName",
-          "ecr:GetAuthorizationToken",
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:GetRepositoryPolicy",
-          "ecr:DescribeRepositories",
-          "ecr:ListImages",
-          "ecr:BatchGetImage",
-        ]
-        Effect   = "Allow"
-        Resource = "*"
+        # cert-manager用
+        "Effect" : "Allow",
+        "Action" : "route53:GetChange",
+        "Resource" : "arn:aws:route53:::change/*"
       },
+      {
+        # cert-manager用
+        "Effect" : "Allow",
+        "Action" : [
+          "route53:ChangeResourceRecordSets",
+          "route53:ListResourceRecordSets"
+        ],
+        "Resource" : "arn:aws:route53:::hostedzone/*"
+      },
+      {
+        # cert-manager用
+        "Effect" : "Allow",
+        "Action" : "route53:ListHostedZonesByName",
+        "Resource" : "*"
+      }
     ]
   })
 }
