@@ -197,7 +197,13 @@ resource "aws_iam_policy" "eks_additional_policy" {
         "Effect" : "Allow",
         "Action" : "route53:ListHostedZonesByName",
         "Resource" : "*"
-      }
+      },
+      {
+        # external-secret用
+        "Effect" : "Allow",
+        "Action" : "secretsmanager:GetSecretValue",
+        "Resource" : "*"
+      },
     ]
   })
 }
