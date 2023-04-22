@@ -171,7 +171,7 @@ module "eks" {
 }
 
 
-resource "aws_iam_policy" "additional" {
+resource "aws_iam_policy" "eks_additional_policy" {
   name = "${var.cluster_name}-additional-policy"
 
   policy = jsonencode({
