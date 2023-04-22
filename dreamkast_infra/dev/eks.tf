@@ -114,15 +114,15 @@ module "eks" {
       max_size     = var.node_max_size
       desired_size = var.node_desired_size
 
-      # ami_type       = "BOTTLEROCKET_x86_64"
-      ami_type = "BOTTLEROCKET_ARM_64"
-      platform = "bottlerocket"
-      # instance_types = ["m5.xlarge", "m4.xlarge", "m3.xlarge", "t3.xlarge", "t2.xlarge"]
-      instance_types = ["m6g.xlarge", "t4g.xlarge", "r6g.xlarge"]
-      capacity_type  = "SPOT"
-      # create_security_group = false
-      # attach_cluster_primary_security_group = true
-      # vpc_security_group_ids                = [aws_security_group.additional.id]
+      platform       = "bottlerocket"
+      ami_type       = "BOTTLEROCKET_x86_64"
+      instance_types = ["m5.xlarge", "m4.xlarge", "m3.xlarge", "t3.xlarge", "t2.xlarge"]
+
+      # Graviton対応時にコメントアウト解除
+      # ami_type = "BOTTLEROCKET_ARM_64"
+      # instance_types = ["m6g.xlarge", "t4g.xlarge", "r6g.xlarge"]
+
+      capacity_type = "SPOT"
 
       # We are using the IRSA created below for permissions
       # However, we have to deploy with the policy attached FIRST (when creating a fresh cluster)
