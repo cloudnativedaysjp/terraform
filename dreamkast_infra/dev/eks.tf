@@ -35,6 +35,10 @@ module "eks" {
     }
   }
 
+  iam_role_additional_policies = {
+    additional = aws_iam_policy.eks_additional_policy.arn
+  }
+
   vpc_id                   = module.vpc.vpc_id
   subnet_ids               = module.vpc.private_subnets
   control_plane_subnet_ids = module.vpc.intra_subnets
@@ -164,6 +168,31 @@ module "eks" {
   ]
 
   tags = { "karpenter.sh/discovery" = "${var.cluster_name}" }
+}
+
+
+resource "aws_iam_policy" "eks_additional_policy" {
+  name = "${var.cluster_name}-additional-policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "route53:ListHostedZonesByName",
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:GetRepositoryPolicy",
+          "ecr:DescribeRepositories",
+          "ecr:ListImages",
+          "ecr:BatchGetImage",
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
 }
 
 
