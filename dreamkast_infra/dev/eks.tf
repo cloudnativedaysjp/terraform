@@ -242,30 +242,6 @@ module "lb_irsa" {
   }
 }
 
-# https://repost.aws/ja/knowledge-center/eks-load-balancer-controller-subnets
-
-resource "aws_iam_policy" "lb_add_policy" {
-  name = "lb_controller_add_policy"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "ec2:DescribeAvailabilityZones",
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      },
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "lb_add_policy_attach" {
-  role       = module.lb_irsa.iam_role_name
-  policy_arn = aws_iam_policy.lb_add_policy.arn
-}
-
 resource "kubernetes_secret" "lb_token" {
   metadata {
     name      = "aws-load-balancer-controller-token"
