@@ -35,10 +35,6 @@ module "eks" {
     }
   }
 
-  iam_role_additional_policies = {
-    additional = aws_iam_policy.eks_additional_policy.arn
-  }
-
   vpc_id                   = module.vpc.vpc_id
   subnet_ids               = module.vpc.private_subnets
   control_plane_subnet_ids = module.vpc.intra_subnets
@@ -132,7 +128,7 @@ module "eks" {
       iam_role_attach_cni_policy = true
 
       iam_role_additional_policies = {
-        additional = aws_iam_policy.additional.arn
+        additional = aws_iam_policy.eks_additional_policy.arn
       }
 
     }
