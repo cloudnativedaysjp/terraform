@@ -24,7 +24,7 @@ variable "cluster_version" {
 }
 
 variable "node_desired_size" {
-  default = 2
+  default = 3
 }
 
 variable "node_max_size" {
@@ -32,7 +32,7 @@ variable "node_max_size" {
 }
 
 variable "node_min_size" {
-  default = 2
+  default = 3
 }
 
 variable "aws_account_id" {}
