@@ -6,11 +6,11 @@ data "aws_lb" "lb" {
   }
 }
 
-data "aws_route53_zone" "lb_zone" {
+data "aws_route53_zone" "cloudnativedays_jp" {
   name = "cloudnativedays.jp"
 }
 
-resource "aws_route53_record" "lb_record" {
+resource "aws_route53_record" "wildcard_dev_cloudnativedays_jp" {
   zone_id = data.aws_route53_zone.lb_zone.zone_id
   name    = "*.dev.cloudnativedays.jp	"
   type    = "A"
