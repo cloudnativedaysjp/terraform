@@ -10,9 +10,10 @@ data "aws_route53_zone" "lb_zone" {
   name = "cloudnativedays.jp"
 }
 
-resource "aws_route53_record" "www" {
+resource "aws_route53_record" "lb_record" {
   zone_id = data.aws_route53_zone.lb_zone.zone_id
   name    = "*.dev.cloudnativedays.jp	"
   type    = "A"
   records = [data.aws_lb.lb.dns_name]
+  ttl     = 300
 }
