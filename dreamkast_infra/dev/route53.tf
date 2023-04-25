@@ -11,7 +11,7 @@ data "aws_route53_zone" "cloudnativedays_jp" {
 }
 
 resource "aws_route53_record" "wildcard_dev_cloudnativedays_jp" {
-  zone_id = data.aws_route53_zone.lb_zone.zone_id
+  zone_id = data.aws_route53_zone.cloudnativedays_jp.zone_id
   name    = "*.dev.cloudnativedays.jp	"
   type    = "A"
   records = [data.aws_lb.lb.dns_name]
