@@ -20,7 +20,7 @@ variable "cluster_name" {
   default = "dk-us-dev-cluster"
 }
 variable "cluster_version" {
-  default = 1.25
+  default = 1.26
 }
 
 variable "node_desired_size" {
