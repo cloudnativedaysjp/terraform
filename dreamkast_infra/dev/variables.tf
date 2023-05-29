@@ -20,7 +20,7 @@ variable "cluster_name" {
   default = "dk-us-dev-cluster"
 }
 variable "cluster_version" {
-  default = 1.25
+  default = 1.26
 }
 
 variable "node_desired_size" {
@@ -59,7 +59,7 @@ variable "mysql_major_version" {
 }
 
 variable "mysql_minor_version" {
-  default = "25"
+  default = "28"
 }
 
 variable "db_instance_name" {
