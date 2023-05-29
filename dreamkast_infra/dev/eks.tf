@@ -169,13 +169,6 @@ module "eks" {
 
   tags = { "karpenter.sh/discovery" = "${var.cluster_name}" }
 
-  lifecycle {
-    ignore_changes = [
-      aws_auth_roles,
-      aws_auth_users,
-      aws_auth_accounts
-    ]
-  }
 }
 
 
