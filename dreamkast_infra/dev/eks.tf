@@ -234,6 +234,8 @@ module "lb_irsa" {
   role_name                              = "${var.prj_prefix}-eks-lb-irsa"
   attach_load_balancer_controller_policy = true
 
+  cluster_autoscaler_cluster_names = [var.cluster_name]
+
   oidc_providers = {
     main = {
       provider_arn               = module.eks.oidc_provider_arn
