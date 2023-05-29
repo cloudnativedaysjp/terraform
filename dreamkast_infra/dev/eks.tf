@@ -135,7 +135,7 @@ module "eks" {
   }
 
   # aws-auth
-  manage_aws_auth_configmap = true
+  manage_aws_auth_configmap = false
   aws_auth_roles = [
     {
       rolearn  = module.eks.eks_managed_node_groups["bottolerocket"].iam_role_arn
