@@ -49,7 +49,7 @@ resource "github_repository" "website" {
   auto_init            = false
   archive_on_destroy   = true
   vulnerability_alerts = false
-  allow_merge_commit   = false
+  allow_merge_commit   = true
   allow_rebase_merge   = false
   allow_squash_merge   = false
   merge_commit_message        = ""
