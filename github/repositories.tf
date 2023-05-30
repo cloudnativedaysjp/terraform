@@ -61,13 +61,13 @@ resource "github_repository" "website" {
 resource "github_actions_secret" "distribution_id" {
   repository       = github_repository.website.name
   secret_name      = "DISTRIBUTION_ID"
-  plaintext_value  = data.terraform_remote_state.website.distribution_id
+  plaintext_value  = data.terraform_remote_state.website.outputs.distribution_id
 }
 
 
 resource "github_actions_secret" "bucket_id" {
   repository       = github_repository.website.name
   secret_name      = "BUCKET_ID"
-  plaintext_value  = data.terraform_remote_state.website.bucket_id
+  plaintext_value  = data.terraform_remote_state.website.outputs.bucket_id
 }
 
