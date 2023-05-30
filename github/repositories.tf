@@ -58,3 +58,16 @@ resource "github_repository" "website" {
   squash_merge_commit_title   = ""
 }
 
+resource "github_actions_secret" "distribution_id" {
+  repository       = github_repository.website.name
+  secret_name      = "DISTRIBUTION_ID"
+  plaintext_value  = data.terraform_remote_state.website.distribution_id
+}
+
+
+resource "github_actions_secret" "bucket_id" {
+  repository       = github_repository.website.name
+  secret_name      = "BUCKET_ID"
+  plaintext_value  = data.terraform_remote_state.website.bucket_id
+}
+
