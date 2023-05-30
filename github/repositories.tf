@@ -57,3 +57,4 @@ resource "github_repository" "website" {
   squash_merge_commit_message = ""
   squash_merge_commit_title   = ""
 }
+

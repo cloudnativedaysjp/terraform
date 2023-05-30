@@ -39,6 +39,6 @@ resource "github_team" "cicd2023" {
 }
 
 resource "github_team" "cndf2023" {
-  name = "cicd2023"
+  name = "cndf2023"
   privacy = "closed"
 }
