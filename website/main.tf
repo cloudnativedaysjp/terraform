@@ -89,6 +89,8 @@ resource "aws_cloudfront_distribution" "static-www" {
     }
   }
 
+  aliases = ["cloudnativedays.jp"]
+
   enabled = true
 
   default_root_object = "index.html"
