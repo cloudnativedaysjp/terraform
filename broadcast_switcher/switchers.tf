@@ -1,22 +1,22 @@
 locals {
   ## NOTE: Please modify this if you want to add a new switcher instance.
   switchers = [
-   {
-     hostname     = "switcher01",
-     secondary_ip = "192.168.71.11"
-   },
-   {
-     hostname     = "switcher02",
-     secondary_ip = "192.168.71.12"
-   },
-   {
-     hostname     = "switcher03",
-     secondary_ip = "192.168.71.13"
-   },
-   {
-     hostname     = "switcher04",
-     secondary_ip = "192.168.71.14"
-   },
+  #  {
+  #    hostname     = "switcher01",
+  #    secondary_ip = "192.168.71.11"
+  #  },
+  #  {
+  #    hostname     = "switcher02",
+  #    secondary_ip = "192.168.71.12"
+  #  },
+  #  {
+  #    hostname     = "switcher03",
+  #    secondary_ip = "192.168.71.13"
+  #  },
+  #  {
+  #    hostname     = "switcher04",
+  #    secondary_ip = "192.168.71.14"
+  #  },
   #  {
   #    hostname     = "switcher05",
   #    secondary_ip = "192.168.71.15"
