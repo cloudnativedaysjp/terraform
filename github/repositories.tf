@@ -51,7 +51,7 @@ resource "github_repository" "website" {
   vulnerability_alerts = false
   allow_merge_commit   = true
   allow_rebase_merge   = false
-  allow_squash_merge   = false
+  allow_squash_merge   = true
   merge_commit_message        = ""
   merge_commit_title          = ""
   squash_merge_commit_message = ""
