@@ -44,8 +44,8 @@ resource "github_repository" "website" {
 
   visibility           = "public"
   has_issues           = true
-  has_projects         = true
-  has_wiki             = true
+  has_projects         = false
+  has_wiki             = false
   auto_init            = false
   archive_on_destroy   = true
   vulnerability_alerts = false
