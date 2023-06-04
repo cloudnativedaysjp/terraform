@@ -134,3 +134,30 @@ resource "sakuracloud_simple_monitor" "prometheus" {
   notify_slack_enabled = true
   notify_slack_webhook = var.slack_webhook_url
 }
+
+resource "sakuracloud_simple_monitor" "sentry" {
+  target = "sentry.cloudnativedays.jp"
+
+  delay_loop = 120
+  timeout    = 20
+
+  max_check_attempts = 5
+  retry_interval     = 20
+
+  health_check {
+    protocol        = "https"
+    port            = 443
+    path            = "/"
+    status          = "302" # もしMonitoring endpointがわかればそちらに変更
+    host_header     = "sentry.cloudnativedays.jp"
+    sni             = true
+    http2           = true
+  }
+
+  description = "Monitoring for sentry"
+
+  notify_interval = 2
+  notify_email_enabled = false
+  notify_slack_enabled = true
+  notify_slack_webhook = var.slack_webhook_url
+}
