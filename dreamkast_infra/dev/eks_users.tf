@@ -36,28 +36,8 @@ variable "eks_users_list" {
       groups   = ["system:masters"]
     },
     {
-      userarn  = "arn:aws:iam::607167088920:user/kono"
-      username = "kono"
-      groups   = ["system:masters"]
-    },
-    {
-      userarn  = "arn:aws:iam::607167088920:user/oke-py"
-      username = "oke-py"
-      groups   = ["system:masters"]
-    },
-    {
       userarn  = "arn:aws:iam::607167088920:user/oshiro"
       username = "oshiro"
-      groups   = ["system:masters"]
-    },
-    {
-      userarn  = "arn:aws:iam::607167088920:user/ry"
-      username = "ry"
-      groups   = ["system:masters"]
-    },
-    {
-      userarn  = "arn:aws:iam::607167088920:user/riita10069"
-      username = "riita10069"
       groups   = ["system:masters"]
     }
   ]
