@@ -156,7 +156,7 @@ module "eks" {
       groups   = ["system:masters"]
     },
     {
-      rolearn  = "arn:aws:iam::${var.aws_account_id}:role/AWSReservedSSO_PowerUserAccess_4a4e805b5dd6347d"
+      rolearn  = "arn:aws:iam::${var.aws_account_id}:role/AWSReservedSSO_observability-core_80f44c7b3a1a4227"
       username = "AWSReservedSSO_PowerUserAccess_4a4e805b5dd6347d:{{SessionName}}"
       groups   = ["system:masters"]
     }
