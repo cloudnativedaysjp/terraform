@@ -17,8 +17,8 @@ resource "sakuracloud_server" "sentry" {
   disks = [
     sakuracloud_disk.sentry_boot.id,
   ]
-  core        = 4
-  memory      = 12
+  core        = 6
+  memory      = 16
   description = "Sentry server"
   tags        = ["app=sentry", "stage=production", "starred"]
 
