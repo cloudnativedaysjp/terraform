@@ -43,7 +43,7 @@ resource "github_repository" "website" {
   description = "Website for CloudNative Days a.k.a Dreamkast-Archives"
 
   visibility           = "public"
-  # has_issues           = true
+  has_issues           = true
   # has_projects         = false
   # has_wiki             = false
   # auto_init            = false
