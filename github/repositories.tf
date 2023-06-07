@@ -44,6 +44,7 @@ resource "github_repository" "website" {
 
   visibility           = "public"
   has_issues           = true
+  delete_branch_on_merge = true
   # has_projects         = false
   # has_wiki             = false
   # auto_init            = false
