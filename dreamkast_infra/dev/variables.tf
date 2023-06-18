@@ -24,7 +24,7 @@ variable "cluster_version" {
 }
 
 variable "node_desired_size" {
-  default = 3
+  default = 4
 }
 
 variable "node_max_size" {
