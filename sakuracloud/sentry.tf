@@ -55,8 +55,8 @@ resource "sakuracloud_server" "sentry_redis" {
   disks = [
     sakuracloud_disk.sentry_redis_boot.id,
   ]
-  core        = 2
-  memory      = 8
+  core        = 4
+  memory      = 16
   description = "Sentry Redis server"
   tags        = ["app=redis", "stage=production", "starred"]
 
