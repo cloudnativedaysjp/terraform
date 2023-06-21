@@ -9,6 +9,12 @@ data "sakuracloud_switch" "switcher" {
   }
 }
 
+resource "sakuracloud_switch" "sentry" {
+  name        = "sentry"
+  description = "sentry"
+  tags        = ["sentry"]
+}
+
 resource "sakuracloud_packet_filter_rules" "nextcloud_rules" {
   packet_filter_id = sakuracloud_packet_filter.nextcloud.id
 
