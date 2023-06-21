@@ -1,38 +1,41 @@
 #cloud-config
-fqdn: ${hostname} 
+fqdn: ${hostname}
 chpasswd:
-    list: |
-      ubuntu:${vm_password}
-    expire: false
+  list: |
+    ubuntu:${vm_password}
+  expire: false
 users:
-  - default 
+  - default
   - name: ubuntu
     gecos: Local
     lock_passwd: false
     groups: sudo, users, admin
     shell: /bin/bash
-    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
     ssh_import_id:
-    - gh:jacopen
-    - gh:TakumaNakagame
-    - gh:capsmalt
-    - gh:Gaku-Kunimi
-    - gh:inductor
-    - gh:tanayan299
-    - gh:onarada
-    - gh:ijokarumawak
-    - gh:tkc66-buzz
-    - gh:morimorikun51
-system_info: 
+      - gh:jacopen
+      - gh:TakumaNakagame
+      - gh:capsmalt
+      - gh:Gaku-Kunimi
+      - gh:inductor
+      - gh:tanayan299
+      - gh:onarada
+      - gh:ijokarumawak
+      - gh:tkc66-buzz
+      - gh:morimorikun51
+      - gh:t4i5uKE
+      - gh:ureuzy
+      - gh:shukawam
+system_info:
   default_user:
     name: default-user
     lock_passwd: false
     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
 ssh_pwauth: yes
 random_seed:
-    file: /dev/urandom
-    command: ["pollinate", "-r", "-s", "https://entropy.ubuntu.com"]
-    command_required: true
+  file: /dev/urandom
+  command: ["pollinate", "-r", "-s", "https://entropy.ubuntu.com"]
+  command_required: true
 package_upgrade: true
 packages:
   - curl
@@ -53,4 +56,3 @@ runcmd:
   - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
   - unzip awscliv2.zip
   - sudo ./aws/install
-
