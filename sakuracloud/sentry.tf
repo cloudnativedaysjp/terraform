@@ -1,5 +1,5 @@
 resource "sakuracloud_disk" "sentry_boot" {
-  name              = "sentry_boot"
+  name              = "sentry-boot"
   source_archive_id = data.sakuracloud_archive.ubuntu.id
   plan              = "ssd"
   connector         = "virtio"
@@ -37,7 +37,7 @@ resource "sakuracloud_server" "sentry" {
 }
 
 resource "sakuracloud_disk" "sentry_redis_boot" {
-  name              = "sentry_redis_boot"
+  name              = "sentry-redis-boot"
   source_archive_id = data.sakuracloud_archive.ubuntu.id
   plan              = "ssd"
   connector         = "virtio"
@@ -51,7 +51,7 @@ resource "sakuracloud_disk" "sentry_redis_boot" {
 }
 
 resource "sakuracloud_server" "sentry_redis" {
-  name = "sentry_redis"
+  name = "sentry-redis"
   disks = [
     sakuracloud_disk.sentry_redis_boot.id,
   ]
@@ -71,7 +71,7 @@ resource "sakuracloud_server" "sentry_redis" {
 }
 
 resource "sakuracloud_disk" "sentry_kafka_boot" {
-  name              = "sentry_boot"
+  name              = "sentry-kafka-boot"
   source_archive_id = data.sakuracloud_archive.ubuntu.id
   plan              = "ssd"
   connector         = "virtio"
@@ -85,7 +85,7 @@ resource "sakuracloud_disk" "sentry_kafka_boot" {
 }
 
 resource "sakuracloud_server" "sentry_kafka" {
-  name = "sentry_kafka"
+  name = "sentry-kafka"
   disks = [
     sakuracloud_disk.sentry_kafka_boot.id,
   ]
