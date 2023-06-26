@@ -23,6 +23,7 @@ users:
     - gh:ijokarumawak
     - gh:tkc66-buzz
     - gh:morimorikun51
+    - gh:ryusuketesaki
 system_info: 
   default_user:
     name: default-user
