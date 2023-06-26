@@ -30,9 +30,10 @@ resource "sakuracloud_server" "sentry" {
     upstream = sakuracloud_switch.sentry.id
   }
 
-  user_data = templatefile("./template/cloud-init.yaml", {
+  user_data = templatefile("./template/sentry-init.yaml", {
     vm_password = random_password.password.result,
     hostname    = "sentry"
+    secondary_ip = "192.168.0.200"
   })
 }
 
@@ -64,9 +65,10 @@ resource "sakuracloud_server" "sentry_redis" {
     upstream = sakuracloud_switch.sentry.id
   }
 
-  user_data = templatefile("./template/cloud-init.yaml", {
+  user_data = templatefile("./template/sentry-init.yaml", {
     vm_password = random_password.password.result,
     hostname    = "sentry"
+    secondary_ip = "192.168.0.201"
   })
 }
 
@@ -98,8 +100,9 @@ resource "sakuracloud_server" "sentry_kafka" {
     upstream = sakuracloud_switch.sentry.id
   }
 
-  user_data = templatefile("./template/cloud-init.yaml", {
+  user_data = templatefile("./template/sentry-init.yaml", {
     vm_password = random_password.password.result,
     hostname    = "sentry"
+    secondary_ip = "192.168.0.202"
   })
 }
