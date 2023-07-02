@@ -169,6 +169,11 @@ module "eks" {
       rolearn  = "arn:aws:iam::${var.aws_account_id}:role/AWSReservedSSO_observability-core_80f44c7b3a1a4227"
       username = "AWSReservedSSO_observability-core_80f44c7b3a1a4227:{{SessionName}}"
       groups   = ["system:masters"]
+    },
+    {
+      rolearn  = "arn:aws:iam::${var.aws_account_id}:role/tfc-role"
+      username = "tfc-role:{{SessionName}}"
+      groups   = ["system:masters"]
     }
     # {
     #   rolearn  = "arn:aws:iam::${var.aws_account_id}:role/KarpenterNodeRole-dreamkast-dev-cluster"
@@ -181,6 +186,7 @@ module "eks" {
 
   kms_key_administrators = [
     "arn:aws:iam::${var.aws_account_id}:role/aws-reserved/sso.amazonaws.com/ap-northeast-1/AWSReservedSSO_dreamkast-core_07d1ae507f1df69c",
+    "arn:aws:iam::${var.aws_account_id}:role/aws-reserved/sso.amazonaws.com/ap-northeast-1/AWSReservedSSO_AdministratorAccess_4f7317794a64f92f",
     "arn:aws:iam::${var.aws_account_id}:role/tfc-role"
   ]
 
