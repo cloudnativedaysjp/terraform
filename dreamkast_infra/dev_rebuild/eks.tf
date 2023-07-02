@@ -225,7 +225,7 @@ resource "aws_iam_policy" "eks_additional_policy" {
 module "vpc_cni_irsa" {
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
-  role_name             = "vpc_cni"
+  role_name             = "${var.prj_prefix}-vpc_cni"
   attach_vpc_cni_policy = true
   vpc_cni_enable_ipv4   = true
 
@@ -255,18 +255,18 @@ module "lb_irsa" {
   }
 }
 
-resource "kubernetes_secret" "lb_token" {
-  metadata {
-    name      = "aws-load-balancer-controller-token"
-    namespace = "kube-system"
-    annotations = {
-      "kubernetes.io/service-account.name" = "aws-load-balancer-controller"
-    }
-  }
-
-  type                           = "kubernetes.io/service-account-token"
-  wait_for_service_account_token = true
-}
+#resource "kubernetes_secret" "lb_token" {
+#  metadata {
+#    name      = "aws-load-balancer-controller-token"
+#    namespace = "kube-system"
+#    annotations = {
+#      "kubernetes.io/service-account.name" = "aws-load-balancer-controller"
+#    }
+#  }
+#
+#  type                           = "kubernetes.io/service-account-token"
+#  wait_for_service_account_token = true
+#}
 
 resource "kubernetes_service_account" "lb_sa" {
   metadata {
@@ -281,9 +281,9 @@ resource "kubernetes_service_account" "lb_sa" {
       "eks.amazonaws.com/sts-regional-endpoints" = "true"
     }
   }
-  secret {
-    name = kubernetes_secret.lb_token.metadata.0.name
-  }
+  #secret {
+  #  name = kubernetes_secret.lb_token.metadata.0.name
+  #}
 }
 
 # ------------------------------------------------------------#
@@ -304,18 +304,18 @@ module "ebs_csi_irsa" {
   }
 }
 
-resource "kubernetes_secret" "ebs_csi_token" {
-  metadata {
-    name      = "ebs-csi-controller-sa-token"
-    namespace = "kube-system"
-    annotations = {
-      "kubernetes.io/service-account.name" = "ebs-csi-controller-sa"
-    }
-  }
-
-  type                           = "kubernetes.io/service-account-token"
-  wait_for_service_account_token = true
-}
+#resource "kubernetes_secret" "ebs_csi_token" {
+#  metadata {
+#    name      = "ebs-csi-controller-sa-token"
+#    namespace = "kube-system"
+#    annotations = {
+#      "kubernetes.io/service-account.name" = "ebs-csi-controller-sa"
+#    }
+#  }
+#
+#  type                           = "kubernetes.io/service-account-token"
+#  wait_for_service_account_token = true
+#}
 
 resource "kubernetes_service_account" "ebs_csi_controller_sa" {
   metadata {
@@ -329,9 +329,9 @@ resource "kubernetes_service_account" "ebs_csi_controller_sa" {
       "eks.amazonaws.com/role-arn" = module.ebs_csi_irsa.iam_role_arn
     }
   }
-  secret {
-    name = kubernetes_secret.ebs_csi_token.metadata.0.name
-  }
+  #secret {
+  #  name = kubernetes_secret.ebs_csi_token.metadata.0.name
+  #}
 }
 
 # ------------------------------------------------------------#
