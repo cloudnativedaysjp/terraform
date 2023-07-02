@@ -9,7 +9,7 @@ terraform {
     organization = "cloudnativedaysjp"
 
     workspaces {
-      name = "dreamkast_infra_dev"
+      name = "dreamkast_infra_dev_rebuild"
     }
   }
 }
