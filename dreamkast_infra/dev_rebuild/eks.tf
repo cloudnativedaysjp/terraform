@@ -36,7 +36,7 @@ module "eks" {
   }
 
   vpc_id                   = module.vpc.vpc_id
-  subnet_ids               = module.vpc.private_subnets
+  subnet_ids               = module.vpc.public_subnets
   control_plane_subnet_ids = module.vpc.intra_subnets
 
   cluster_endpoint_public_access = true
@@ -104,7 +104,7 @@ module "eks" {
     bottolerocket = {
       name = "dk-us-mng-spot"
 
-      subnet_ids = module.vpc.private_subnets
+      subnet_ids = module.vpc.public_subnets
 
       min_size     = var.node_min_size
       max_size     = var.node_max_size
