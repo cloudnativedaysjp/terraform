@@ -128,16 +128,16 @@ module "eks" {
       iam_role_attach_cni_policy = true
 
       iam_role_additional_policies = {
-        additional = aws_iam_policy.eks_additional_policy.arn,
+        additional                         = aws_iam_policy.eks_additional_policy.arn,
         AmazonEC2ContainerRegistryReadOnly = data.aws_iam_policy.AmazonEC2ContainerRegistryReadOnly.arn,
-        AmazonEKSWorkerNodePolicy = data.aws_iam_policy.AmazonEKSWorkerNodePolicy.arn,
-        AmazonEKS_CNI_Policy = data.aws_iam_policy.AmazonEKS_CNI_Policy.arn,
-        AWSElementalMediaLiveFullAccess = data.aws_iam_policy.AWSElementalMediaLiveFullAccess.arn,
-        AmazonS3FullAccess = data.aws_iam_policy.AmazonS3FullAccess.arn,
-        AmazonSESFullAccess = data.aws_iam_policy.AmazonSESFullAccess.arn,
-        AmazonSSMManagedInstanceCore = data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
-        AmazonSQSFullAccess = data.aws_iam_policy.AmazonSQSFullAccess.arn,
-        CloudWatchAgentServerPolicy = data.aws_iam_policy.CloudWatchAgentServerPolicy.arn,
+        AmazonEKSWorkerNodePolicy          = data.aws_iam_policy.AmazonEKSWorkerNodePolicy.arn,
+        AmazonEKS_CNI_Policy               = data.aws_iam_policy.AmazonEKS_CNI_Policy.arn,
+        AWSElementalMediaLiveFullAccess    = data.aws_iam_policy.AWSElementalMediaLiveFullAccess.arn,
+        AmazonS3FullAccess                 = data.aws_iam_policy.AmazonS3FullAccess.arn,
+        AmazonSESFullAccess                = data.aws_iam_policy.AmazonSESFullAccess.arn,
+        AmazonSSMManagedInstanceCore       = data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
+        AmazonSQSFullAccess                = data.aws_iam_policy.AmazonSQSFullAccess.arn,
+        CloudWatchAgentServerPolicy        = data.aws_iam_policy.CloudWatchAgentServerPolicy.arn,
         CloudWatchSyntheticsReadOnlyAccess = data.aws_iam_policy.CloudWatchSyntheticsReadOnlyAccess.arn,
         AWSElementalMediaPackageFullAccess = data.aws_iam_policy.AWSElementalMediaPackageFullAccess.arn
       }
@@ -178,6 +178,11 @@ module "eks" {
   ]
 
   aws_auth_users = var.eks_users_list
+
+  kms_key_administrators = [
+    "arn:aws:iam::${var.aws_account_id}:role/aws-reserved/sso.amazonaws.com/ap-northeast-1/AWSReservedSSO_dreamkast-core_07d1ae507f1df69c",
+    "arn:aws:iam::${var.aws_account_id}:role/tfc-role"
+  ]
 
   tags = { "karpenter.sh/discovery" = "${var.cluster_name}" }
 
