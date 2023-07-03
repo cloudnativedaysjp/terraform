@@ -67,7 +67,7 @@ resource "sakuracloud_server" "sentry_redis" {
 
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password = random_password.password.result,
-    hostname    = "sentry"
+    hostname    = "sentry-redis",
     secondary_ip = "192.168.0.201"
   })
 }
@@ -102,7 +102,7 @@ resource "sakuracloud_server" "sentry_kafka" {
 
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password = random_password.password.result,
-    hostname    = "sentry"
+    hostname    = "sentry-kafka",
     secondary_ip = "192.168.0.202"
   })
 }
