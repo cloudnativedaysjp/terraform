@@ -36,7 +36,7 @@ module "eks" {
   }
 
   vpc_id                   = module.vpc.vpc_id
-  subnet_ids               = module.vpc.private_subnets
+  subnet_ids               = module.vpc.public_subnets
   control_plane_subnet_ids = module.vpc.intra_subnets
 
   cluster_endpoint_public_access = true
@@ -79,24 +79,6 @@ module "eks" {
       type        = "egress"
       self        = true
     }
-
-    # `既存にあったのでとりあえず加えておく
-    elbv2_8080 = {
-      description = "elbv2.k8s.aws/targetGroupBinding=shared"
-      protocol    = "tcp"
-      from_port   = 8080
-      to_port     = 8080
-      type        = "ingress"
-      cidr_blocks = module.vpc.public_subnets_cidr_blocks
-    }
-    elbv2_8443 = {
-      description = "elbv2.k8s.aws/targetGroupBinding=shared"
-      protocol    = "tcp"
-      from_port   = 8443
-      to_port     = 8443
-      type        = "ingress"
-      cidr_blocks = module.vpc.public_subnets_cidr_blocks
-    }
   }
 
   # EKS Managed Node Group(s)
@@ -104,7 +86,7 @@ module "eks" {
     bottolerocket = {
       name = "dk-us-mng-spot"
 
-      subnet_ids = module.vpc.private_subnets
+      subnet_ids = module.vpc.public_subnets
 
       min_size     = var.node_min_size
       max_size     = var.node_max_size
@@ -128,16 +110,16 @@ module "eks" {
       iam_role_attach_cni_policy = true
 
       iam_role_additional_policies = {
-        additional = aws_iam_policy.eks_additional_policy.arn,
+        additional                         = aws_iam_policy.eks_additional_policy.arn,
         AmazonEC2ContainerRegistryReadOnly = data.aws_iam_policy.AmazonEC2ContainerRegistryReadOnly.arn,
-        AmazonEKSWorkerNodePolicy = data.aws_iam_policy.AmazonEKSWorkerNodePolicy.arn,
-        AmazonEKS_CNI_Policy = data.aws_iam_policy.AmazonEKS_CNI_Policy.arn,
-        AWSElementalMediaLiveFullAccess = data.aws_iam_policy.AWSElementalMediaLiveFullAccess.arn,
-        AmazonS3FullAccess = data.aws_iam_policy.AmazonS3FullAccess.arn,
-        AmazonSESFullAccess = data.aws_iam_policy.AmazonSESFullAccess.arn,
-        AmazonSSMManagedInstanceCore = data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
-        AmazonSQSFullAccess = data.aws_iam_policy.AmazonSQSFullAccess.arn,
-        CloudWatchAgentServerPolicy = data.aws_iam_policy.CloudWatchAgentServerPolicy.arn,
+        AmazonEKSWorkerNodePolicy          = data.aws_iam_policy.AmazonEKSWorkerNodePolicy.arn,
+        AmazonEKS_CNI_Policy               = data.aws_iam_policy.AmazonEKS_CNI_Policy.arn,
+        AWSElementalMediaLiveFullAccess    = data.aws_iam_policy.AWSElementalMediaLiveFullAccess.arn,
+        AmazonS3FullAccess                 = data.aws_iam_policy.AmazonS3FullAccess.arn,
+        AmazonSESFullAccess                = data.aws_iam_policy.AmazonSESFullAccess.arn,
+        AmazonSSMManagedInstanceCore       = data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
+        AmazonSQSFullAccess                = data.aws_iam_policy.AmazonSQSFullAccess.arn,
+        CloudWatchAgentServerPolicy        = data.aws_iam_policy.CloudWatchAgentServerPolicy.arn,
         CloudWatchSyntheticsReadOnlyAccess = data.aws_iam_policy.CloudWatchSyntheticsReadOnlyAccess.arn,
         AWSElementalMediaPackageFullAccess = data.aws_iam_policy.AWSElementalMediaPackageFullAccess.arn
       }
@@ -169,6 +151,11 @@ module "eks" {
       rolearn  = "arn:aws:iam::${var.aws_account_id}:role/AWSReservedSSO_observability-core_80f44c7b3a1a4227"
       username = "AWSReservedSSO_observability-core_80f44c7b3a1a4227:{{SessionName}}"
       groups   = ["system:masters"]
+    },
+    {
+      rolearn  = "arn:aws:iam::${var.aws_account_id}:role/tfc-role"
+      username = "tfc-role:{{SessionName}}"
+      groups   = ["system:masters"]
     }
     # {
     #   rolearn  = "arn:aws:iam::${var.aws_account_id}:role/KarpenterNodeRole-dreamkast-dev-cluster"
@@ -178,6 +165,12 @@ module "eks" {
   ]
 
   aws_auth_users = var.eks_users_list
+
+  kms_key_administrators = [
+    "arn:aws:iam::${var.aws_account_id}:role/aws-reserved/sso.amazonaws.com/ap-northeast-1/AWSReservedSSO_dreamkast-core_07d1ae507f1df69c",
+    "arn:aws:iam::${var.aws_account_id}:role/aws-reserved/sso.amazonaws.com/ap-northeast-1/AWSReservedSSO_AdministratorAccess_4f7317794a64f92f",
+    "arn:aws:iam::${var.aws_account_id}:role/tfc-role"
+  ]
 
   tags = { "karpenter.sh/discovery" = "${var.cluster_name}" }
 
@@ -225,7 +218,7 @@ resource "aws_iam_policy" "eks_additional_policy" {
 module "vpc_cni_irsa" {
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
-  role_name             = "vpc_cni"
+  role_name             = "${var.prj_prefix}-vpc_cni"
   attach_vpc_cni_policy = true
   vpc_cni_enable_ipv4   = true
 
@@ -255,19 +248,6 @@ module "lb_irsa" {
   }
 }
 
-resource "kubernetes_secret" "lb_token" {
-  metadata {
-    name      = "aws-load-balancer-controller-token"
-    namespace = "kube-system"
-    annotations = {
-      "kubernetes.io/service-account.name" = "aws-load-balancer-controller"
-    }
-  }
-
-  type                           = "kubernetes.io/service-account-token"
-  wait_for_service_account_token = true
-}
-
 resource "kubernetes_service_account" "lb_sa" {
   metadata {
     name      = "aws-load-balancer-controller"
@@ -280,9 +260,6 @@ resource "kubernetes_service_account" "lb_sa" {
       "eks.amazonaws.com/role-arn"               = module.lb_irsa.iam_role_arn
       "eks.amazonaws.com/sts-regional-endpoints" = "true"
     }
-  }
-  secret {
-    name = kubernetes_secret.lb_token.metadata.0.name
   }
 }
 
@@ -304,19 +281,6 @@ module "ebs_csi_irsa" {
   }
 }
 
-resource "kubernetes_secret" "ebs_csi_token" {
-  metadata {
-    name      = "ebs-csi-controller-sa-token"
-    namespace = "kube-system"
-    annotations = {
-      "kubernetes.io/service-account.name" = "ebs-csi-controller-sa"
-    }
-  }
-
-  type                           = "kubernetes.io/service-account-token"
-  wait_for_service_account_token = true
-}
-
 resource "kubernetes_service_account" "ebs_csi_controller_sa" {
   metadata {
     name      = "ebs-csi-controller-sa"
@@ -329,13 +293,10 @@ resource "kubernetes_service_account" "ebs_csi_controller_sa" {
       "eks.amazonaws.com/role-arn" = module.ebs_csi_irsa.iam_role_arn
     }
   }
-  secret {
-    name = kubernetes_secret.ebs_csi_token.metadata.0.name
-  }
 }
 
 # ------------------------------------------------------------#
-#  EBS CSI Driver
+#  cluster autoscaler
 # ------------------------------------------------------------#
 
 module "cluster_autoscaler_irsa" {
@@ -353,22 +314,16 @@ module "cluster_autoscaler_irsa" {
   }
 }
 
-resource "kubernetes_secret" "cluster_autoscaler_token" {
-  metadata {
-    namespace     = "kube-system"
-    generate_name = "${kubernetes_service_account.cluster_autoscaler_sa.metadata.0.name}-token-"
-    annotations = {
-      "kubernetes.io/service-account.name" = kubernetes_service_account.cluster_autoscaler_sa.metadata.0.name
-    }
-  }
-
-  type                           = "kubernetes.io/service-account-token"
-  wait_for_service_account_token = true
-}
-
 resource "kubernetes_service_account" "cluster_autoscaler_sa" {
   metadata {
     name      = "cluster-autoscaler"
     namespace = "kube-system"
+    labels = {
+      "app.kubernetes.io/name"      = "cluster-autoscaler"
+      "app.kubernetes.io/component" = "controller"
+    }
+    annotations = {
+      "eks.amazonaws.com/role-arn"               = module.cluster_autoscaler_irsa.iam_role_arn
+    }
   }
 }
