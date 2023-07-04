@@ -79,24 +79,6 @@ module "eks" {
       type        = "egress"
       self        = true
     }
-
-    # `既存にあったのでとりあえず加えておく
-    elbv2_8080 = {
-      description = "elbv2.k8s.aws/targetGroupBinding=shared"
-      protocol    = "tcp"
-      from_port   = 8080
-      to_port     = 8080
-      type        = "ingress"
-      cidr_blocks = module.vpc.public_subnets_cidr_blocks
-    }
-    elbv2_8443 = {
-      description = "elbv2.k8s.aws/targetGroupBinding=shared"
-      protocol    = "tcp"
-      from_port   = 8443
-      to_port     = 8443
-      type        = "ingress"
-      cidr_blocks = module.vpc.public_subnets_cidr_blocks
-    }
   }
 
   # EKS Managed Node Group(s)
