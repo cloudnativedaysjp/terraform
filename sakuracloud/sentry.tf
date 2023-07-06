@@ -62,7 +62,7 @@ resource "sakuracloud_server" "sentry_redis" {
   tags        = ["app=redis", "stage=production", "starred"]
 
   network_interface {
-    upstream = sakuracloud_switch.sentry.id
+    upstream = "shared"
   }
 
   network_interface {
@@ -101,7 +101,7 @@ resource "sakuracloud_server" "sentry_kafka" {
   tags        = ["app=kafka", "stage=production", "starred"]
 
   network_interface {
-    upstream = sakuracloud_switch.sentry.id
+    upstream = "shared"
   }
 
   network_interface {
