@@ -65,6 +65,10 @@ resource "sakuracloud_server" "sentry_redis" {
     upstream = sakuracloud_switch.sentry.id
   }
 
+  network_interface {
+    upstream = sakuracloud_switch.sentry.id
+  }
+
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password = random_password.password.result,
     hostname    = "sentry-redis",
@@ -95,6 +99,10 @@ resource "sakuracloud_server" "sentry_kafka" {
   memory      = 16
   description = "Sentry Kafka server"
   tags        = ["app=kafka", "stage=production", "starred"]
+
+  network_interface {
+    upstream = sakuracloud_switch.sentry.id
+  }
 
   network_interface {
     upstream = sakuracloud_switch.sentry.id
