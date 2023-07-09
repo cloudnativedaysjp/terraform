@@ -2,12 +2,9 @@ resource "auth0_client" "tfer--0cWWdpGt4CpWjHJ9QIHtPm5GrJLS25lz_Dreamkast-0020-U
   allowed_logout_urls = ["http://localhost:8080", "https://*.dev.cloudnativedays.jp"]
   app_type            = "spa"
   callbacks = [
-    "http://*.dev.cloudnativedays.jp/cicd2023/ui",
-    "http://*.dev.cloudnativedays.jp/cndt2022/ui",
     "http://localhost:3001/discussionboard",
     "http://localhost:3001/cndf2023/ui",
-    "https://*.dev.cloudnativedays.jp/cicd2023/ui",
-    "https://*.dev.cloudnativedays.jp/cndt2022/ui",
+    "https://*.dev.cloudnativedays.jp/cndf2023/ui",
   ]
   cross_origin_auth                   = "false"
   custom_login_page_on                = "true"
@@ -382,10 +379,7 @@ resource "auth0_client" "tfer--JxqrUDloZhPPWKflAQXlmPJgxrI1d5ms_Dreamkast-0020-U
   allowed_logout_urls = ["https://event.cloudnativedays.jp"]
   app_type            = "spa"
   callbacks = [
-    "https://event.cloudnativedays.jp/cicd2023/ui",
     "https://event.cloudnativedays.jp/cndf2023/ui",
-    "https://event.cloudnativedays.jp/cndt2022/ui",
-    "https://event.cloudnativedays.jp/cnsec2022/ui",
   ]
   cross_origin_auth                   = "false"
   custom_login_page_on                = "true"
@@ -541,10 +535,7 @@ resource "auth0_client" "tfer--TPeiKSZzmH2JZJPybE290kypTUrWClTk_Dreamkast-0020-U
   allowed_logout_urls = ["https://staging.dev.cloudnativedays.jp"]
   app_type            = "spa"
   callbacks = [
-    "https://staging.dev.cloudnativedays.jp/cicd2023/ui",
     "https://staging.dev.cloudnativedays.jp/cndf2023/ui",
-    "https://staging.dev.cloudnativedays.jp/cndt2022/ui",
-    "https://staging.dev.cloudnativedays.jp/cnsec2022/ui",
   ]
   cross_origin_auth                   = "false"
   custom_login_page_on                = "true"
