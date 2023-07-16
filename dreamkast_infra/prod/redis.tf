@@ -27,15 +27,15 @@ resource "aws_security_group" "allow_redis" {
 
   ingress {
     description = "Redis from private subnet"
-    from_port   = 0
+    from_port   = 6379
     to_port     = 6379
     protocol    = "tcp"
     cidr_blocks = module.vpc.private_subnets_cidr_blocks
   }
   ingress {
     description = "Redis from public subnet"
-    from_port   = 0
-    to_port     = 3306
+    from_port   = 6379
+    to_port     = 6379
     protocol    = "tcp"
     cidr_blocks = module.vpc.public_subnets_cidr_blocks
   }
