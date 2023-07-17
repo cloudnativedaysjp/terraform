@@ -84,7 +84,7 @@ module "eks" {
   # EKS Managed Node Group(s)
   eks_managed_node_groups = {
     bottolerocket = {
-      name = "dk-prd-mng-spot"
+      name = var.node_group_name
 
       subnet_ids = module.vpc.public_subnets
 

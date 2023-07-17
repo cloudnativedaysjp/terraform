@@ -4,18 +4,19 @@ module "elasticache-redis" {
 
   name             = "${var.prj_prefix}-redis"
   description      = "Dreamkast Production Redis"
-  instance_type    = "cache.t4g.small"
+  instance_type    = var.redis_instance_type
+  engine_version   = var.redis_version
 
   automatic_failover_enabled = true
-  multi_az_enabled           = true
-  cluster_size               = 3
+  multi_az_enabled           = var.multi_az
+  cluster_size               = var.redis_num_of_nodes
 
   vpc_id                     = module.vpc.vpc_id
   subnets                    = module.vpc.intra_subnets
   port                       = 6379
   allowed_security_group_ids = [aws_security_group.allow_redis.id]
 
-  //replication_group_id     = "${var.prj_prefix}-redis"
+  replication_group_id     = "${var.prj_prefix}-redis"
   maintenance_window       = "sun:22:00-sun:23:30"
   snapshot_window          = "05:00-09:00"
   snapshot_retention_limit = 7
