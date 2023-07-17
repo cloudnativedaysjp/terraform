@@ -8,6 +8,7 @@ module "elasticache-redis" {
   family         = var.redis_family
   engine_version = var.redis_engine_version
 
+  transit_encryption_enabled = false
   automatic_failover_enabled = true
   multi_az_enabled           = var.multi_az
   cluster_size               = var.redis_num_of_nodes
