@@ -5,6 +5,11 @@ variable "prj_prefix" {
   default = "dreamkast-prod"
 }
 
+variable "multi_az" {
+  default = false
+  type    = bool
+}
+
 # ------------------------------------------------------------#
 #  VPC
 # ------------------------------------------------------------#
@@ -21,6 +26,11 @@ variable "cluster_name" {
 }
 variable "cluster_version" {
   default = 1.27
+}
+
+variable "node_group_name" {
+  # node_group_name is limited under 38 charactors
+  default = "dk-prd-mng-spot"
 }
 
 variable "node_desired_size" {
@@ -79,11 +89,21 @@ variable "db_user_name" {
   default = "admin"
 }
 
-variable "multi_az" {
-  default = false
-  type    = bool
-}
-
 variable "long_query_time" {
   default = "1"
+}
+
+# ------------------------------------------------------------#
+#  ElastiCache Redis
+# ------------------------------------------------------------#
+variable "redis_instance_type" {
+  default = "cache.t4g.small"
+}
+
+variable "redis_version" {
+  default = "6.0"
+}
+
+variable "redis_num_of_nodes" {
+  default = 3
 }
