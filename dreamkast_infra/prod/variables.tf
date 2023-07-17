@@ -104,6 +104,10 @@ variable "redis_family" {
   default = "redis6.x"
 }
 
+variable "redis_engine_version" {
+  default = "6.0"
+}
+
 variable "redis_num_of_nodes" {
   default = 3
 }

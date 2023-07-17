@@ -6,6 +6,7 @@ module "elasticache-redis" {
   description      = "Dreamkast Production Redis"
   instance_type    = var.redis_instance_type
   family           = var.redis_family
+  engine_version   = var.redis_engine_version
 
   automatic_failover_enabled = true
   multi_az_enabled           = var.multi_az
