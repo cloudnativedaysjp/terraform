@@ -5,8 +5,7 @@ module "elasticache-redis" {
   name             = "${var.prj_prefix}-redis"
   description      = "Dreamkast Production Redis"
   instance_type    = var.redis_instance_type
-  family           = "redis-${var.redis_version}"
-  engine_version   = var.redis_version
+  family           = var.redis_family
 
   automatic_failover_enabled = true
   multi_az_enabled           = var.multi_az

@@ -100,8 +100,8 @@ variable "redis_instance_type" {
   default = "cache.t4g.small"
 }
 
-variable "redis_version" {
-  default = "6.0"
+variable "redis_family" {
+  default = "redis6.x"
 }
 
 variable "redis_num_of_nodes" {
