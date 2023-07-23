@@ -223,8 +223,25 @@ resource "aws_iam_policy" "eks_additional_policy" {
           "ivs:ListRecordingConfigurations",
           "ivs:ListStreamKeys",
           "ivs:ListStreams",
-          "ivs:ListStreamSessions"
+          "ivs:ListStreamSessions",
+          "ivs:DeleteChannel",
+          "ivs:TagResource"
         ]
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "ssm:PutParameter",
+          "ssm:DeleteParameter",
+          "ssm:AddTagsToResource",
+          "ssm:DeleteParameters",
+          "ssm:DescribeParameters",
+          "ssm:GetParameter",
+          "ssm:GetParameterHistory",
+          "ssm:GetParameters",
+          "ssm:GetParametersByPath"
+        ],
         Resource = "*"
       },
       {
@@ -258,6 +275,14 @@ resource "aws_iam_policy" "eks_additional_policy" {
           "cloudwatch:GetMetricData"
         ]
         Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "iam:GetRole",
+          "iam:PassRole"
+        ]
+        Resource = "arn:aws:iam::607167088920:role/MediaLiveAccessRole"
       }
     ]
   })
@@ -372,7 +397,7 @@ resource "kubernetes_service_account" "cluster_autoscaler_sa" {
       "app.kubernetes.io/component" = "controller"
     }
     annotations = {
-      "eks.amazonaws.com/role-arn"               = module.cluster_autoscaler_irsa.iam_role_arn
+      "eks.amazonaws.com/role-arn" = module.cluster_autoscaler_irsa.iam_role_arn
     }
   }
 }
