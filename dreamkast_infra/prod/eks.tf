@@ -182,33 +182,82 @@ resource "aws_iam_policy" "eks_additional_policy" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
+      # for cert-manager
       {
-        # cert-manager用
-        "Effect" : "Allow",
-        "Action" : "route53:GetChange",
-        "Resource" : "arn:aws:route53:::change/*"
+        Effect   = "Allow",
+        Action   = "route53:GetChange",
+        Resource = "arn:aws:route53:::change/*"
       },
       {
-        # cert-manager用
-        "Effect" : "Allow",
-        "Action" : [
+        Effect = "Allow",
+        Action = [
           "route53:ChangeResourceRecordSets",
           "route53:ListResourceRecordSets"
         ],
-        "Resource" : "arn:aws:route53:::hostedzone/*"
+        Resource = "arn:aws:route53:::hostedzone/*"
       },
       {
-        # cert-manager用
-        "Effect" : "Allow",
-        "Action" : "route53:ListHostedZonesByName",
-        "Resource" : "*"
+        Effect   = "Allow",
+        Action   = "route53:ListHostedZonesByName",
+        Resource = "*"
+      },
+      # for external-secret
+      {
+        Effect   = "Allow",
+        Action   = "secretsmanager:GetSecretValue",
+        Resource = "*"
+      },
+      # for Amazon IVS
+      {
+        Effect = "Allow",
+        Action = [
+          "ivs:CreateChannel",
+          "ivs:CreateRecordingConfiguration",
+          "ivs:GetChannel",
+          "ivs:GetRecordingConfiguration",
+          "ivs:GetStream",
+          "ivs:GetStreamKey",
+          "ivs:GetStreamSession",
+          "ivs:ListChannels",
+          "ivs:ListRecordingConfigurations",
+          "ivs:ListStreamKeys",
+          "ivs:ListStreams",
+          "ivs:ListStreamSessions"
+        ]
+        Resource = "*"
       },
       {
-        # external-secret用
-        "Effect" : "Allow",
-        "Action" : "secretsmanager:GetSecretValue",
-        "Resource" : "*"
+        Effect = "Allow"
+        Action = [
+          "cloudwatch:DescribeAlarms",
+          "cloudwatch:GetMetricData",
+          "s3:CreateBucket",
+          "s3:GetBucketLocation",
+          "s3:ListAllMyBuckets",
+          "servicequotas:ListAWSDefaultServiceQuotas",
+          "servicequotas:ListRequestedServiceQuotaChangeHistoryByQuota",
+          "servicequotas:ListServiceQuotas",
+          "servicequotas:ListServices",
+          "servicequotas:ListTagsForResource"
+        ],
+        Resource = "*"
       },
+      {
+        Effect = "Allow"
+        Action = [
+          "iam:AttachRolePolicy",
+          "iam:CreateServiceLinkedRole",
+          "iam:PutRolePolicy"
+        ]
+        Resource = "arn:aws:iam::*:role/aws-service-role/ivs.amazonaws.com/AWSServiceRoleForIVSRecordToS3*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "cloudwatch:GetMetricData"
+        ]
+        Resource = "*"
+      }
     ]
   })
 }
@@ -322,7 +371,7 @@ resource "kubernetes_service_account" "cluster_autoscaler_sa" {
       "app.kubernetes.io/component" = "controller"
     }
     annotations = {
-      "eks.amazonaws.com/role-arn"               = module.cluster_autoscaler_irsa.iam_role_arn
+      "eks.amazonaws.com/role-arn" = module.cluster_autoscaler_irsa.iam_role_arn
     }
   }
 }
