@@ -1,8 +1,8 @@
 locals {
   windows = [
-    # {
-    #   hostname = "windows01",
-    # }
+    {
+      hostname = "windows01",
+    }
   ]
 }
 
