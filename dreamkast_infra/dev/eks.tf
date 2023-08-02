@@ -94,7 +94,7 @@ module "eks" {
 
       platform       = "bottlerocket"
       ami_type       = "BOTTLEROCKET_x86_64"
-      instance_types = ["m6i.large", "m6a.large", "m5.large", "m5a.large", "t3.large", "t3a.large"]
+      instance_types = ["m6i.xlarge", "m6a.xlarge", "m5.xlarge", "m5a.xlarge", "t3.xlarge", "t3a.xlarge"]
 
       # Graviton対応時にコメントアウト解除
       # ami_type = "BOTTLEROCKET_ARM_64"
