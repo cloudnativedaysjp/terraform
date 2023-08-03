@@ -99,7 +99,7 @@ resource "auth0_client" "tfer--1tWhmO95Q3vTuR94mnhhHrqvD4TwcFao_Sentry" {
 
 
   app_type                            = "sentry"
-  callbacks                           = ["https://sentry.cloudnativedays.jp/saml/acs/cloudnative-days/"]
+  callbacks                           = ["https://sentry2.cloudnativedays.jp/saml/acs/cloudnative-days/"]
   cross_origin_auth                   = "false"
   custom_login_page_on                = "true"
   grant_types                         = ["authorization_code", "client_credentials", "implicit", "refresh_token"]

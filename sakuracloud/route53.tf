@@ -5,7 +5,7 @@ data "aws_route53_zone" "cloudnativedays" {
 
 resource "aws_route53_record" "sentry" {
   zone_id = data.aws_route53_zone.cloudnativedays.zone_id
-  name    = "sentry.cloudnativedays.jp"
+  name    = "sentry2.cloudnativedays.jp"
   type    = "A"
   ttl     = "300"
   records = [sakuracloud_server.sentry.ip_address]

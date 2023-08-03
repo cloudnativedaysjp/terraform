@@ -16,6 +16,7 @@ resource "sakuracloud_server" "sentry" {
   name = "sentry"
   disks = [
     sakuracloud_disk.sentry_boot.id,
+    sakuracloud_disk.sentry_docker_volume.id,
   ]
   core        = 6
   memory      = 16
@@ -35,6 +36,19 @@ resource "sakuracloud_server" "sentry" {
     hostname    = "sentry"
     secondary_ip = "192.168.0.200"
   })
+}
+
+resource "sakuracloud_disk" "sentry_docker_volume" {
+  name              = "sentry-docker-volume"
+  plan              = "ssd"
+  connector         = "virtio"
+  size              = 500
+
+  lifecycle {
+    ignore_changes = [
+      source_archive_id,
+    ]
+  }
 }
 
 resource "sakuracloud_disk" "sentry_redis_boot" {
