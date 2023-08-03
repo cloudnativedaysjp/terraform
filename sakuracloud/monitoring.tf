@@ -136,7 +136,7 @@ resource "sakuracloud_simple_monitor" "prometheus" {
 }
 
 resource "sakuracloud_simple_monitor" "sentry" {
-  target = "sentry.cloudnativedays.jp"
+  target = "sentry2.cloudnativedays.jp"
 
   delay_loop = 120
   timeout    = 20
@@ -149,7 +149,7 @@ resource "sakuracloud_simple_monitor" "sentry" {
     port            = 443
     path            = "/_health/"
     status          = "200"
-    host_header     = "sentry.cloudnativedays.jp"
+    host_header     = "sentry2.cloudnativedays.jp"
     sni             = true
     http2           = true
   }
