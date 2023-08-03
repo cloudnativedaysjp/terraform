@@ -38,7 +38,7 @@ variable "node_desired_size" {
 }
 
 variable "node_max_size" {
-  default = 5
+  default = 10
 }
 
 variable "node_min_size" {
