@@ -281,7 +281,10 @@ resource "aws_iam_policy" "eks_additional_policy" {
           "iam:GetRole",
           "iam:PassRole"
         ]
-        Resource = "arn:aws:iam::607167088920:role/MediaLiveAccessRole"
+        Resource = [
+          "arn:aws:iam::607167088920:role/MediaLiveAccessRole",
+          "arn:aws:iam::607167088920:role/MediaPackageLivetoVOD-Policy"
+        ]
       }
     ]
   })
