@@ -70,7 +70,7 @@ variable "db_instance_name" {
 }
 
 variable "db_instance_class" {
-  default = "db.t4g.small"
+  default = "db.t3.small"
 }
 
 variable "db_instance_storage_size" {
