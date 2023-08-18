@@ -90,8 +90,8 @@ resource "sakuracloud_server" "sentry_redis" {
   })
 }
 
-resource "sakuracloud_disk" "sentry_kafka_boot" {
-  name              = "sentry-kafka-boot"
+resource "sakuracloud_disk" "sentry_postgresql_boot" {
+  name              = "sentry-postgresql-boot"
   source_archive_id = data.sakuracloud_archive.ubuntu.id
   plan              = "ssd"
   connector         = "virtio"
@@ -104,10 +104,10 @@ resource "sakuracloud_disk" "sentry_kafka_boot" {
   }
 }
 
-resource "sakuracloud_server" "sentry_kafka" {
-  name = "sentry-kafka"
+resource "sakuracloud_server" "sentry_postgresql" {
+  name = "sentry-postgresql"
   disks = [
-    sakuracloud_disk.sentry_kafka_boot.id,
+    sakuracloud_disk.sentry_postgresql_boot.id,
   ]
   core        = 6
   memory      = 16
@@ -124,7 +124,7 @@ resource "sakuracloud_server" "sentry_kafka" {
 
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password = random_password.password.result,
-    hostname    = "sentry-kafka",
+    hostname    = "sentry-postgresql",
     secondary_ip = "192.168.0.202"
   })
 }
