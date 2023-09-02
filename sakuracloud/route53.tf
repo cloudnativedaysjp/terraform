@@ -11,6 +11,14 @@ resource "aws_route53_record" "sentry" {
   records = [sakuracloud_server.sentry.ip_address]
 }
 
+resource "aws_route53_record" "loki" {
+  zone_id = data.aws_route53_zone.cloudnativedays.zone_id
+  name    = "loki.cloudnativedays.jp"
+  type    = "A"
+  ttl     = "300"
+  records = [sakuracloud_server.loki.ip_address]
+}
+
 resource "aws_route53_record" "elk" {
   zone_id = data.aws_route53_zone.cloudnativedays.zone_id
   name    = "elk.cloudnativedays.jp"
