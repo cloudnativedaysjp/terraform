@@ -116,6 +116,7 @@ resource "sakuracloud_server" "sentry_postgresql" {
 
   network_interface {
     upstream = "shared"
+    packet_filter_id = sakuracloud_packet_filter.sentry_postgres.id
   }
 
   network_interface {
