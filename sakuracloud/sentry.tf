@@ -108,7 +108,7 @@ resource "sakuracloud_server" "sentry_postgresql" {
   name = "sentry-postgresql"
   disks = [
     sakuracloud_disk.sentry_postgresql_boot.id,
-    sakuracloud_disk.sentry_postgresql_docker_volume
+    sakuracloud_disk.sentry_postgresql_docker_volume.id
   ]
   core        = 6
   memory      = 16
