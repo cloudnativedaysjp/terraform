@@ -108,11 +108,12 @@ resource "sakuracloud_server" "sentry_postgresql" {
   name = "sentry-postgresql"
   disks = [
     sakuracloud_disk.sentry_postgresql_boot.id,
+    sakuracloud_disk.sentry_postgresql_docker_volume.id
   ]
   core        = 6
   memory      = 16
-  description = "Sentry Kafka server"
-  tags        = ["app=kafka", "stage=production", "starred"]
+  description = "Sentry PostgreSQL server"
+  tags        = ["app=postgresql", "stage=production", "starred"]
 
   network_interface {
     upstream = "shared"
@@ -128,4 +129,17 @@ resource "sakuracloud_server" "sentry_postgresql" {
     hostname    = "sentry-postgresql",
     secondary_ip = "192.168.0.202"
   })
+}
+
+resource "sakuracloud_disk" "sentry_postgresql_docker_volume" {
+  name              = "sentry-postgresql-docker-volume"
+  plan              = "ssd"
+  connector         = "virtio"
+  size              = 500
+
+  lifecycle {
+    ignore_changes = [
+      source_archive_id,
+    ]
+  }
 }
