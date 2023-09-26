@@ -17,12 +17,6 @@ terraform {
     }
   }
 }
-provider "sakuracloud" {
-}
-provider "github" {}
-
-provider "aws" {
-}
 
 data "sakuracloud_archive" "ubuntu" {
   filter {
@@ -150,4 +144,10 @@ resource "sakuracloud_internet" "global" {
 
   description = "global"
   tags        = ["global", "production"]
+}
+
+resource "sakuracloud_switch" "switcher" {
+  name        = "handson-switcher"
+  description = "switcher"
+  tags        = ["handson", "production"]
 }
