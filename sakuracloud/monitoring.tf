@@ -147,7 +147,7 @@ resource "sakuracloud_simple_monitor" "sentry" {
   health_check {
     protocol        = "https"
     port            = 443
-    path            = "/_health/"
+    path            = "/"
     status          = "200"
     host_header     = "sentry.cloudnativedays.jp"
     sni             = true
