@@ -159,4 +159,6 @@ module "vm1" {
   vm_password                = "A!waysbek1nd"
   additional_github_accounts = ["jacopen"]
   sakuracloud_zone           = "is1b"
+  cpu_core = 20
+  memory_size = 64
 }
