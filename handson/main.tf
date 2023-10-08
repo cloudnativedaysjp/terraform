@@ -34,7 +34,7 @@ resource "sakuracloud_disk" "handson_dev01_boot" {
   source_archive_id = data.sakuracloud_archive.ubuntu.id
   plan              = "ssd"
   connector         = "virtio"
-  size              = 250
+  size              = 20
 
   lifecycle {
     ignore_changes = [
