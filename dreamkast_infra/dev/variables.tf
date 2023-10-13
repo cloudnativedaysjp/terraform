@@ -20,7 +20,7 @@ variable "cluster_name" {
   default = "dreamkast-dev-cluster"
 }
 variable "cluster_version" {
-  default = 1.27
+  default = 1.28
 }
 
 variable "node_desired_size" {
