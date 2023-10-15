@@ -122,6 +122,7 @@ module "eks" {
         CloudWatchAgentServerPolicy        = data.aws_iam_policy.CloudWatchAgentServerPolicy.arn,
         CloudWatchSyntheticsReadOnlyAccess = data.aws_iam_policy.CloudWatchSyntheticsReadOnlyAccess.arn,
         AWSElementalMediaPackageFullAccess = data.aws_iam_policy.AWSElementalMediaPackageFullAccess.arn
+        AWSElementalMediaPackageV2FullAccess = data.aws_iam_policy.AWSElementalMediaPackageV2FullAccess.arn
       }
     }
   }
@@ -206,6 +207,12 @@ resource "aws_iam_policy" "eks_additional_policy" {
       {
         Effect   = "Allow",
         Action   = "secretsmanager:GetSecretValue",
+        Resource = "*"
+      },
+      # for MediaPackageV2
+      {
+        Effect   = "Allow",
+        Action   = "mediapackagev2:CreateChannelGroup",
         Resource = "*"
       },
       # for Amazon IVS
