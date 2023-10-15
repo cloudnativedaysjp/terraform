@@ -5,10 +5,10 @@ locals {
         hostname     = "nginx01",
         secondary_ip = "192.168.71.21"
       },
-      {
-        hostname     = "nginx02",
-        secondary_ip = "192.168.71.22"
-      },
+      # {
+      #   hostname     = "nginx02",
+      #   secondary_ip = "192.168.71.22"
+      # },
     #   {
     #     hostname     = "nginx03",
     #     secondary_ip = "192.168.71.23"
