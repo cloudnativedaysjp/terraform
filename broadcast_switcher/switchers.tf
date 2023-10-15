@@ -83,7 +83,8 @@ resource "sakuracloud_server" "switcher" {
     vm_password  = var.vm_password,
     vnc_password = var.vnc_password,
     hostname     = each.value.hostname,
-    secondary_ip = each.value.secondary_ip
+    secondary_ip = each.value.secondary_ip,
+    broadcast_webhook_url = var.broadcast_webhook_url,
   })
 
   lifecycle {

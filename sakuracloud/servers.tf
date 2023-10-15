@@ -33,7 +33,8 @@ resource "sakuracloud_server" "uploader" {
 
   user_data = templatefile("./template/cloud-init.yaml", {
     vm_password = random_password.password.result,
-    hostname    = "uploader"
+    hostname    = "uploader",
+    broadcast_webhook_url = var.broadcast_webhook_url,
   })
 
   lifecycle {
@@ -79,7 +80,8 @@ resource "sakuracloud_server" "tailscale" {
   user_data = templatefile("./template/nextcloud.yaml", {
     vm_password = var.vm_password,
     hostname    = "nextcloud",
-    secondary_ip = "192.168.71.249"
+    secondary_ip = "192.168.71.249",
+    broadcast_webhook_url = var.broadcast_webhook_url,
   })
 
   lifecycle {

@@ -60,3 +60,5 @@ runcmd:
         version: 2
     EOF
   - sudo netplan apply
+  - |
+    curl -X POST --data-urlencode "payload={\"channel\": \"#broadcast\", \"username\": \"EMTEC\", \"text\": \"VM: ${hostname}が起動しました。\"}" ${broadcast_webhook_url}

@@ -92,7 +92,8 @@ resource "sakuracloud_server" "nextcloud" {
   user_data = templatefile("./template/nextcloud.yaml", {
     vm_password = var.vm_password,
     hostname    = "nextcloud",
-    secondary_ip = "192.168.71.111"
+    secondary_ip = "192.168.71.111",
+    broadcast_webhook_url = var.broadcast_webhook_url,
   })
 
   lifecycle {
