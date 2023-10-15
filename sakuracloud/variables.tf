@@ -6,3 +6,7 @@ variable "slack_webhook_url" {
 variable "prometheus_password" {
   
 }
+
+variable "broadcast_webhook_url" {
+  
+}
