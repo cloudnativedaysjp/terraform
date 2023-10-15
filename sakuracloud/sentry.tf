@@ -34,7 +34,8 @@ resource "sakuracloud_server" "sentry" {
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password = random_password.password.result,
     hostname    = "sentry"
-    secondary_ip = "192.168.0.200"
+    secondary_ip = "192.168.0.200",
+    broadcast_webhook_url = var.broadcast_webhook_url,
   })
 }
 
@@ -86,7 +87,8 @@ resource "sakuracloud_server" "sentry_redis" {
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password = random_password.password.result,
     hostname    = "sentry-redis",
-    secondary_ip = "192.168.0.201"
+    secondary_ip = "192.168.0.201",
+    broadcast_webhook_url = var.broadcast_webhook_url,
   })
 }
 
@@ -127,7 +129,8 @@ resource "sakuracloud_server" "sentry_postgresql" {
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password = random_password.password.result,
     hostname    = "sentry-postgresql",
-    secondary_ip = "192.168.0.202"
+    secondary_ip = "192.168.0.202",
+    broadcast_webhook_url = var.broadcast_webhook_url,
   })
 }
 

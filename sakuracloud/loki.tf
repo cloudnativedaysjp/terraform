@@ -28,7 +28,8 @@ resource "sakuracloud_server" "loki" {
 
   user_data = templatefile("./template/cloud-init.yaml", {
     vm_password = random_password.password.result,
-    hostname    = "loki"
+    hostname    = "loki",
+    broadcast_webhook_url = var.broadcast_webhook_url,
   })
 
   lifecycle {

@@ -33,7 +33,8 @@ resource "sakuracloud_server" "elk" {
 
   user_data = templatefile("./template/cloud-init.yaml", {
     vm_password = random_password.password.result,
-    hostname    = "elk"
+    hostname    = "elk",
+    broadcast_webhook_url = var.broadcast_webhook_url,
   })
 
   lifecycle {
