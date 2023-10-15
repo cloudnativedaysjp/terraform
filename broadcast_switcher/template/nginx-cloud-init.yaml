@@ -62,4 +62,5 @@ runcmd:
   - sleep 3 && git clone https://github.com/cloudnativedaysjp/broadcast.git /home/ubuntu/broadcast
   - cd /home/ubuntu/broadcast/nginx-rtmp && sudo docker compose up -d
   - cd /home/ubuntu/broadcast/srs && sudo docker compose up -d
-  - curl -X POST --data-urlencode "payload={\"channel\": \"#broadcast\", \"username\": \"EMTEC\", \"text\": \"VM: ${hostname}が起動しました。\"}" ${broadcast_webhook_url}
+  - |
+    curl -X POST --data-urlencode "payload={\"channel\": \"#broadcast\", \"username\": \"EMTEC\", \"text\": \"VM: ${hostname}が起動しました。\"}" ${broadcast_webhook_url}
