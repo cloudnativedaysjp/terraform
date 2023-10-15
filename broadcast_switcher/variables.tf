@@ -5,3 +5,7 @@ variable "vnc_password" {
 variable "vm_password" {
   default = "cloudnativedays"
 }
+
+variable "broadcast_webhook_url" {
+  
+}

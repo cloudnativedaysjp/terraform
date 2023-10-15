@@ -66,7 +66,8 @@ resource "sakuracloud_server" "instances" {
   user_data = templatefile("./template/nginx-cloud-init.yaml", {
     vm_password  = var.vm_password,
     hostname     = each.value.hostname,
-    secondary_ip = each.value.secondary_ip
+    secondary_ip = each.value.secondary_ip,
+    broadcast_webhook_url = var.broadcast_webhook_url,
   })
 
   lifecycle {
