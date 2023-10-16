@@ -41,3 +41,7 @@ data "aws_iam_policy" "CloudWatchSyntheticsReadOnlyAccess" {
 data "aws_iam_policy" "AWSElementalMediaPackageFullAccess" {
   arn = "arn:aws:iam::aws:policy/AWSElementalMediaPackageFullAccess"
 }
+
+data "aws_iam_policy" "AWSElementalMediaPackageV2FullAccess" {
+  arn = "arn:aws:iam::aws:policy/AWSElementalMediaPackageV2FullAccess"
+}
