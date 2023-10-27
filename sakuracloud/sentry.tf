@@ -18,8 +18,8 @@ resource "sakuracloud_server" "sentry" {
     sakuracloud_disk.sentry_boot.id,
     sakuracloud_disk.sentry_docker_volume.id,
   ]
-  core        = 6
-  memory      = 16
+  core        = 8
+  memory      = 32
   description = "Sentry server"
   tags        = ["app=sentry", "stage=production", "starred"]
 
