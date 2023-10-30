@@ -292,6 +292,15 @@ resource "aws_iam_policy" "eks_additional_policy" {
           "arn:aws:iam::607167088920:role/MediaLiveAccessRole",
           "arn:aws:iam::607167088920:role/MediaPackageLivetoVOD-Policy"
         ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "cloudfront:GetDistribution",
+          "cloudfront:UpdateDistribution",
+          "cloudfront:ListCachePolicies"
+        ],
+        Resource = "*"
       }
     ]
   })
