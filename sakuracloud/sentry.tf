@@ -70,6 +70,7 @@ resource "sakuracloud_server" "sentry_redis" {
   name = "sentry-redis"
   disks = [
     sakuracloud_disk.sentry_redis_boot.id,
+    sakuracloud_disk.sentry_redis_docker_volume.id
   ]
   core        = 4
   memory      = 16
@@ -90,4 +91,17 @@ resource "sakuracloud_server" "sentry_redis" {
     secondary_ip = "192.168.0.201",
     broadcast_webhook_url = var.broadcast_webhook_url,
   })
+}
+
+resource "sakuracloud_disk" "sentry_redis_docker_volume" {
+  name              = "sentry-redis-docker-volume"
+  plan              = "ssd"
+  connector         = "virtio"
+  size              = 250
+
+  lifecycle {
+    ignore_changes = [
+      source_archive_id,
+    ]
+  }
 }
