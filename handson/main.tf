@@ -102,6 +102,27 @@ resource "sakuracloud_packet_filter_rules" "handson_rules" {
   }
 
   expression {
+    protocol         = "tcp"
+    destination_port = "8080"
+  }
+
+  expression {
+    protocol         = "tcp"
+    destination_port = "8443"
+  }
+
+  expression {
+    protocol         = "tcp"
+    destination_port = "18080"
+  }
+
+  expression {
+    protocol         = "tcp"
+    destination_port = "18443"
+  }
+
+
+  expression {
     protocol         = "udp"
     destination_port = "68"
   }
