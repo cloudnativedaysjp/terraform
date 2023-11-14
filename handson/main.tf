@@ -118,7 +118,7 @@ resource "sakuracloud_packet_filter_rules" "handson_rules" {
 
   expression {
     protocol         = "tcp"
-    destination_port = "10443"
+    destination_port = "18443"
   }
 
 
