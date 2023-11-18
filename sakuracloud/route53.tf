@@ -58,3 +58,11 @@ resource "aws_route53_record" "uploader" {
   ttl     = "300"
   records = [sakuracloud_server.nextcloud.ip_address]
 }
+
+resource "aws_route53_record" "vault" {
+  zone_id = data.aws_route53_zone.cloudnativedays.zone_id
+  name    = "vault.cloudnativedays.jp"
+  type    = "A"
+  ttl     = "300"
+  records = [sakuracloud_server.vault.ip_address]
+}

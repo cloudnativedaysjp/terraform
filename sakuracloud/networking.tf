@@ -62,6 +62,11 @@ resource "sakuracloud_packet_filter_rules" "nextcloud_rules" {
   }
 
   expression {
+    protocol         = "tcp"
+    destination_port = "8200"
+  }
+
+  expression {
     protocol         = "udp"
     destination_port = "32768-61000"
   }
