@@ -868,3 +868,48 @@ resource "auth0_client" "tfer--y94p2dhTrVM8RszZ73kqR64jvy9uJDhO_kibana" {
   sso_disabled               = "false"
   token_endpoint_auth_method = "client_secret_post"
 }
+
+resource "auth0_client" "vault" {
+  allowed_logout_urls                 = ["https://vault.cloudnativedays.jp/", "https://vault.cloudnativedays.jp/validate"]
+  app_type                            = "regular_web"
+  callbacks                           = ["https://vault.cloudnativedays.jp/ui/vault/auth/oidc/oidc/callback", "https://vault.cloudnativedays.jp:8250/oidc/callback"]
+  cross_origin_auth                   = "false"
+  custom_login_page_on                = "true"
+  grant_types                         = ["authorization_code", "client_credentials", "implicit", "refresh_token"]
+  is_first_party                      = "true"
+  is_token_endpoint_ip_header_trusted = "false"
+
+  jwt_configuration {
+    alg                 = "RS256"
+    lifetime_in_seconds = "36000"
+    secret_encoded      = "false"
+  }
+
+  name = "vault"
+
+  native_social_login {
+    apple {
+      enabled = "false"
+    }
+
+    facebook {
+      enabled = "false"
+    }
+  }
+
+  oidc_conformant = "true"
+
+  refresh_token {
+    expiration_type              = "non-expiring"
+    idle_token_lifetime          = "2592000"
+    infinite_idle_token_lifetime = "true"
+    infinite_token_lifetime      = "true"
+    leeway                       = "0"
+    rotation_type                = "non-rotating"
+    token_lifetime               = "31557600"
+  }
+
+  sso                        = "false"
+  sso_disabled               = "false"
+  token_endpoint_auth_method = "client_secret_post"
+}
