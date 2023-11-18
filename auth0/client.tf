@@ -535,7 +535,7 @@ resource "auth0_client" "tfer--TPeiKSZzmH2JZJPybE290kypTUrWClTk_Dreamkast-0020-U
   allowed_logout_urls = ["https://staging.dev.cloudnativedays.jp"]
   app_type            = "spa"
   callbacks = [
-    "https://staging.dev.cloudnativedays.jp/cndt2023/ui",
+    "https://staging.dev.cloudnativedays.jp/cndt2023/ui", "http://localhost:3001/cndt2023/ui",
   ]
   cross_origin_auth                   = "false"
   custom_login_page_on                = "true"
@@ -713,7 +713,7 @@ resource "auth0_client" "tfer--bqg8diqDm14YYRIyYKHYhlEMuFhD48yd_Default-0020-App
 resource "auth0_client" "tfer--lIrIGrhacjYsZcqEXeauzTmkK5Sz79nL_Cloud-0020-Native-0020-Days-0020---0020--0020-Review" {
   allowed_logout_urls                 = ["http://*.dev.cloudnativedays.jp/", "http://127.0.0.1:3000/", "http://127.0.0.2:3000/", "http://localhost:3000/", "http://localhost:8080/", "https://*.dev.cloudnativedays.jp/", "https://*.herokuapp.com/", "https://cloudopsdays.com/"]
   app_type                            = "regular_web"
-  callbacks                           = ["http://*.dev.cloudnativedays.jp/auth/auth0/callback", "http://127.0.0.1:3000/auth/auth0/callback", "http://127.0.0.2:3000/auth/auth0/callback", "http://localhost:3000/auth/auth0/callback", "http://localhost:8080/auth/auth0/callback","https://*.dev.cloudnativedays.jp/auth/auth0/callback", "https://*.herokuapp.com/auth/auth0/callback", "https://dreamkast.us.webtask.run/auth0-authentication-api-debugger", "http://localhost:8089/auth/auth0/callback", "http://localhost:8080/cndt2023/ui", "http://localhost:8089/cndt2023/ui", "http://localhost:8089"]
+  callbacks                           = ["http://*.dev.cloudnativedays.jp/auth/auth0/callback", "http://127.0.0.1:3000/auth/auth0/callback", "http://127.0.0.2:3000/auth/auth0/callback", "http://localhost:3000/auth/auth0/callback", "http://localhost:8080/auth/auth0/callback", "https://*.dev.cloudnativedays.jp/auth/auth0/callback", "http://localhost:8089/auth/auth0/callback", "http://localhost:8080/cndt2023/ui", "http://localhost:8089/cndt2023/ui", "http://localhost:8089"]
   cross_origin_auth                   = "false"
   custom_login_page_on                = "true"
   grant_types                         = ["authorization_code", "client_credentials", "implicit", "refresh_token"]
