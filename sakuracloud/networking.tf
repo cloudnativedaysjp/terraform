@@ -96,6 +96,11 @@ resource "sakuracloud_packet_filter_rules" "sentry_rules" {
   }
 
   expression {
+    protocol         = "tcp"
+    destination_port = "9090"
+  }
+
+  expression {
     protocol = "icmp"
   }
 
