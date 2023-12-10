@@ -3,6 +3,11 @@ resource "sakuracloud_packet_filter" "nextcloud" {
   description = "Packet filtering rules for nextcloud VM"
 }
 
+resource "sakuracloud_packet_filter" "sentry" {
+  name        = "sentry"
+  description = "Packet filtering rules for Sentry VM"
+}
+
 resource "sakuracloud_packet_filter" "sentry_redis" {
   name        = "sentry-redis"
   description = "Packet filtering rules for Sentry Redis VM"
@@ -76,6 +81,31 @@ resource "sakuracloud_packet_filter_rules" "nextcloud_rules" {
     description = "Deny ALL"
   }
 }
+
+resource "sakuracloud_packet_filter_rules" "sentry_rules" {
+  packet_filter_id = sakuracloud_packet_filter.sentry.id
+
+  expression {
+    protocol         = "tcp"
+    destination_port = "22"
+  }
+
+  expression {
+    protocol         = "tcp"
+    destination_port = "443"
+  }
+
+  expression {
+    protocol = "icmp"
+  }
+
+  expression {
+    protocol    = "ip"
+    allow       = false
+    description = "Deny ALL"
+  }
+}
+
 
 resource "sakuracloud_packet_filter_rules" "sentry_redis_rules" {
   packet_filter_id = sakuracloud_packet_filter.sentry_redis.id

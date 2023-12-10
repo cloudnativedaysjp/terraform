@@ -24,7 +24,8 @@ resource "sakuracloud_server" "sentry" {
   tags        = ["app=sentry", "stage=production", "starred"]
 
   network_interface {
-    upstream = "shared"
+    upstream         = "shared"
+    packet_filter_id = sakuracloud_packet_filter.sentry.id
   }
 
   network_interface {
