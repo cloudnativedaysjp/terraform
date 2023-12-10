@@ -78,12 +78,12 @@ resource "sakuracloud_server" "sentry_redis" {
   tags        = ["app=redis", "stage=production", "starred"]
 
   network_interface {
-    upstream = "shared"
+    upstream         = "shared"
+    packet_filter_id = sakuracloud_packet_filter.sentry_redis.id
   }
 
   network_interface {
-    upstream         = sakuracloud_switch.sentry.id
-    packet_filter_id = sakuracloud_packet_filter.sentry_redis.id
+    upstream = sakuracloud_switch.sentry.id
   }
 
   user_data = templatefile("./template/sentry-init.yaml", {
