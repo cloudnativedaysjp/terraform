@@ -32,18 +32,18 @@ resource "sakuracloud_server" "sentry" {
   }
 
   user_data = templatefile("./template/sentry-init.yaml", {
-    vm_password = random_password.password.result,
-    hostname    = "sentry"
-    secondary_ip = "192.168.0.200",
+    vm_password           = random_password.password.result,
+    hostname              = "sentry"
+    secondary_ip          = "192.168.0.200",
     broadcast_webhook_url = var.broadcast_webhook_url,
   })
 }
 
 resource "sakuracloud_disk" "sentry_docker_volume" {
-  name              = "sentry-docker-volume"
-  plan              = "ssd"
-  connector         = "virtio"
-  size              = 500
+  name      = "sentry-docker-volume"
+  plan      = "ssd"
+  connector = "virtio"
+  size      = 500
 
   lifecycle {
     ignore_changes = [
@@ -82,22 +82,23 @@ resource "sakuracloud_server" "sentry_redis" {
   }
 
   network_interface {
-    upstream = sakuracloud_switch.sentry.id
+    upstream         = sakuracloud_switch.sentry.id
+    packet_filter_id = sakuracloud_packet_filter.sentry_redis.id
   }
 
   user_data = templatefile("./template/sentry-init.yaml", {
-    vm_password = random_password.password.result,
-    hostname    = "sentry-redis",
-    secondary_ip = "192.168.0.201",
+    vm_password           = random_password.password.result,
+    hostname              = "sentry-redis",
+    secondary_ip          = "192.168.0.201",
     broadcast_webhook_url = var.broadcast_webhook_url,
   })
 }
 
 resource "sakuracloud_disk" "sentry_redis_docker_volume" {
-  name              = "sentry-redis-docker-volume"
-  plan              = "ssd"
-  connector         = "virtio"
-  size              = 250
+  name      = "sentry-redis-docker-volume"
+  plan      = "ssd"
+  connector = "virtio"
+  size      = 250
 
   lifecycle {
     ignore_changes = [

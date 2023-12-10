@@ -3,9 +3,9 @@ resource "sakuracloud_packet_filter" "nextcloud" {
   description = "Packet filtering rules for nextcloud VM"
 }
 
-resource "sakuracloud_packet_filter" "sentry_postgres" {
-  name        = "sentry-postgres"
-  description = "Packet filtering rules for Sentry PostgreSQL VM"
+resource "sakuracloud_packet_filter" "sentry_redis" {
+  name        = "sentry-redis"
+  description = "Packet filtering rules for Sentry Redis VM"
 }
 
 data "sakuracloud_switch" "switcher" {
@@ -77,8 +77,8 @@ resource "sakuracloud_packet_filter_rules" "nextcloud_rules" {
   }
 }
 
-resource "sakuracloud_packet_filter_rules" "sentry_postgres_rules" {
-  packet_filter_id = sakuracloud_packet_filter.sentry_postgres.id
+resource "sakuracloud_packet_filter_rules" "sentry_redis_rules" {
+  packet_filter_id = sakuracloud_packet_filter.sentry_redis.id
 
   expression {
     protocol         = "tcp"
