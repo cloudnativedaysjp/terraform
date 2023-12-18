@@ -21,7 +21,7 @@ resource "aws_route53_record" "loki" {
 
 resource "aws_route53_record" "prometheus" {
   zone_id = data.aws_route53_zone.cloudnativedays.zone_id
-  name    = "prometheus.cloudnativedays.jp"
+  name    = "prometheus.sakura.cloudnativedays.jp"
   type    = "A"
   ttl     = "300"
   records = [sakuracloud_server.prometheus.ip_address]
