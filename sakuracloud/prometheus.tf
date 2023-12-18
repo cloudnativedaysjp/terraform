@@ -28,6 +28,10 @@ resource "sakuracloud_server" "prometheus" {
     packet_filter_id = sakuracloud_packet_filter.prometheus.id
   }
 
+  network_interface {
+    upstream = sakuracloud_switch.sentry.id
+  }
+
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password           = random_password.password.result,
     hostname              = "prometheus",
