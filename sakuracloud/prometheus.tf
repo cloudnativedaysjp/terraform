@@ -29,8 +29,9 @@ resource "sakuracloud_server" "prometheus" {
   }
 
   user_data = templatefile("./template/sentry-init.yaml", {
-    vm_password = random_password.password.result,
-    hostname    = "prometheus",
+    vm_password           = random_password.password.result,
+    hostname              = "prometheus",
+    secondary_ip          = "192.168.0.202",
   })
 
   lifecycle {
