@@ -24,6 +24,7 @@ resource "sakuracloud_server" "loki" {
 
   network_interface {
     upstream = "shared"
+    packet_filter_id = sakuracloud_packet_filter.loki.id
   }
 
   user_data = templatefile("./template/cloud-init.yaml", {
