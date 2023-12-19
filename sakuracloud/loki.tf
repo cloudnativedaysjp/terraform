@@ -27,6 +27,10 @@ resource "sakuracloud_server" "loki" {
     packet_filter_id = sakuracloud_packet_filter.loki.id
   }
 
+  network_interface {
+    upstream = sakuracloud_switch.sentry.id
+  }
+
   user_data = templatefile("./template/cloud-init.yaml", {
     vm_password = random_password.password.result,
     hostname    = "loki",
