@@ -24,12 +24,17 @@ resource "sakuracloud_server" "loki" {
 
   network_interface {
     upstream = "shared"
+    packet_filter_id = sakuracloud_packet_filter.loki.id
   }
 
-  user_data = templatefile("./template/cloud-init.yaml", {
-    vm_password = random_password.password.result,
-    hostname    = "loki",
-    broadcast_webhook_url = var.broadcast_webhook_url,
+  network_interface {
+    upstream = sakuracloud_switch.sentry.id
+  }
+
+  user_data = templatefile("./template/sentry-init.yaml", {
+    vm_password           = random_password.password.result,
+    hostname              = "loki",
+    secondary_ip          = "192.168.0.203",
   })
 
   lifecycle {

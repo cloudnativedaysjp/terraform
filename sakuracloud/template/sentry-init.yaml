@@ -1,11 +1,11 @@
 #cloud-config
-fqdn: ${hostname} 
+fqdn: ${hostname}
 chpasswd:
     list: |
       ubuntu:${vm_password}
     expire: false
 users:
-  - default 
+  - default
   - name: ubuntu
     gecos: Local
     lock_passwd: false
@@ -27,7 +27,7 @@ users:
     - gh:ureuzy
     - gh:shukawam
     - gh:ryusuketesaki
-system_info: 
+system_info:
   default_user:
     name: default-user
     lock_passwd: false
@@ -70,4 +70,3 @@ runcmd:
         version: 2
     EOF
   - sudo netplan apply
-
