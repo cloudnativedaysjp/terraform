@@ -1,6 +1,6 @@
 resource "sakuracloud_disk" "prometheus_boot" {
   name              = "prometheus"
-  source_archive_id = data.sakuracloud_archive.ubuntu.id
+  source_archive_id = data.sakuracloud_archive.ubuntu22042.id
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
