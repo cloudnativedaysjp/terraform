@@ -1,9 +1,11 @@
 #cloud-config
 fqdn: ${hostname}
 chpasswd:
-    list: |
-      ubuntu:${vm_password}
     expire: false
+    users:
+      - name: ubuntu
+        password: ${vm_password}
+        type: text
 users:
   - default
   - name: ubuntu
@@ -14,15 +16,7 @@ users:
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh_import_id:
     - gh:jacopen
-    - gh:TakumaNakagame
-    - gh:capsmalt
-    - gh:Gaku-Kunimi
     - gh:inductor
-    - gh:tanayan299
-    - gh:onarada
-    - gh:ijokarumawak
-    - gh:tkc66-buzz
-    - gh:morimorikun51
     - gh:b1gb4by
     - gh:ureuzy
     - gh:shukawam
@@ -49,16 +43,17 @@ packages:
   - dstat
 runcmd:
   - sudo install -m 0755 -d /etc/apt/keyrings
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-  - sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  - sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  - sudo chmod a+r /etc/apt/keyrings/docker.asc
   - |
     echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
       $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
       sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   - sudo apt-get update
-  - sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-  - sudo gpasswd -a $USER docker
+  - sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  - sudo groupadd docker
+  - sudo usermod -aG docker ubuntu
   - |
     cat - << EOF | sudo tee /etc/netplan/51-secondary-nic.yaml
     network:
