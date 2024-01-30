@@ -4,12 +4,6 @@ resource "sakuracloud_disk" "prometheus_boot" {
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
-
-  lifecycle {
-    ignore_changes = [
-      source_archive_id,
-    ]
-  }
 }
 
 resource "sakuracloud_server" "prometheus" {
