@@ -17,7 +17,7 @@ resource "sakuracloud_server" "loki" {
   name = "loki"
   disks = [
     sakuracloud_disk.loki_boot.id,
-    sakuracloud_disk.loki_docker_volume
+    sakuracloud_disk.loki_docker_volume.id
   ]
   core        = 4
   memory      = 8
