@@ -1,21 +1,23 @@
 resource "sakuracloud_disk" "loki_boot" {
   name              = "loki"
-  source_archive_id = data.sakuracloud_archive.ubuntu.id
+  source_archive_id = data.sakuracloud_archive.ubuntu22042.id
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
+}
 
-  lifecycle {
-    ignore_changes = [
-      source_archive_id,
-    ]
-  }
+resource "sakuracloud_disk" "loki_docker_volume" {
+  name      = "loki-docker-volume"
+  plan      = "ssd"
+  connector = "virtio"
+  size      = 100
 }
 
 resource "sakuracloud_server" "loki" {
   name = "loki"
   disks = [
     sakuracloud_disk.loki_boot.id,
+    sakuracloud_disk.loki_docker_volume.id
   ]
   core        = 4
   memory      = 8
