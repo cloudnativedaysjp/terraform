@@ -55,16 +55,11 @@ resource "sakuracloud_disk" "sentry_docker_volume" {
 
 resource "sakuracloud_disk" "sentry_redis_boot" {
   name              = "sentry-redis-boot"
-  source_archive_id = data.sakuracloud_archive.ubuntu2204.id
+  source_archive_id = data.sakuracloud_archive.ubuntu22042.id
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
 
-  lifecycle {
-    ignore_changes = [
-      source_archive_id,
-    ]
-  }
 }
 
 resource "sakuracloud_server" "sentry_redis" {
@@ -101,9 +96,4 @@ resource "sakuracloud_disk" "sentry_redis_docker_volume" {
   connector = "virtio"
   size      = 250
 
-  lifecycle {
-    ignore_changes = [
-      source_archive_id,
-    ]
-  }
 }
