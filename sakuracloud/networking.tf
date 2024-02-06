@@ -102,6 +102,11 @@ resource "sakuracloud_packet_filter_rules" "sentry_rules" {
 
   expression {
     protocol         = "tcp"
+    destination_port = "80"
+  }
+
+  expression {
+    protocol         = "tcp"
     destination_port = "443"
   }
 
