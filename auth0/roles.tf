@@ -6,6 +6,7 @@ locals {
     "O11Y2022-Speakers",
     "CNDF2023-Admin",
     "CNDT2023-Admin",
+    "CNDS2024-Admin",
   ]
 }
 
