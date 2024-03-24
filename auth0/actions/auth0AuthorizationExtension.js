@@ -1,4 +1,4 @@
-function (user, context, callback) {
+exports.onExecutePostLogin = async (event, api) => {
   var _ = require('lodash');
   var EXTENSION_URL = "https://dreamkast.us.webtask.run/adf6e2f2b84784b57522e3b19dfc9201";
 
@@ -27,7 +27,7 @@ function (user, context, callback) {
     }
 
     // Update the user object.
-    user.groups = data.groups;
+    event.user.groups = data.groups;
 
     return callback(null, user, context);
   });
@@ -44,13 +44,13 @@ function (user, context, callback) {
   // Get the policy for the user.
   function getPolicy(user, context, cb) {
     request.post({
-      url: EXTENSION_URL + "/api/users/" + user.user_id + "/policy/" + context.clientID,
+      url: EXTENSION_URL + "/api/users/" + event.user.user_id + "/policy/" + context.clientID,
       headers: {
         "x-api-key": configuration.AUTHZ_EXT_API_KEY
       },
       json: {
-        connectionName: context.connection || user.identities[0].connection,
-        groups: parseGroups(user.groups)
+        connectionName: context.connection || event.user.identities[0].connection,
+        groups: parseGroups(event.user.groups)
       },
       timeout: 5000
     }, cb);

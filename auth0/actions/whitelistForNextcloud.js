@@ -1,4 +1,4 @@
-function (user, context, callback) {
+exports.onExecutePostLogin = async (event, api) => {
   // only enforce for NameOfTheAppWithWhiteList
   // bypass this rule for all other apps
   if(context.clientID !== 'Ivee5RoyvPB8PcUdiLZqPnGZSmixkK5N'){
@@ -6,13 +6,13 @@ function (user, context, callback) {
   }
 
   // Access should only be granted to verified users.
-  if (!user.email || !user.email_verified) {
+  if (!event.user.email || !event.user.email_verified) {
     return callback(new UnauthorizedError('Access denied.'));
   }
 
   const whitelist = [ 'admin', 'dreamkast-core', 'broadcast-core', 'creators', 'general' ]; // authorized groups
   const userHasAccess = whitelist.some(function (group) {
-    return user.groups.includes(group);
+    return event.user.groups.includes(group);
   });
 
   if (!userHasAccess) {

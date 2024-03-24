@@ -1,4 +1,4 @@
-function (user, context, callback) {
+exports.onExecutePostLogin = async (event, api) =>  {
   const namespace = 'https://cloudnativedays.jp/';
   const assignedRoles = (context.authorization || {}).roles;
   context.accessToken[namespace + 'roles'] = assignedRoles;

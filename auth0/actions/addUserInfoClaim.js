@@ -1,14 +1,14 @@
-function addUserInfoClaim(user, context, callback) {
+exports.onExecutePostLogin = async (event, api) =>  {
   const namespace = 'https://cloudnativedays.jp/';
   context.accessToken[namespace + 'userinfo'] = {
-    name: user.name,
-    family_name: user.family_name,
-    given_name: user.given_name,
-    nickname: user.nickname,
-    picture: user.picture,
-    email: user.email,
-    email_verified: user.email_verified,
-    locale: user.locale,
+    name: event.user.name,
+    family_name: event.user.family_name,
+    given_name: event.user.given_name,
+    nickname: event.user.nickname,
+    picture: event.user.picture,
+    email: event.user.email,
+    email_verified: event.user.email_verified,
+    locale: event.user.locale,
   };
   return callback(null, user, context);
 }
