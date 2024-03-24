@@ -41,11 +41,13 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket_lifecycle" {
 #  Archiveデータ削減のためのライフサイクル
 # ------------------------------------------------------------#
 data "aws_s3_bucket" "archive" {
-  bucket = "dreamkast-archive-stg"
+  provider = aws.ap-northeast-1
+  bucket   = "dreamkast-archive-stg"
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "archive" {
-  bucket = data.aws_s3_bucket.archive.id
+  provider = aws.ap-northeast-1
+  bucket   = data.aws_s3_bucket.archive.id
   rule {
     id     = "ArchiveObjectRule"
     status = "Enabled"
