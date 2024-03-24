@@ -1,0 +1,7 @@
+function (user, context, callback) {
+  var namespace = 'https://cloudnativedays.jp/claims/'; // You can set your own namespace, but do not use an Auth0 domain
+
+  context.idToken[namespace + "groups"] = user.groups;
+  
+  callback(null, user, context);
+}
