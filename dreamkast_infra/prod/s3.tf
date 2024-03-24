@@ -46,3 +46,21 @@ resource "aws_vpc_endpoint" "s3" {
   service_name    = "com.amazonaws.${data.aws_region.current.name}.s3"
   route_table_ids = module.vpc.private_route_table_ids
 }
+
+# ------------------------------------------------------------#
+#  Archiveデータ削減のためのライフサイクル
+# ------------------------------------------------------------#
+data "aws_s3_bucket" "archive" {
+  bucket = "dreamkast-archive-stg"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "archive" {
+  bucket = data.aws_s3_bucket.archive.id
+  rule {
+    id     = "ArchiveObjectRule"
+    status = "Enabled"
+    expiration {
+      expired_object_delete_marker = true
+    }
+  }
+}
