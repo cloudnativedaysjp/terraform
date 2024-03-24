@@ -60,7 +60,7 @@ function (user, context, callback) {
     },
     token: {
       clientId: '9xGK1rAjX2ixlWVWhE0Ycva14B6PQhiH',
-      clientSecret: 'B8HX22H4-N58ps7vHGYmGvqS7M3W5pKeEskuElU4K49fW_TltVBLNGr_ut7SHo63',
+      clientSecret: configuration.ACCOUNT_LINK_CLIENT_SECRET,
       issuer: auth0.domain
     }
   };
