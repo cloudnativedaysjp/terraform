@@ -8,6 +8,7 @@ module "eks" {
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
   enable_irsa     = true
+  cluster_enabled_log_types = ["api", "authenticator" ]
 
   # https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/eks-add-ons.html
   cluster_addons = {
