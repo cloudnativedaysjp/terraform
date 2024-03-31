@@ -101,17 +101,17 @@ resource "auth0_action" "auth0_account_link_extension" {
   # "M2M_CLIENT_ID": "The ID of auth0-account-link app",
   # "M2M_CLIENT_SECRET": "The SECRET of auth0-account-link app"
   secrets {
-    name = "AUTH0_DOMAIN"
-    value = "dreamkast.us"
-  }
-  secrets {
     # Use terraform client since the client must have the permission to update user_metadata
     name = "APP_CLIENT_ID"
-    value = "WF6mejuYuwqeb8cMVeX0bHmpYAFzHLSn"
+    value = data.auth0_client.terraform.client_id
   }
   secrets {
     name = "APP_CLIENT_SECRET"
-    value = "TODO"
+    value = data.auth0_client.terraform.client_secret
+  }
+  secrets {
+    name = "AUTH0_DOMAIN"
+    value = "dreamkast.us"
   }
   secrets {
     name = "BASE_URL"
@@ -119,11 +119,11 @@ resource "auth0_action" "auth0_account_link_extension" {
   }
   secrets {
     name = "M2M_CLIENT_ID"
-    value = "9xGK1rAjX2ixlWVWhE0Ycva14B6PQhiH"
+    value = data.auth0_client.auth0_account_link.client_id
   }
   secrets {
     name = "M2M_CLIENT_SECRET"
-    value = "TODO"
+    value = data.auth0_client.auth0_account_link.client_secret
   }
 
 }
