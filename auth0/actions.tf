@@ -28,21 +28,6 @@ resource "auth0_action" "add_userinfo_claim" {
   }
 }
 
-data "local_file" "argocd_group_claim_handler" {
-  filename = "actions/argocdGroupClaim.js"
-}
-
-resource "auth0_action" "argocd_group_claim" {
-  name = "argocd-group-claim"
-  runtime = "node18"
-  code = data.local_file.argocd_group_claim_handler.content
-
-  supported_triggers {
-    id      = "post-login"
-    version = "v3"
-  }
-}
-
 data "local_file" "assign_role_aws_handler" {
   filename = "actions/assignRoleAWS.js"
 }
@@ -141,22 +126,33 @@ resource "auth0_action" "auth0_authorization_extension" {
     id      = "post-login"
     version = "v3"
   }
-}
 
-data "local_file" "saml_attributes_mapping_handler" {
-  filename = "actions/samlAttributesMapping.js"
-}
+  dependencies {
+    name = "axios"
+    version = "1.5.1"
+  }
 
-resource "auth0_action" "saml_attributes_mapping" {
-  name = "saml-attributes-mapping"
-  runtime = "node18"
-  code = data.local_file.saml_attributes_mapping_handler.content
-
-  supported_triggers {
-    id      = "post-login"
-    version = "v3"
+  secrets {
+    name = "AUTHZ_EXT_API_KEY"
+    value = "TODO"
   }
 }
+
+# NOTE: This Action migrated from old Auth0 Rule but it's currently not used
+# data "local_file" "saml_attributes_mapping_handler" {
+#   filename = "actions/samlAttributesMapping.js"
+# }
+
+# resource "auth0_action" "saml_attributes_mapping" {
+#   name = "saml-attributes-mapping"
+#   runtime = "node18"
+#   code = data.local_file.saml_attributes_mapping_handler.content
+
+#   supported_triggers {
+#     id      = "post-login"
+#     version = "v3"
+#   }
+# }
 
 data "local_file" "whitelist_for_nextcloud_handler" {
   filename = "actions/whitelistForNextcloud.js"
@@ -183,8 +179,7 @@ resource "auth0_trigger_actions" "login_flow" {
       auth0_action.add_userinfo_claim,
       auth0_action.auth0_account_link_extension,
       auth0_action.auth0_authorization_extension,
-      auth0_action.argocd_group_claim,
-      auth0_action.saml_attributes_mapping,
+      # auth0_action.saml_attributes_mapping,
       auth0_action.whitelist_for_nextcloud,
       auth0_action.assign_role_aws,
     ]
