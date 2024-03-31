@@ -71,6 +71,61 @@ resource "auth0_action" "auth0_account_link_extension" {
     id      = "post-login"
     version = "v3"
   }
+
+  # ref: https://github.com/auth0-extensions/auth0-account-link-extension/issues/165#issuecomment-1753005657
+  dependencies {
+    name = "request"
+    version = "2.56.0"
+  }
+  dependencies {
+    name = "axios"
+    version = "1.5.1"
+  }
+  dependencies {
+    name = "query-string"
+    version = "9.0.0"
+  }
+  dependencies {
+    name = "native-or-bluebird"
+    version = "1.2.0"
+  }
+  dependencies {
+    name = "jsonwebtoken"
+    version = "7.1.9"
+  }
+
+  # "APP_CLIENT_ID": "The ID of web app making the link between the user identities in the end",
+  # "APP_CLIENT_SECRET": "The SECRET of web app making the link between the user identities in the end",
+  # "AUTH0_DOMAIN": "dev-xxxxxx.us" or something similar, without leading https:// and without trailing .com
+  # "BASE_URL": "https://dev-xxxxxx.us.auth0.com/api/v2",
+  # "M2M_CLIENT_ID": "The ID of auth0-account-link app",
+  # "M2M_CLIENT_SECRET": "The SECRET of auth0-account-link app"
+  secrets {
+    name = "AUTH0_DOMAIN"
+    value = "dreamkast.us"
+  }
+  secrets {
+    # Use terraform client since the client must have the permission to update user_metadata
+    name = "APP_CLIENT_ID"
+    value = "WF6mejuYuwqeb8cMVeX0bHmpYAFzHLSn"
+  }
+  secrets {
+    name = "APP_CLIENT_SECRET"
+    value = "TODO"
+  }
+  secrets {
+    name = "BASE_URL"
+    value = "https://dreamkast.us.auth0.com/api/v2"
+  }
+  secrets {
+    name = "M2M_CLIENT_ID"
+    value = "9xGK1rAjX2ixlWVWhE0Ycva14B6PQhiH"
+  }
+  secrets {
+    name = "M2M_CLIENT_SECRET"
+    value = "TODO"
+  }
+
 }
 
 data "local_file" "auth0_authorization_extension_handler" {
