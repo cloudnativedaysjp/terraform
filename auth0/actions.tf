@@ -134,7 +134,7 @@ resource "auth0_action" "auth0_authorization_extension" {
 
   secrets {
     name = "AUTHZ_EXT_API_KEY"
-    value = "TODO"
+    value = var.authz_ext_api_key
   }
 }
 
