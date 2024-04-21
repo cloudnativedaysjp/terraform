@@ -179,9 +179,7 @@ resource "auth0_trigger_actions" "login_flow" {
       auth0_action.add_userinfo_claim,
       auth0_action.auth0_account_link_extension,
       auth0_action.auth0_authorization_extension,
-      # auth0_action.saml_attributes_mapping,
       auth0_action.whitelist_for_nextcloud,
-      auth0_action.assign_role_aws,
     ]
 
     content {

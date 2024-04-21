@@ -26,7 +26,7 @@ exports.onExecutePostLogin = async (event, api) => {
     return api.access.deny('Authorization Extension: ' + ((res.body && (res.body.message || res.body) || res.statusCode)));
   }
 
-  // set as custom claim for authorization by groups at ArgoCD
+  // set as custom claim for authorization by groups
   api.idToken.setCustomClaim(namespace + 'groups', res.data.groups);
   return
 }
