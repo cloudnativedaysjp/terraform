@@ -3,9 +3,9 @@ data "local_file" "add_role_to_id_token_handler" {
 }
 
 resource "auth0_action" "add_role_to_id_token" {
-  name = "add-role-to-id-token"
+  name    = "add-role-to-id-token"
   runtime = "node18"
-  code = data.local_file.add_role_to_id_token_handler.content
+  code    = data.local_file.add_role_to_id_token_handler.content
 
   supported_triggers {
     id      = "post-login"
@@ -18,9 +18,9 @@ data "local_file" "add_userinfo_claim_handler" {
 }
 
 resource "auth0_action" "add_userinfo_claim" {
-  name = "add-userinfo-claim"
+  name    = "add-userinfo-claim"
   runtime = "node18"
-  code = data.local_file.add_userinfo_claim_handler.content
+  code    = data.local_file.add_userinfo_claim_handler.content
 
   supported_triggers {
     id      = "post-login"
@@ -33,9 +33,9 @@ data "local_file" "assign_role_aws_handler" {
 }
 
 resource "auth0_action" "assign_role_aws" {
-  name = "assign-role-aws"
+  name    = "assign-role-aws"
   runtime = "node18"
-  code = data.local_file.assign_role_aws_handler.content
+  code    = data.local_file.assign_role_aws_handler.content
 
   supported_triggers {
     id      = "post-login"
@@ -48,9 +48,9 @@ data "local_file" "auth0_account_link_extension_handler" {
 }
 
 resource "auth0_action" "auth0_account_link_extension" {
-  name = "auth0-account-link-extension"
+  name    = "auth0-account-link-extension"
   runtime = "node18"
-  code = data.local_file.auth0_account_link_extension_handler.content
+  code    = data.local_file.auth0_account_link_extension_handler.content
 
   supported_triggers {
     id      = "post-login"
@@ -59,23 +59,23 @@ resource "auth0_action" "auth0_account_link_extension" {
 
   # ref: https://github.com/auth0-extensions/auth0-account-link-extension/issues/165#issuecomment-1753005657
   dependencies {
-    name = "request"
+    name    = "request"
     version = "2.56.0"
   }
   dependencies {
-    name = "axios"
+    name    = "axios"
     version = "1.5.1"
   }
   dependencies {
-    name = "query-string"
+    name    = "query-string"
     version = "9.0.0"
   }
   dependencies {
-    name = "native-or-bluebird"
+    name    = "native-or-bluebird"
     version = "1.2.0"
   }
   dependencies {
-    name = "jsonwebtoken"
+    name    = "jsonwebtoken"
     version = "7.1.9"
   }
 
@@ -87,27 +87,27 @@ resource "auth0_action" "auth0_account_link_extension" {
   # "M2M_CLIENT_SECRET": "The SECRET of auth0-account-link app"
   secrets {
     # Use terraform client since the client must have the permission to update user_metadata
-    name = "APP_CLIENT_ID"
+    name  = "APP_CLIENT_ID"
     value = data.auth0_client.terraform.client_id
   }
   secrets {
-    name = "APP_CLIENT_SECRET"
+    name  = "APP_CLIENT_SECRET"
     value = data.auth0_client.terraform.client_secret
   }
   secrets {
-    name = "AUTH0_DOMAIN"
+    name  = "AUTH0_DOMAIN"
     value = "dreamkast.us"
   }
   secrets {
-    name = "BASE_URL"
+    name  = "BASE_URL"
     value = "https://dreamkast.us.auth0.com/api/v2"
   }
   secrets {
-    name = "M2M_CLIENT_ID"
+    name  = "M2M_CLIENT_ID"
     value = data.auth0_client.auth0_account_link.client_id
   }
   secrets {
-    name = "M2M_CLIENT_SECRET"
+    name  = "M2M_CLIENT_SECRET"
     value = data.auth0_client.auth0_account_link.client_secret
   }
 
@@ -118,9 +118,9 @@ data "local_file" "auth0_authorization_extension_handler" {
 }
 
 resource "auth0_action" "auth0_authorization_extension" {
-  name = "auth0-authorization-extension"
+  name    = "auth0-authorization-extension"
   runtime = "node18"
-  code = data.local_file.auth0_authorization_extension_handler.content
+  code    = data.local_file.auth0_authorization_extension_handler.content
 
   supported_triggers {
     id      = "post-login"
@@ -128,12 +128,12 @@ resource "auth0_action" "auth0_authorization_extension" {
   }
 
   dependencies {
-    name = "axios"
+    name    = "axios"
     version = "1.5.1"
   }
 
   secrets {
-    name = "AUTHZ_EXT_API_KEY"
+    name  = "AUTHZ_EXT_API_KEY"
     value = var.authz_ext_api_key
   }
 }
@@ -159,9 +159,9 @@ data "local_file" "whitelist_for_nextcloud_handler" {
 }
 
 resource "auth0_action" "whitelist_for_nextcloud" {
-  name = "whitelist-for-nextcloud"
+  name    = "whitelist-for-nextcloud"
   runtime = "node18"
-  code = data.local_file.whitelist_for_nextcloud_handler.content
+  code    = data.local_file.whitelist_for_nextcloud_handler.content
 
   supported_triggers {
     id      = "post-login"
@@ -185,7 +185,7 @@ resource "auth0_trigger_actions" "login_flow" {
     ]
 
     content {
-      id = actions.value.id
+      id           = actions.value.id
       display_name = actions.value.name
     }
   }
