@@ -4,6 +4,10 @@
 #   content_based_deduplication = false
 #   delay_seconds               = 0
 #   message_retention_seconds   = 60
+#
+#   tags = {
+#     Environment = "${var.prj_prefix}"
+#   }
 # }
 
 resource "aws_sqs_queue" "fifo_queue" {
@@ -12,4 +16,8 @@ resource "aws_sqs_queue" "fifo_queue" {
   content_based_deduplication = false
   delay_seconds               = 0
   message_retention_seconds   = 60
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
 }

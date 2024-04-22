@@ -61,6 +61,7 @@ resource "aws_security_group" "allow_rds" {
 
   tags = {
     Name = "${var.prj_prefix}-${var.db_instance_name}-sg"
+    #Environment = "${var.common_prefix}"
   }
 }
 
@@ -100,7 +101,10 @@ resource "aws_db_instance" "rds_instance" {
   copy_tags_to_snapshot      = true
   skip_final_snapshot        = true
 
-  tags = { Name = "${var.db_instance_name}" }
+  tags = {
+    Name = "${var.db_instance_name}"
+    #Environment = "${var.common_prefix}"
+  }
 }
 
 # ------------------------------------------------------------#
@@ -110,6 +114,10 @@ resource "aws_db_instance" "rds_instance" {
 resource "aws_secretsmanager_secret" "rds-secret" {
   name        = "${var.prj_prefix}-rds-secret"
   description = "This is a Secrets Manager secret for an RDS DB instance"
+
+  #tags = {
+  #  Environment = "${var.common_prefix}"
+  #}
 }
 
 resource "aws_secretsmanager_secret_version" "db-pass-val" {

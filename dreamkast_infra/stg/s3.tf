@@ -2,10 +2,11 @@
 # S3 Bucket
 # ------------------------------------------------------------#
 resource "aws_s3_bucket" "bucket" {
-  bucket = "${var.prj_prefix}-${var.s3_bucket_name}"
+  bucket = "${var.prj_prefix}-bucket"
 
   tags = {
-    Name = "${var.prj_prefix}-${var.s3_bucket_name}"
+    Name = "${var.prj_prefix}-bucket"
+    #Environment = "${var.prj_prefix}"
   }
 }
 
@@ -33,9 +34,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket_lifecycle" {
       days = 7
     }
   }
-
 }
-
 
 # ------------------------------------------------------------#
 #  Archiveデータ削減のためのライフサイクル
@@ -53,6 +52,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "archive" {
     status = "Enabled"
     expiration {
       expired_object_delete_marker = true
+    }
+    noncurrent_version_expiration {
+      noncurrent_days = 1
     }
   }
 }
