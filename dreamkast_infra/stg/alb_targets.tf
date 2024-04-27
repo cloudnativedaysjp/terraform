@@ -42,22 +42,6 @@ resource "aws_lb_target_group" "dreamkast_dk" {
   }
 }
 
-resource "aws_service_discovery_service" "dreamkast_dk" {
-  name = "dreamkast"
-  dns_config {
-    namespace_id = "${aws_service_discovery_private_dns_namespace.dreamkast_staging.id}"
-    dns_records {
-      ttl  = 10
-      type = "A"
-    }
-    routing_policy = "MULTIVALUE"
-  }
-  health_check_custom_config {
-    failure_threshold = 1
-  }
-}
-
-
 # ------------------------------------------------------------#
 # for dreamkast-ui
 # ------------------------------------------------------------#
@@ -135,23 +119,5 @@ resource "aws_lb_target_group" "dreamkast_weaver" {
     timeout             = 5
     interval            = 30
     matcher             = 200
-  }
-}
-
-# ------------------------------------------------------------#
-# for Redis
-# ------------------------------------------------------------#
-resource "aws_service_discovery_service" "redis" {
-  name = "redis"
-  dns_config {
-    namespace_id = "${aws_service_discovery_private_dns_namespace.dreamkast_staging.id}"
-    dns_records {
-      ttl  = 10
-      type = "A"
-    }
-    routing_policy = "MULTIVALUE"
-  }
-  health_check_custom_config {
-    failure_threshold = 1
   }
 }

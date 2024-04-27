@@ -309,3 +309,45 @@ resource "aws_security_group" "ecs-redis" {
   #  Environment = "${var.prj_prefix}"
   #}
 }
+
+# ------------------------------------------------------------#
+# for mysql
+# ------------------------------------------------------------#
+resource "aws_iam_role" "ecs-mysql" {
+  name = "${var.prj_prefix}-ecs-mysql"
+
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_ecs.json
+
+  managed_policy_arns = [
+    data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
+  ]
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+resource "aws_security_group" "ecs-mysql" {
+  name   = "${var.prj_prefix}-ecs-mysql"
+  vpc_id = module.vpc.vpc_id
+
+  ingress {
+    description = "tcp/3306"
+    protocol    = "tcp"
+    from_port   = 3306
+    to_port     = 3306
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description = "allow all"
+    protocol    = "all"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}

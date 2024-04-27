@@ -52,6 +52,36 @@ data "aws_subnet" "dreamkast_dev_public" {
 #  Service Discovery
 # ------------------------------------------------------------#
 resource "aws_service_discovery_private_dns_namespace" "dreamkast_staging" {
-  name        = "staging.local"
-  vpc         = data.aws_vpc.dreamkast_dev_vpc.id
+  name = "staging.local"
+  vpc  = data.aws_vpc.dreamkast_dev_vpc.id
+}
+
+resource "aws_service_discovery_service" "dreamkast_dk" {
+  name = "dreamkast"
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.dreamkast_staging.id
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
+    routing_policy = "MULTIVALUE"
+  }
+  health_check_custom_config {
+    failure_threshold = 1
+  }
+}
+
+resource "aws_service_discovery_service" "redis" {
+  name = "redis"
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.dreamkast_staging.id
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
+    routing_policy = "MULTIVALUE"
+  }
+  health_check_custom_config {
+    failure_threshold = 1
+  }
 }
