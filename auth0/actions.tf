@@ -68,7 +68,7 @@ resource "auth0_action" "auth0_account_link_extension" {
   }
   dependencies {
     name    = "query-string"
-    version = "9.0.0"
+    version = "0.2.1"
   }
   dependencies {
     name    = "native-or-bluebird"

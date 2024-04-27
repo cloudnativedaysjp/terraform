@@ -1,6 +1,6 @@
 // Copied from https://github.com/auth0-extensions/auth0-account-link-extension/issues/165#issuecomment-1753005657
 const request = require("request");
-const queryString = require("query-string");
+const queryString = require("querystring");
 const Promise = require("native-or-bluebird");
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
@@ -35,15 +35,18 @@ exports.onExecutePostLogin = async (event, api) => {
 
   async function createStrategy() {
     if (shouldLink()) {
+      console.log(LOG_TAG, 'should link');
       await setManagementAccessToken(true);
       return linkAccounts();
     }
 
     if (shouldPrompt()) {
+      console.log(LOG_TAG, 'should prompt');
       await setManagementAccessToken(false);
       return promptUser();
     }
 
+    console.log(LOG_TAG, 'link and prompt are not needed');
     return continueAuth();
 
     function shouldLink() {
@@ -122,54 +125,51 @@ exports.onExecutePostLogin = async (event, api) => {
     });
   }
 
-  function linkAccounts() {
+  async function linkAccounts() {
     var secondAccountToken = event.request.query.link_account_token;
 
-    return verifyToken(secondAccountToken, config.token.clientSecret)
-      .then(function(decodedToken) {
-        // Redirect early if tokens are mismatched
-        if (event.user.email !== decodedToken.email) {
-          console.error(LOG_TAG, 'User: ', decodedToken.email, 'tried to link to account ', event.user.email);
-          event.redirect = {
-            url: buildRedirectUrl(secondAccountToken, event.request.query, 'accountMismatch')
-          };
+    const decodedToken = await verifyToken(secondAccountToken, config.token.clientSecret)
+    // Redirect early if tokens are mismatched
+    if (event.user.email !== decodedToken.email) {
+      console.error(LOG_TAG, 'User: ', decodedToken.email, 'tried to link to account ', event.user.email);
+      event.redirect = {
+        url: buildRedirectUrl(secondAccountToken, event.request.query, 'accountMismatch')
+      };
 
-          return event.user;
-        }
+      return event.user;
+    }
 
-        var headers = {
-          Authorization: 'Bearer ' + Auth0ManagementAccessToken,
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache'
-        };
+    var headers = {
+      Authorization: 'Bearer ' + Auth0ManagementAccessToken,
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache'
+    };
+    var getUrl = config.endpoints.userApi+'/'+decodedToken.sub+'?fields=identities';
 
-        var getUrl = config.endpoints.userApi+'/'+decodedToken.sub+'?fields=identities';
+    const secondaryUser = await apiCall({
+      method: 'GET',
+      url: getUrl,
+      headers: headers
+    })
+    if (!secondaryUser){
+      console.error(LOG_TAG, "failed to get secondary user: " + getUrl);
+      return api.access.deny("failed to get secondary user: " + getUrl);
+    }
 
-        return apiCall({
-          method: 'GET',
-          url: getUrl,
-          headers: headers
-        })
-          .then(function(secondaryUser) {
-            var provider = secondaryUser &&
-              secondaryUser.identities &&
-              secondaryUser.identities[0] &&
-              secondaryUser.identities[0].provider;
+    var provider = secondaryUser &&
+      secondaryUser.identities &&
+      secondaryUser.identities[0] &&
+      secondaryUser.identities[0].provider;
 
-            var linkUri = config.endpoints.userApi + '/' + event.user.user_id + '/identities';
+    var linkUri = config.endpoints.userApi + '/' + event.user.user_id + '/identities';
 
-            return apiCall({
-              method: 'POST',
-              url: linkUri,
-              headers,
-              json: { user_id: decodedToken.sub, provider: provider }
-            });
-          })
-          .then(function(_) {
-            console.info(LOG_TAG, 'Successfully linked accounts for user: ', event.user.email);
-            return _;
-          });
-      });
+    await apiCall({
+      method: 'POST',
+      url: linkUri,
+      headers,
+      json: { user_id: decodedToken.sub, provider: provider }
+    });
+    console.info(LOG_TAG, 'Successfully linked accounts for user: ', event.user.email);
   }
 
   function continueAuth() {
