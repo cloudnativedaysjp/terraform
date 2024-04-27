@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 exports.onExecutePostLogin = async (event, api) => {
-  const namespace = 'https://cloudnativedays.jp/';
+  const namespace = 'https://cloudnativedays.jp/claims/';
 
   let audience = '';
   audience = audience || (event.request && event.request.query && event.request.query.audience);
@@ -21,37 +21,37 @@ exports.onExecutePostLogin = async (event, api) => {
     console.log('Error from Authorization Extension:', err);
     return api.access.deny('Authorization Extension: ' + err);
   }
-  if (res.statusCode !== 200) {
-    console.log('Error from Authorization Extension:', res.body || res.statusCode);
-    return api.access.deny('Authorization Extension: ' + ((res.body && (res.body.message || res.body) || res.statusCode)));
+  if (res.status !== 200) {
+    console.log('Error from Authorization Extension:', res.status, res.data);
+    return api.access.deny('Authorization Extension: ', res.status, (res.data && res.data.message) || res.data);
   }
 
-  // set as custom claim for authorization by groups
+  // set groups as custom claim for authorization by groups
   api.idToken.setCustomClaim(namespace + 'groups', res.data.groups);
-  return
-}
 
-// Convert groups to array
-function parseGroups(data) {
-  if (typeof data === 'string') {
-    // split groups represented as string by spaces and/or comma
-    return data.replace(/,/g, ' ').replace(/\s+/g, ' ').split(' ');
-  }
-  return data;
+  // set groups to user_data for consequent actions
+  api.user.setUserMetadata('groups', res.data.groups);
+  return
 }
 
 async function getPolicy(event) {
   const extensionUrl = "https://dreamkast.us.webtask.run/adf6e2f2b84784b57522e3b19dfc9201";
+  console.log("url: ", extensionUrl + "/api/users/" + event.user.user_id + "/policy/" + event.client.client_id)
+  console.log("x-api-key: ", event.secrets.AUTHZ_EXT_API_KEY.slice(0,5))
+  console.log("data", {
+    connectionName: event.connection.name || event.user.identities[0].connection.name,
+    groups: []
+  })
   return await axios.request({
     method: 'POST',
-    url: extensionUrl + "/api/users/" + event.user.user_id + "/policy/" + event.clientID,
+    url: extensionUrl + "/api/users/" + event.user.user_id + "/policy/" + event.client.client_id,
     headers: {
       "x-api-key": event.secrets.AUTHZ_EXT_API_KEY,
       "content-type": "application/json"
     },
     data: {
-      connectionName: event.connection || event.user.identities[0].connection,
-      groups: parseGroups(event.user.groups)
+      connectionName: event.connection.name || event.user.identities[0].connection.name,
+      groups: []
     },
     timeout: 5000
   })

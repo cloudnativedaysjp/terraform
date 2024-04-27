@@ -8,14 +8,14 @@ exports.onExecutePostLogin = async (event, api) => {
 
   // Access should only be granted to verified users.
   if (!event.user.email || !event.user.email_verified) {
-    return api.access.deny('Access denied.')
+    return api.access.deny('Access denied.');
   }
 
-  const groups = event.user.id_token[namespace + 'groups'];
+  const groups = event.user.user_metadata['groups'];
   const whitelist = [ 'admin', 'dreamkast-core', 'broadcast-core', 'creators', 'general' ]; // authorized groups
 
   const userHasAccess = whitelist.some((allowed) => groups.includes(allowed));
   if (!userHasAccess) {
-    return api.access.deny('Access denied.')
+    return api.access.deny('Access denied.');
   }
 }
