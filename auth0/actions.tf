@@ -67,7 +67,7 @@ resource "auth0_action" "auth0_account_link_extension" {
     version = "1.5.1"
   }
   dependencies {
-    name    = "query-string"
+    name    = "querystring"
     version = "0.2.1"
   }
   dependencies {

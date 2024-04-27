@@ -36,12 +36,6 @@ exports.onExecutePostLogin = async (event, api) => {
 
 async function getPolicy(event) {
   const extensionUrl = "https://dreamkast.us.webtask.run/adf6e2f2b84784b57522e3b19dfc9201";
-  console.log("url: ", extensionUrl + "/api/users/" + event.user.user_id + "/policy/" + event.client.client_id)
-  console.log("x-api-key: ", event.secrets.AUTHZ_EXT_API_KEY.slice(0,5))
-  console.log("data", {
-    connectionName: event.connection.name || event.user.identities[0].connection.name,
-    groups: []
-  })
   return await axios.request({
     method: 'POST',
     url: extensionUrl + "/api/users/" + event.user.user_id + "/policy/" + event.client.client_id,
