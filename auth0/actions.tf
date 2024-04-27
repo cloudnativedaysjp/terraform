@@ -28,21 +28,6 @@ resource "auth0_action" "add_userinfo_claim" {
   }
 }
 
-data "local_file" "assign_role_aws_handler" {
-  filename = "actions/assignRoleAWS.js"
-}
-
-resource "auth0_action" "assign_role_aws" {
-  name    = "assign-role-aws"
-  runtime = "node18"
-  code    = data.local_file.assign_role_aws_handler.content
-
-  supported_triggers {
-    id      = "post-login"
-    version = "v3"
-  }
-}
-
 data "local_file" "auth0_account_link_extension_handler" {
   filename = "actions/auth0AccountLinkExtension.js"
 }
