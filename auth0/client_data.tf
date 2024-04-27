@@ -1,5 +1,5 @@
 data "auth0_client" "auth0_account_link" {
-  client_id = "9xGK1rAjX2ixlWVWhE0Ycva14B6PQhiH"
+  client_id = "S4KRxC6yBlLUSX8A37OnU4WkvhuaOfQ2"
 }
 
 data "auth0_client" "terraform" {
