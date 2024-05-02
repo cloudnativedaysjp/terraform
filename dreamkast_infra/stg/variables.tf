@@ -1,15 +1,13 @@
 # ------------------------------------------------------------#
 #  Common
 # ------------------------------------------------------------#
-variable "prj_prefix" {
-  default = "dreamkast-stg"
+variable "event_name" {
+  # used for the path of dreamkast-ui
+  default = "cndt2023"
 }
 
-# ------------------------------------------------------------#
-#  S3
-# ------------------------------------------------------------#
-variable "s3_bucket_name" {
-  default = "bucket"
+variable "prj_prefix" {
+  default = "dreamkast-stg"
 }
 
 # ------------------------------------------------------------#
