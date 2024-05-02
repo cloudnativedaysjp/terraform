@@ -36,6 +36,8 @@ resource "aws_iam_role" "task-execution-role" {
       Statement = [{
         Action = [
           "ecr:BatchImportUpstreamImage",
+          "ecr:CreateRepository",
+          "ecr:TagResource",
         ]
         Effect   = "Allow"
         Resource = ["*"]

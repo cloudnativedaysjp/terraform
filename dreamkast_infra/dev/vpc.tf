@@ -108,6 +108,6 @@ resource "aws_vpc_endpoint" "endpoints_interface" {
 #  Service Discovery
 # ------------------------------------------------------------#
 resource "aws_service_discovery_private_dns_namespace" "dreamkast_development" {
-  name        = "development.local"
-  vpc         = module.vpc.vpc_id
+  name = "development.local"
+  vpc  = module.vpc.vpc_id
 }
