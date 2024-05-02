@@ -176,6 +176,8 @@ resource "aws_iam_role" "ecs-dreamkast-fifo-worker" {
 
   managed_policy_arns = [
     data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
+    data.aws_iam_policy.AmazonSESFullAccess.arn,
+    data.aws_iam_policy.AmazonSQSFullAccess.arn,
   ]
 
   #tags = {
