@@ -30,6 +30,19 @@ resource "aws_iam_role" "task-execution-role" {
   ]
 
   inline_policy {
+    name = "PullImagesViaPullThroughCache"
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [{
+        Action = [
+          "ecr:BatchImportUpstreamImage",
+        ]
+        Effect   = "Allow"
+        Resource = ["*"]
+      }]
+    })
+  }
+  inline_policy {
     name = "CloudWatchLogsWriter"
     policy = jsonencode({
       Version = "2012-10-17"
@@ -39,6 +52,7 @@ resource "aws_iam_role" "task-execution-role" {
           "logs:CreateLogStream",
           "logs:PutLogEvents",
           "logs:DescribeLogStreams",
+
         ]
         Effect   = "Allow"
         Resource = ["arn:aws:logs:*:*:*"]
