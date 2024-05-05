@@ -150,7 +150,9 @@ resource "aws_security_group" "ecs-dreamkast" {
     protocol    = "tcp"
     from_port   = 3000
     to_port     = 3000
-    security_groups = [aws_security_group.alb.id]
+    security_groups = [
+      aws_security_group.alb.id,
+    ]
   }
 
   egress {
@@ -228,7 +230,9 @@ resource "aws_security_group" "ecs-dreamkast-ui" {
     protocol    = "tcp"
     from_port   = 3001
     to_port     = 3001
-    security_groups = [aws_security_group.alb.id]
+    security_groups = [
+      aws_security_group.alb.id,
+    ]
   }
 
   egress {
@@ -270,7 +274,9 @@ resource "aws_security_group" "ecs-dreamkast-weaver" {
     protocol    = "tcp"
     from_port   = 8080
     to_port     = 8080
-    security_groups = [aws_security_group.alb.id]
+    security_groups = [
+      aws_security_group.alb.id,
+    ]
   }
 
   egress {
@@ -312,7 +318,11 @@ resource "aws_security_group" "ecs-redis" {
     protocol    = "tcp"
     from_port   = 6379
     to_port     = 6379
-    security_groups = [aws_security_group.alb.id]
+    security_groups = [
+      aws_security_group.alb.id,
+      aws_security_group.ecs-dreamkast.id,
+      aws_security_group.ecs-dreamkast-fifo-worker.id,
+    ]
   }
 
   egress {
@@ -354,7 +364,12 @@ resource "aws_security_group" "ecs-mysql" {
     protocol    = "tcp"
     from_port   = 3306
     to_port     = 3306
-    security_groups = [aws_security_group.alb.id]
+    security_groups = [
+      aws_security_group.alb.id,
+      aws_security_group.ecs-dreamkast.id,
+      aws_security_group.ecs-dreamkast-fifo-worker.id,
+      aws_security_group.ecs-dreamkast-weaver.id,
+    ]
   }
 
   egress {
