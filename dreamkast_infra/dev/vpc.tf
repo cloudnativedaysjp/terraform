@@ -80,30 +80,6 @@ resource "aws_vpc_endpoint" "endpoints_gateway" {
   #}
 }
 
-resource "aws_vpc_endpoint" "endpoints_interface" {
-  for_each = toset([
-    "ecr.api",
-    "ecr.dkr",
-    "logs",
-    "secretsmanager",
-    "ssmmessages",
-    "sqs",
-  ])
-
-  vpc_id            = module.vpc.vpc_id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.${each.value}"
-  vpc_endpoint_type = "Interface"
-
-  subnet_ids         = module.vpc.intra_subnets
-  security_group_ids = [aws_security_group.vpc_endpoint.id]
-
-  private_dns_enabled = true
-
-  #tags = {
-  #  Environment = "${var.prj_prefix}"
-  #}
-}
-
 # ------------------------------------------------------------#
 #  Service Discovery
 # ------------------------------------------------------------#
