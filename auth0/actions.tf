@@ -5,6 +5,7 @@ data "local_file" "add_role_to_id_token_handler" {
 resource "auth0_action" "add_role_to_id_token" {
   name    = "add-role-to-id-token"
   runtime = "node18"
+  deploy = true
   code    = data.local_file.add_role_to_id_token_handler.content
 
   supported_triggers {
@@ -20,6 +21,7 @@ data "local_file" "add_userinfo_claim_handler" {
 resource "auth0_action" "add_userinfo_claim" {
   name    = "add-userinfo-claim"
   runtime = "node18"
+  deploy = true
   code    = data.local_file.add_userinfo_claim_handler.content
 
   supported_triggers {
@@ -35,6 +37,7 @@ data "local_file" "auth0_account_link_extension_handler" {
 resource "auth0_action" "auth0_account_link_extension" {
   name    = "auth0-account-link-extension"
   runtime = "node18"
+  deploy = true
   code    = data.local_file.auth0_account_link_extension_handler.content
 
   supported_triggers {
@@ -105,6 +108,7 @@ data "local_file" "auth0_authorization_extension_handler" {
 resource "auth0_action" "auth0_authorization_extension" {
   name    = "auth0-authorization-extension"
   runtime = "node18"
+  deploy = true
   code    = data.local_file.auth0_authorization_extension_handler.content
 
   supported_triggers {
@@ -146,6 +150,7 @@ data "local_file" "whitelist_for_nextcloud_handler" {
 resource "auth0_action" "whitelist_for_nextcloud" {
   name    = "whitelist-for-nextcloud"
   runtime = "node18"
+  deploy = true
   code    = data.local_file.whitelist_for_nextcloud_handler.content
 
   supported_triggers {
