@@ -159,22 +159,22 @@ resource "auth0_action" "whitelist_for_nextcloud" {
   }
 }
 
-# resource "auth0_trigger_actions" "login_flow" {
-#   trigger = "post-login"
+resource "auth0_trigger_actions" "login_flow" {
+  trigger = "post-login"
 
-#   // NOTE: Auth0 Actions will be executed in the order they are listed here
-#   dynamic "actions" {
-#     for_each = [
-#       auth0_action.add_role_to_id_token,
-#       auth0_action.add_userinfo_claim,
-#       auth0_action.auth0_account_link_extension,
-#       auth0_action.auth0_authorization_extension,
-#       auth0_action.whitelist_for_nextcloud,
-#     ]
+  // NOTE: Auth0 Actions will be executed in the order they are listed here
+  dynamic "actions" {
+    for_each = [
+      auth0_action.add_role_to_id_token,
+      auth0_action.add_userinfo_claim,
+      auth0_action.auth0_account_link_extension,
+      auth0_action.auth0_authorization_extension,
+      auth0_action.whitelist_for_nextcloud,
+    ]
 
-#     content {
-#       id           = actions.value.id
-#       display_name = actions.value.name
-#     }
-#   }
-# }
+    content {
+      id           = actions.value.id
+      display_name = actions.value.name
+    }
+  }
+}
