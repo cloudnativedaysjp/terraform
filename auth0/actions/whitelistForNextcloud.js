@@ -18,4 +18,10 @@ exports.onExecutePostLogin = async (event, api) => {
   if (!userHasAccess) {
     return api.access.deny('Access denied.');
   }
+
+  // Set groups claim as SAML attribute for authz on Nextcloud
+  api.samlResponse.setAttribute(
+    'http://schemas.xmlsoap.org/claims/Group',
+    groups
+  );
 }
