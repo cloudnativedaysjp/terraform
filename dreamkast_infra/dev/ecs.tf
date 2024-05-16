@@ -250,23 +250,6 @@ resource "aws_iam_role" "ecs-dreamkast-fifo-worker" {
     data.aws_iam_policy.AWSElementalMediaPackageFullAccess.arn,
   ]
 
-  #tags = {
-  #  Environment = "${var.prj_prefix}"
-  #}
-}
-
-resource "aws_security_group" "ecs-dreamkast-fifo-worker" {
-  name   = "${var.prj_prefix}-ecs-dreamkast-fifo-worker"
-  vpc_id = module.vpc.vpc_id
-
-  egress {
-    description = "allow all"
-    protocol    = "all"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   inline_policy {
     name = "StreamingResourcePolicy"
     policy = jsonencode({
@@ -309,6 +292,23 @@ resource "aws_security_group" "ecs-dreamkast-fifo-worker" {
         }
       ]
     })
+  }
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+resource "aws_security_group" "ecs-dreamkast-fifo-worker" {
+  name   = "${var.prj_prefix}-ecs-dreamkast-fifo-worker"
+  vpc_id = module.vpc.vpc_id
+
+  egress {
+    description = "allow all"
+    protocol    = "all"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   #tags = {
