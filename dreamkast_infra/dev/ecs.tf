@@ -165,6 +165,21 @@ resource "aws_iam_role" "ecs-dreamkast" {
       Version = "2012-10-17"
       Statement = [
         {
+          Effect = "Allow",
+          Action = [
+            "ssm:PutParameter",
+            "ssm:DeleteParameter",
+            "ssm:AddTagsToResource",
+            "ssm:DeleteParameters",
+            "ssm:DescribeParameters",
+            "ssm:GetParameter",
+            "ssm:GetParameterHistory",
+            "ssm:GetParameters",
+            "ssm:GetParametersByPath"
+          ],
+          Resource = "*"
+        },
+        {
           Effect = "Allow"
           Action = [
             "iam:GetRole",
@@ -234,6 +249,50 @@ resource "aws_iam_role" "ecs-dreamkast-fifo-worker" {
     data.aws_iam_policy.AWSElementalMediaLiveFullAccess.arn,
     data.aws_iam_policy.AWSElementalMediaPackageFullAccess.arn,
   ]
+
+  inline_policy {
+    name = "StreamingResourcePolicy"
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Effect = "Allow",
+          Action = [
+            "ssm:PutParameter",
+            "ssm:DeleteParameter",
+            "ssm:AddTagsToResource",
+            "ssm:DeleteParameters",
+            "ssm:DescribeParameters",
+          "ssm:GetParameter",
+          "ssm:GetParameterHistory",
+          "ssm:GetParameters",
+          "ssm:GetParametersByPath"
+        ],
+        Resource = "*"
+      },
+        {
+          Effect = "Allow"
+          Action = [
+            "iam:GetRole",
+            "iam:PassRole"
+          ]
+          Resource = [
+            "arn:aws:iam::607167088920:role/MediaLiveAccessRole",
+            "arn:aws:iam::607167088920:role/MediaPackageLivetoVOD-Policy"
+          ]
+        },
+        {
+          Effect = "Allow"
+          Action = [
+            "cloudfront:GetDistribution",
+            "cloudfront:UpdateDistribution",
+            "cloudfront:ListCachePolicies"
+          ],
+          Resource = "*"
+        }
+      ]
+    })
+  }
 
   #tags = {
   #  Environment = "${var.prj_prefix}"
@@ -312,35 +371,6 @@ resource "aws_iam_role" "ecs-dreamkast-weaver" {
   managed_policy_arns = [
     data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
   ]
-
-  inline_policy {
-    name = "StreamingResourcePolicy"
-    policy = jsonencode({
-      Version = "2012-10-17"
-      Statement = [
-        {
-          Effect = "Allow"
-          Action = [
-            "iam:GetRole",
-            "iam:PassRole"
-          ]
-          Resource = [
-            "arn:aws:iam::607167088920:role/MediaLiveAccessRole",
-            "arn:aws:iam::607167088920:role/MediaPackageLivetoVOD-Policy"
-          ]
-        },
-        {
-          Effect = "Allow"
-          Action = [
-            "cloudfront:GetDistribution",
-            "cloudfront:UpdateDistribution",
-            "cloudfront:ListCachePolicies"
-          ],
-          Resource = "*"
-        }
-      ]
-    })
-  }
 
   #tags = {
   #  Environment = "${var.prj_prefix}"
