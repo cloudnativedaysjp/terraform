@@ -96,6 +96,9 @@ resource "aws_iam_role" "ecs-dreamkast" {
     data.aws_iam_policy.AmazonSESFullAccess.arn,
     data.aws_iam_policy.AmazonSQSFullAccess.arn,
     data.aws_iam_policy.AWSElementalMediaPackageV2FullAccess.arn,
+    data.aws_iam_policy.AWSElementalMediaLiveFullAccess.arn,
+    data.aws_iam_policy.AWSElementalMediaPackageFullAccess.arn,
+    data.aws_iam_policy.AWSElementalMediaPackageV2FullAccess.arn
   ]
 
   inline_policy {
@@ -180,6 +183,8 @@ resource "aws_iam_role" "ecs-dreamkast-fifo-worker" {
     data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
     data.aws_iam_policy.AmazonSESFullAccess.arn,
     data.aws_iam_policy.AmazonSQSFullAccess.arn,
+    data.aws_iam_policy.AWSElementalMediaLiveFullAccess.arn,
+    data.aws_iam_policy.AWSElementalMediaPackageFullAccess.arn,
   ]
 
   #tags = {
