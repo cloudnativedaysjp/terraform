@@ -59,7 +59,11 @@ resource "aws_lb_listener_rule" "dreamkast_ui" {
   }
   condition {
     path_pattern {
-      values = ["/${var.event_name}/ui/*"]
+      values = [
+        "/${var.event_name}/ui/*",
+        "/${var.event_name}/ui",
+        "/_next/*"
+      ]
     }
   }
 }
