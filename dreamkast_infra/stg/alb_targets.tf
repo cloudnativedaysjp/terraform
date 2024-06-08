@@ -72,7 +72,7 @@ resource "aws_lb_target_group" "dreamkast_ui" {
 
   health_check {
     protocol            = "HTTP"
-    path                = "/cndt2023/ui"
+    path                = "/${var.event_name}/ui"
     port                = 3001
     healthy_threshold   = 3
     unhealthy_threshold = 2
