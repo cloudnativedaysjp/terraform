@@ -1,6 +1,6 @@
 module "elasticache-redis" {
   source  = "cloudposse/elasticache-redis/aws"
-  version = "1.2.2"
+  version = "1.4.1"
 
   name           = "${var.prj_prefix}-redis"
   description    = "Dreamkast Production Redis"
