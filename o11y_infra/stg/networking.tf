@@ -130,6 +130,11 @@ resource "sakuracloud_packet_filter_rules" "grafana_rules" {
 
   expression {
     protocol         = "tcp"
+    destination_port = "443"
+  }
+
+  expression {
+    protocol         = "tcp"
     destination_port = "3000"
   }
 
