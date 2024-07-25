@@ -3,7 +3,7 @@ terraform {
     hostname     = "app.terraform.io"
     organization = "cloudnativedaysjp"
     workspaces {
-      name = "sakuracloud_o11y_stg"
+      name = "o11y_infra_stg"
     }
   }
   required_providers {
