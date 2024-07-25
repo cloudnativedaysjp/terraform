@@ -171,7 +171,7 @@ resource "sakuracloud_server" "sentry2_redis" {
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password           = random_password.password.result,
     hostname              = "sentry-redis",
-    secondary_ip          = "192.168.0.201",
+    secondary_ip          = "192.168.0.205",
     broadcast_webhook_url = var.broadcast_webhook_url,
   })
 }
