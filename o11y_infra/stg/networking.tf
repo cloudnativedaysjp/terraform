@@ -1,7 +1,7 @@
-resource "sakuracloud_switch" "o11y" {
-  name        = "o11y-stg"
-  description = "switch for o11y staging"
-  tags        = ["o11y"]
+data "sakuracloud_switch" "o11y" {
+  filter {
+    names = ["sentry"]
+  }
 }
 
 resource "sakuracloud_packet_filter" "prometheus" {
