@@ -1,0 +1,66 @@
+#cloud-config
+fqdn: ${hostname}
+chpasswd:
+    expire: false
+    users:
+      - name: ubuntu
+        password: ${vm_password}
+        type: text
+users:
+  - default
+  - name: ubuntu
+    gecos: Local
+    lock_passwd: false
+    groups: sudo, users, admin
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh_import_id:
+    - gh:jacopen
+    - gh:inductor
+    - gh:b1gb4by
+    - gh:ureuzy
+    - gh:shukawam
+    - gh:ryusuketesaki
+system_info:
+  default_user:
+    name: default-user
+    lock_passwd: false
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+ssh_pwauth: yes
+random_seed:
+    file: /dev/urandom
+    command: ["pollinate", "-r", "-s", "https://entropy.ubuntu.com"]
+    command_required: true
+package_upgrade: true
+packages:
+  - curl
+  - vim
+  - git
+  - unzip
+  - gnupg
+  - lsb-release
+  - ca-certificates
+  - dstat
+runcmd:
+  - sudo install -m 0755 -d /etc/apt/keyrings
+  - sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  - sudo chmod a+r /etc/apt/keyrings/docker.asc
+  - |
+    echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  - sudo apt-get update
+  - sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  - sudo groupadd docker
+  - sudo usermod -aG docker ubuntu
+  - |
+    cat - << EOF | sudo tee /etc/netplan/51-secondary-nic.yaml
+    network:
+        ethernets:
+            ens4:
+                dhcp4: false
+                addresses: [${secondary_ip}/24]
+        version: 2
+    EOF
+  - sudo netplan apply
