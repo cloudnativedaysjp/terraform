@@ -20,8 +20,8 @@ resource "sakuracloud_server" "prometheus" {
 
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password           = random_password.password.result,
-    hostname              = "prometheus",
-    secondary_ip          = "192.168.0.202",
+    hostname              = "prometheus-stg",
+    secondary_ip          = "192.168.1.202",
   })
 
   lifecycle {
@@ -53,8 +53,8 @@ resource "sakuracloud_server" "loki" {
 
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password           = random_password.password.result,
-    hostname              = "loki",
-    secondary_ip          = "192.168.0.203",
+    hostname              = "loki-stg",
+    secondary_ip          = "192.168.1.203",
   })
 
   lifecycle {
@@ -86,8 +86,8 @@ resource "sakuracloud_server" "grafana" {
 
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password           = random_password.password.result,
-    hostname              = "grafana",
-    secondary_ip          = "192.168.0.204",
+    hostname              = "grafana-stg",
+    secondary_ip          = "192.168.1.204",
   })
 
   lifecycle {
