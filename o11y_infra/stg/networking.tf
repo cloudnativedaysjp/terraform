@@ -5,12 +5,12 @@ data "sakuracloud_switch" "o11y" {
 }
 
 resource "sakuracloud_packet_filter" "sentry" {
-  name        = "sentry"
+  name        = "sentry-stg"
   description = "Packet filtering rules for staging Sentry VM"
 }
 
 resource "sakuracloud_packet_filter" "sentry_redis" {
-  name        = "sentry-redis"
+  name        = "sentry-redis-stg"
   description = "Packet filtering rules for staging Sentry Redis VM"
 }
 
