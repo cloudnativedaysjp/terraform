@@ -1,3 +1,57 @@
+resource "sakuracloud_server" "sentry" {
+  name = "sentry-stg"
+  disks = [
+    sakuracloud_disk.sentry_boot.id,
+    sakuracloud_disk.sentry_docker_volume.id,
+  ]
+  core        = 4
+  memory      = 8
+  description = "Sentry server for staging"
+  tags        = ["app=sentry", "stage=staging", "starred"]
+
+  network_interface {
+    upstream         = "shared"
+    packet_filter_id = sakuracloud_packet_filter.sentry.id
+  }
+
+  network_interface {
+    upstream = data.sakuracloud_switch.o11y.id
+  }
+
+  user_data = templatefile("./template/sentry-init.yaml", {
+    vm_password           = random_password.password.result,
+    hostname              = "sentry-stg"
+    secondary_ip          = "192.168.1.200",
+  })
+}
+
+resource "sakuracloud_server" "sentry_redis" {
+  name = "sentry-redis-stg"
+  disks = [
+    sakuracloud_disk.sentry_redis_boot.id,
+    sakuracloud_disk.sentry_redis_docker_volume.id
+  ]
+  core        = 2
+  memory      = 4
+  description = "Sentry Redis server for staging"
+  tags        = ["app=redis", "stage=staging", "starred"]
+
+  network_interface {
+    upstream         = "shared"
+    packet_filter_id = sakuracloud_packet_filter.sentry_redis.id
+  }
+
+  network_interface {
+    upstream = data.sakuracloud_switch.o11y.id
+  }
+
+  user_data = templatefile("./template/sentry-init.yaml", {
+    vm_password           = random_password.password.result,
+    hostname              = "sentry-redis-stg",
+    secondary_ip          = "192.168.1.201",
+  })
+}
+
 resource "sakuracloud_server" "prometheus" {
   name = "prometheus-stg"
   disks = [
@@ -20,8 +74,8 @@ resource "sakuracloud_server" "prometheus" {
 
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password           = random_password.password.result,
-    hostname              = "prometheus",
-    secondary_ip          = "192.168.0.202",
+    hostname              = "prometheus-stg",
+    secondary_ip          = "192.168.1.202",
   })
 
   lifecycle {
@@ -53,8 +107,8 @@ resource "sakuracloud_server" "loki" {
 
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password           = random_password.password.result,
-    hostname              = "loki",
-    secondary_ip          = "192.168.0.203",
+    hostname              = "loki-stg",
+    secondary_ip          = "192.168.1.203",
   })
 
   lifecycle {
@@ -86,8 +140,8 @@ resource "sakuracloud_server" "grafana" {
 
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password           = random_password.password.result,
-    hostname              = "grafana",
-    secondary_ip          = "192.168.0.204",
+    hostname              = "grafana-stg",
+    secondary_ip          = "192.168.1.204",
   })
 
   lifecycle {

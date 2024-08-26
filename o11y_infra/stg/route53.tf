@@ -3,6 +3,14 @@ data "aws_route53_zone" "cloudnativedays" {
   private_zone = false
 }
 
+resource "aws_route53_record" "sentry" {
+  zone_id = data.aws_route53_zone.cloudnativedays.zone_id
+  name    = "stg.sentry.cloudnativedays.jp"
+  type    = "A"
+  ttl     = "300"
+  records = [sakuracloud_server.sentry.ip_address]
+}
+
 resource "aws_route53_record" "loki" {
   zone_id = data.aws_route53_zone.cloudnativedays.zone_id
   name    = "stg.loki.cloudnativedays.jp"
