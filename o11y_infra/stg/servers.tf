@@ -1,5 +1,5 @@
 resource "sakuracloud_server" "sentry" {
-  name = "sentry"
+  name = "sentry-stg"
   disks = [
     sakuracloud_disk.sentry_boot.id,
     sakuracloud_disk.sentry_docker_volume.id,
@@ -26,7 +26,7 @@ resource "sakuracloud_server" "sentry" {
 }
 
 resource "sakuracloud_server" "sentry_redis" {
-  name = "sentry-redis"
+  name = "sentry-redis-stg"
   disks = [
     sakuracloud_disk.sentry_redis_boot.id,
     sakuracloud_disk.sentry_redis_docker_volume.id
@@ -47,7 +47,7 @@ resource "sakuracloud_server" "sentry_redis" {
 
   user_data = templatefile("./template/sentry-init.yaml", {
     vm_password           = random_password.password.result,
-    hostname              = "sentry-redis",
+    hostname              = "sentry-redis-stg",
     secondary_ip          = "192.168.1.201",
   })
 }
