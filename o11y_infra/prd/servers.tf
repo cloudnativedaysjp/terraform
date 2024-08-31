@@ -23,6 +23,12 @@ resource "sakuracloud_server" "sentry" {
     hostname              = "sentry"
     secondary_ip          = "192.168.0.200",
   })
+
+  lifecycle {
+    ignore_changes = [
+      user_data,
+    ]
+  }
 }
 
 resource "sakuracloud_server" "sentry_redis" {
@@ -50,6 +56,12 @@ resource "sakuracloud_server" "sentry_redis" {
     hostname              = "sentry-redis",
     secondary_ip          = "192.168.0.201",
   })
+
+  lifecycle {
+    ignore_changes = [
+      user_data,
+    ]
+  }
 }
 
 resource "sakuracloud_server" "prometheus" {
