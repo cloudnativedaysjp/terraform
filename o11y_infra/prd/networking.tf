@@ -7,30 +7,6 @@ resource "sakuracloud_switch" "sentry" {
 resource "sakuracloud_packet_filter" "sentry" {
   name        = "sentry"
   description = "Packet filtering rules for Sentry VM"
-}
-
-resource "sakuracloud_packet_filter" "sentry_redis" {
-  name        = "sentry-redis"
-  description = "Packet filtering rules for Sentry Redis VM"
-}
-
-resource "sakuracloud_packet_filter" "prometheus" {
-  name        = "prometheus"
-  description = "Packet filtering rules for prometheus VM"
-}
-
-resource "sakuracloud_packet_filter" "loki" {
-  name        = "loki"
-  description = "Packet filtering rules for loki VM"
-}
-
-resource "sakuracloud_packet_filter" "grafana" {
-  name        = "grafana"
-  description = "Packet filtering rules for grafana VM"
-}
-
-resource "sakuracloud_packet_filter_rules" "sentry_rules" {
-  packet_filter_id = sakuracloud_packet_filter.sentry.id
 
   expression {
     protocol         = "tcp"
@@ -80,10 +56,12 @@ resource "sakuracloud_packet_filter_rules" "sentry_rules" {
     allow       = false
     description = "Deny ALL"
   }
+
 }
 
-resource "sakuracloud_packet_filter_rules" "sentry_redis_rules" {
-  packet_filter_id = sakuracloud_packet_filter.sentry_redis.id
+resource "sakuracloud_packet_filter" "sentry_redis" {
+  name        = "sentry-redis"
+  description = "Packet filtering rules for Sentry Redis VM"
 
   expression {
     protocol         = "tcp"
@@ -123,10 +101,12 @@ resource "sakuracloud_packet_filter_rules" "sentry_redis_rules" {
     allow       = false
     description = "Deny ALL"
   }
+
 }
 
-resource "sakuracloud_packet_filter_rules" "prometheus_rules" {
-  packet_filter_id = sakuracloud_packet_filter.prometheus.id
+resource "sakuracloud_packet_filter" "prometheus" {
+  name        = "prometheus"
+  description = "Packet filtering rules for prometheus VM"
 
   expression {
     protocol         = "tcp"
@@ -171,10 +151,12 @@ resource "sakuracloud_packet_filter_rules" "prometheus_rules" {
     allow       = false
     description = "Deny ALL"
   }
+
 }
 
-resource "sakuracloud_packet_filter_rules" "loki_rules" {
-  packet_filter_id = sakuracloud_packet_filter.loki.id
+resource "sakuracloud_packet_filter" "loki" {
+  name        = "loki"
+  description = "Packet filtering rules for loki VM"
 
   expression {
     protocol         = "tcp"
@@ -224,10 +206,12 @@ resource "sakuracloud_packet_filter_rules" "loki_rules" {
     allow       = false
     description = "Deny ALL"
   }
+
 }
 
-resource "sakuracloud_packet_filter_rules" "grafana_rules" {
-  packet_filter_id = sakuracloud_packet_filter.grafana.id
+resource "sakuracloud_packet_filter" "grafana" {
+  name        = "grafana"
+  description = "Packet filtering rules for grafana VM"
 
   expression {
     protocol         = "tcp"
@@ -282,4 +266,5 @@ resource "sakuracloud_packet_filter_rules" "grafana_rules" {
     allow       = false
     description = "Deny ALL"
   }
+
 }
