@@ -81,6 +81,29 @@ resource "aws_iam_role" "task-execution-role" {
   #}
 }
 
+# for ECS scheduled task
+resource "aws_iam_role" "ecs-scheduled-task-target-role" {
+  name = "${var.prj_prefix}-ecs-scheduled-task-target-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "events.amazonaws.com"
+        }
+      }
+    ]
+  })
+
+  managed_policy_arns = [
+    data.aws_iam_policy.AmazonEC2ContainerServiceEventsRole.arn
+  ]
+}
+
 # ------------------------------------------------------------#
 # for dreamkast
 # ------------------------------------------------------------#
@@ -405,10 +428,10 @@ resource "aws_security_group" "ecs-dreamkast-weaver" {
 }
 
 # ------------------------------------------------------------#
-# for redis
+# for post-registration
 # ------------------------------------------------------------#
-resource "aws_iam_role" "ecs-redis" {
-  name = "${var.prj_prefix}-ecs-redis"
+resource "aws_iam_role" "ecs-post-registration" {
+  name = "${var.prj_prefix}-ecs-post-registration"
 
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy_ecs.json
 
@@ -421,69 +444,11 @@ resource "aws_iam_role" "ecs-redis" {
   #}
 }
 
-resource "aws_security_group" "ecs-redis" {
-  name   = "${var.prj_prefix}-ecs-redis"
+resource "aws_security_group" "ecs-post-registration" {
+  name   = "${var.prj_prefix}-ecs-post-registration"
   vpc_id = module.vpc.vpc_id
 
-  ingress {
-    description = "tcp/6379"
-    protocol    = "tcp"
-    from_port   = 6379
-    to_port     = 6379
-    security_groups = [
-      aws_security_group.alb.id,
-      aws_security_group.ecs-dreamkast.id,
-      aws_security_group.ecs-dreamkast-fifo-worker.id,
-    ]
-  }
-
-  egress {
-    description = "allow all"
-    protocol    = "all"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  #tags = {
-  #  Environment = "${var.prj_prefix}"
-  #}
-}
-
-# ------------------------------------------------------------#
-# for mysql
-# ------------------------------------------------------------#
-resource "aws_iam_role" "ecs-mysql" {
-  name = "${var.prj_prefix}-ecs-mysql"
-
-  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_ecs.json
-
-  managed_policy_arns = [
-    data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
-  ]
-
-  #tags = {
-  #  Environment = "${var.prj_prefix}"
-  #}
-}
-
-resource "aws_security_group" "ecs-mysql" {
-  name   = "${var.prj_prefix}-ecs-mysql"
-  vpc_id = module.vpc.vpc_id
-
-  ingress {
-    description = "tcp/3306"
-    protocol    = "tcp"
-    from_port   = 3306
-    to_port     = 3306
-    security_groups = [
-      aws_security_group.alb.id,
-      aws_security_group.ecs-dreamkast.id,
-      aws_security_group.ecs-dreamkast-fifo-worker.id,
-      aws_security_group.ecs-dreamkast-weaver.id,
-    ]
-  }
-
+  ingress = []
   egress {
     description = "allow all"
     protocol    = "all"
