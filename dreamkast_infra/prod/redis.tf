@@ -1,17 +1,26 @@
+locals {
+  redis_instance_type  = "cache.t4g.small"
+  redis_family         = "redis6.x"
+  redis_engine_version = "6.0"
+  redis_num_of_nodes   = 3
+  elasticache_multi_az = false
+}
+
 module "elasticache-redis" {
   source  = "cloudposse/elasticache-redis/aws"
   version = "1.2.2"
 
-  name           = "${var.prj_prefix}-redis"
-  description    = "Dreamkast Production Redis"
-  instance_type  = var.redis_instance_type
-  family         = var.redis_family
-  engine_version = var.redis_engine_version
+  name                 = "${var.prj_prefix}-redis"
+  parameter_group_name = "${var.prj_prefix}-redis"
+  description          = "Dreamkast Production Redis"
+  instance_type        = local.redis_instance_type
+  family               = local.redis_family
+  engine_version       = local.redis_engine_version
 
   transit_encryption_enabled = false
   automatic_failover_enabled = true
-  multi_az_enabled           = var.multi_az
-  cluster_size               = var.redis_num_of_nodes
+  multi_az_enabled           = local.elasticache_multi_az
+  cluster_size               = local.redis_num_of_nodes
 
   vpc_id           = module.vpc.vpc_id
   subnets          = module.vpc.intra_subnets

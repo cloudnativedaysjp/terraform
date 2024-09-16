@@ -1,7 +1,9 @@
 data "aws_availability_zones" "available" {}
+data "aws_region" "current" {}
 
 locals {
-  azs = slice(data.aws_availability_zones.available.names, 0, 3)
+  vpc_cidr = "10.110.0.0/16"
+  azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 }
 
 
@@ -10,14 +12,14 @@ module "vpc" {
   version = "3.19.0"
 
   name = "${var.prj_prefix}-vpc"
-  cidr = var.vpc_cidr
+  cidr = local.vpc_cidr
 
   azs             = local.azs
-  private_subnets = [for k, _ in local.azs : cidrsubnet(var.vpc_cidr, 4, k)]
-  public_subnets  = [for k, _ in local.azs : cidrsubnet(var.vpc_cidr, 4, k + length(local.azs))]
-  intra_subnets   = [for k, _ in local.azs : cidrsubnet(var.vpc_cidr, 4, k + length(local.azs)*2)]
+  private_subnets = [for k, _ in local.azs : cidrsubnet(local.vpc_cidr, 4, k)]
+  public_subnets  = [for k, _ in local.azs : cidrsubnet(local.vpc_cidr, 4, k + length(local.azs))]
+  intra_subnets   = [for k, _ in local.azs : cidrsubnet(local.vpc_cidr, 4, k + length(local.azs) * 2)]
 
-  enable_nat_gateway     = false
+  enable_nat_gateway = false
 
   enable_dns_hostnames = true
 
@@ -36,4 +38,13 @@ module "vpc" {
   intra_subnet_tags = {
     "kind" = "intra"
   }
+}
+
+# ------------------------------------------------------------#
+#  VPC Endpoints
+# ------------------------------------------------------------#
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id          = module.vpc.vpc_id
+  service_name    = "com.amazonaws.${data.aws_region.current.name}.s3"
+  route_table_ids = module.vpc.private_route_table_ids
 }

@@ -1,10 +1,23 @@
+locals {
+  mysql_major_version      = "8.0"
+  mysql_minor_version      = "33"
+  db_instance_name         = "rds"
+  db_instance_class        = "db.t4g.small"
+  db_instance_storage_size = 30
+  db_instance_storage_type = "gp3"
+  db_name                  = "dreamkast"
+  db_user_name             = "admin"
+  long_query_time          = "1"
+  rds_multi_az             = false
+}
+
 # ------------------------------------------------------------#
 #  RDS parameter group
 # ------------------------------------------------------------#
 resource "aws_db_parameter_group" "rds_parameter_group" {
-  name        = "${var.prj_prefix}-${var.db_instance_name}-parametergroup"
-  family      = "mysql${var.mysql_major_version}"
-  description = "${var.prj_prefix}-${var.db_instance_name}-parm"
+  name        = "${var.prj_prefix}-${local.db_instance_name}-parametergroup"
+  family      = "mysql${local.mysql_major_version}"
+  description = "${var.prj_prefix}-${local.db_instance_name}-parm"
 
   # データベースに設定するパラメーター
   parameter {
@@ -13,7 +26,7 @@ resource "aws_db_parameter_group" "rds_parameter_group" {
   }
   parameter {
     name  = "long_query_time"
-    value = var.long_query_time
+    value = local.long_query_time
   }
   parameter {
     name  = "log_output"
@@ -25,7 +38,7 @@ resource "aws_db_parameter_group" "rds_parameter_group" {
 #  RDS subnet group
 # ------------------------------------------------------------#
 resource "aws_db_subnet_group" "rds_subnet_group" {
-  name       = "${var.prj_prefix}-${var.db_instance_name}-subnet"
+  name       = "${var.prj_prefix}-${local.db_instance_name}-subnet"
   subnet_ids = module.vpc.intra_subnets
 }
 
@@ -33,7 +46,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 #  Security group for RDS
 # ------------------------------------------------------------#
 resource "aws_security_group" "allow_rds" {
-  name   = "${var.prj_prefix}-${var.db_instance_name}-sg"
+  name   = "${var.prj_prefix}-${local.db_instance_name}-sg"
   vpc_id = module.vpc.vpc_id
 
   ingress {
@@ -60,7 +73,7 @@ resource "aws_security_group" "allow_rds" {
   }
 
   tags = {
-    Name = "${var.prj_prefix}-${var.db_instance_name}-sg"
+    Name = "${var.prj_prefix}-${local.db_instance_name}-sg"
   }
 }
 
@@ -75,21 +88,21 @@ resource "random_password" "rds_password" {
 
 resource "aws_db_instance" "rds_instance" {
   engine         = "mysql"
-  engine_version = "${var.mysql_major_version}.${var.mysql_minor_version}"
+  engine_version = "${local.mysql_major_version}.${local.mysql_minor_version}"
 
-  identifier = "${var.prj_prefix}-${var.db_instance_name}"
-  db_name    = var.db_name
-  username   = var.db_user_name
+  identifier = "${var.prj_prefix}-${local.db_instance_name}"
+  db_name    = local.db_name
+  username   = local.db_user_name
   password   = random_password.rds_password.result
 
-  instance_class    = var.db_instance_class
-  allocated_storage = var.db_instance_storage_size
-  storage_type      = var.db_instance_storage_type
+  instance_class    = local.db_instance_class
+  allocated_storage = local.db_instance_storage_size
+  storage_type      = local.db_instance_storage_type
 
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
   vpc_security_group_ids = [aws_security_group.allow_rds.id]
   publicly_accessible    = false
-  multi_az               = var.multi_az
+  multi_az               = local.rds_multi_az
 
   parameter_group_name = aws_db_parameter_group.rds_parameter_group.name
 
@@ -100,7 +113,7 @@ resource "aws_db_instance" "rds_instance" {
   copy_tags_to_snapshot      = true
   skip_final_snapshot        = true
 
-  tags = { Name = "${var.db_instance_name}" }
+  tags = { Name = "${local.db_instance_name}" }
 }
 
 # ------------------------------------------------------------#
