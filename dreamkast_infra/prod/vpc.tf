@@ -48,3 +48,11 @@ resource "aws_vpc_endpoint" "s3" {
   service_name    = "com.amazonaws.${data.aws_region.current.name}.s3"
   route_table_ids = module.vpc.private_route_table_ids
 }
+
+# ------------------------------------------------------------#
+#  Service Discovery
+# ------------------------------------------------------------#
+resource "aws_service_discovery_private_dns_namespace" "dreamkast_production" {
+  name = "production.local"
+  vpc  = module.vpc.vpc_id
+}
