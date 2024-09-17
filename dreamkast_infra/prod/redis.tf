@@ -8,7 +8,7 @@ locals {
 
 module "elasticache-redis" {
   source  = "cloudposse/elasticache-redis/aws"
-  version = "1.2.2"
+  version = "1.5.0"
 
   name                 = "${var.prj_prefix}-redis"
   parameter_group_name = "${var.prj_prefix}-redis"
