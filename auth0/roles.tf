@@ -7,6 +7,7 @@ locals {
     "CNDF2023-Admin",
     "CNDT2023-Admin",
     "CNDS2024-Admin",
+    "CNDW2024-Admin",
   ]
 }
 
