@@ -21,17 +21,16 @@ resource "aws_route53_record" "loki" {
 
 resource "aws_route53_record" "prometheus" {
   zone_id = data.aws_route53_zone.cloudnativedays.zone_id
-  name    = "prometheus.sakura.cloudnativedays.jp"
+  name    = "prometheus.cloudnativedays.jp"
   type    = "A"
   ttl     = "300"
   records = [sakuracloud_server.prometheus.ip_address]
 }
 
-# todo: EKS側Grafanaに向かなくなったタイミングでsakuraに向ける
-# resource "aws_route53_record" "grafana" {
-#   zone_id = data.aws_route53_zone.cloudnativedays.zone_id
-#   name    = "grafana.cloudnativedays.jp"
-#   type    = "A"
-#   ttl     = "300"
-#   records = [sakuracloud_server.grafana.ip_address]
-# }
+resource "aws_route53_record" "grafana" {
+  zone_id = data.aws_route53_zone.cloudnativedays.zone_id
+  name    = "grafana.cloudnativedays.jp"
+  type    = "A"
+  ttl     = "300"
+  records = [sakuracloud_server.grafana.ip_address]
+}
