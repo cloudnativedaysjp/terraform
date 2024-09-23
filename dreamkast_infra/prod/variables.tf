@@ -27,7 +27,7 @@ variable "node_group_name" {
 }
 
 variable "node_desired_size" {
-  default = 3
+  default = 1
 }
 
 variable "node_max_size" {
@@ -35,7 +35,7 @@ variable "node_max_size" {
 }
 
 variable "node_min_size" {
-  default = 3
+  default = 1
 }
 
 variable "aws_account_id" {}
