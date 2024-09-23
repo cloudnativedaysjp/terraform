@@ -115,7 +115,12 @@ resource "sakuracloud_packet_filter" "prometheus" {
 
   expression {
     protocol         = "tcp"
-    destination_port = "9090"
+    destination_port = "80"
+  }
+
+  expression {
+    protocol         = "tcp"
+    destination_port = "443"
   }
 
   expression {
