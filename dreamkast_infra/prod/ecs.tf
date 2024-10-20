@@ -118,10 +118,9 @@ resource "aws_iam_role" "ecs-dreamkast" {
     data.aws_iam_policy.AmazonS3FullAccess.arn,
     data.aws_iam_policy.AmazonSESFullAccess.arn,
     data.aws_iam_policy.AmazonSQSFullAccess.arn,
-    data.aws_iam_policy.AWSElementalMediaPackageV2FullAccess.arn,
     data.aws_iam_policy.AWSElementalMediaLiveFullAccess.arn,
     data.aws_iam_policy.AWSElementalMediaPackageFullAccess.arn,
-    data.aws_iam_policy.AWSElementalMediaPackageV2FullAccess.arn
+    data.aws_iam_policy.AWSElementalMediaPackageV2FullAccess.arn,
   ]
 
   inline_policy {
@@ -428,6 +427,49 @@ resource "aws_security_group" "ecs-dreamkast-weaver" {
 }
 
 # ------------------------------------------------------------#
+# for seaman
+# ------------------------------------------------------------#
+resource "aws_iam_role" "ecs-seaman" {
+  name = "${var.prj_prefix}-ecs-seaman"
+
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_ecs.json
+
+  managed_policy_arns = [
+    data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
+  ]
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+resource "aws_security_group" "ecs-seaman" {
+  name   = "${var.prj_prefix}-ecs-seaman"
+  vpc_id = module.vpc.vpc_id
+
+  ingress {
+    description = "tcp/8000"
+    protocol    = "tcp"
+    from_port   = 8000
+    to_port     = 8000
+    security_groups = [
+      aws_security_group.alb.id,
+    ]
+  }
+  egress {
+    description = "allow all"
+    protocol    = "all"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+# ------------------------------------------------------------#
 # for post-registration
 # ------------------------------------------------------------#
 resource "aws_iam_role" "ecs-post-registration" {
@@ -446,6 +488,80 @@ resource "aws_iam_role" "ecs-post-registration" {
 
 resource "aws_security_group" "ecs-post-registration" {
   name   = "${var.prj_prefix}-ecs-post-registration"
+  vpc_id = module.vpc.vpc_id
+
+  ingress = []
+  egress {
+    description = "allow all"
+    protocol    = "all"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+# ------------------------------------------------------------#
+# for harvestjob
+# ------------------------------------------------------------#
+resource "aws_iam_role" "ecs-harvestjob" {
+  name = "${var.prj_prefix}-ecs-harvestjob"
+
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_ecs.json
+
+  managed_policy_arns = [
+    data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
+    data.aws_iam_policy.AmazonS3FullAccess.arn,
+    data.aws_iam_policy.AWSElementalMediaPackageFullAccess.arn,
+    data.aws_iam_policy.AWSElementalMediaPackageV2FullAccess.arn,
+  ]
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+resource "aws_security_group" "ecs-harvestjob" {
+  name   = "${var.prj_prefix}-ecs-harvestjob"
+  vpc_id = module.vpc.vpc_id
+
+  ingress = []
+  egress {
+    description = "allow all"
+    protocol    = "all"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+# ------------------------------------------------------------#
+# for medialive-alert
+# ------------------------------------------------------------#
+resource "aws_iam_role" "ecs-medialive-alert" {
+  name = "${var.prj_prefix}-ecs-medialive-alert"
+
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_ecs.json
+
+  managed_policy_arns = [
+    data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
+    data.aws_iam_policy.AWSElementalMediaLiveFullAccess.arn,
+  ]
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+resource "aws_security_group" "ecs-medialive-alert" {
+  name   = "${var.prj_prefix}-ecs-medialive-alert"
   vpc_id = module.vpc.vpc_id
 
   ingress = []
