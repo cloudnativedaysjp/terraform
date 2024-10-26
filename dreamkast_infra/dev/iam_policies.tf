@@ -2,6 +2,10 @@ data "aws_iam_policy" "AmazonEC2ContainerRegistryReadOnly" {
   arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
+data "aws_iam_policy" "AmazonEC2ContainerServiceEventsRole" {
+  arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceEventsRole"
+}
+
 data "aws_iam_policy" "AmazonEKSWorkerNodePolicy" {
   arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 }
