@@ -81,6 +81,29 @@ resource "aws_iam_role" "task-execution-role" {
   #}
 }
 
+# for ECS scheduled task
+resource "aws_iam_role" "ecs-scheduled-task-target-role" {
+  name = "${var.prj_prefix}-ecs-scheduled-task-target-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "events.amazonaws.com"
+        }
+      }
+    ]
+  })
+
+  managed_policy_arns = [
+    data.aws_iam_policy.AmazonEC2ContainerServiceEventsRole.arn
+  ]
+}
+
 # ------------------------------------------------------------#
 # for dreamkast
 # ------------------------------------------------------------#
@@ -263,13 +286,13 @@ resource "aws_iam_role" "ecs-dreamkast-fifo-worker" {
             "ssm:AddTagsToResource",
             "ssm:DeleteParameters",
             "ssm:DescribeParameters",
-          "ssm:GetParameter",
-          "ssm:GetParameterHistory",
-          "ssm:GetParameters",
-          "ssm:GetParametersByPath"
-        ],
-        Resource = "*"
-      },
+            "ssm:GetParameter",
+            "ssm:GetParameterHistory",
+            "ssm:GetParameters",
+            "ssm:GetParametersByPath"
+          ],
+          Resource = "*"
+        },
         {
           Effect = "Allow"
           Action = [
@@ -484,6 +507,44 @@ resource "aws_security_group" "ecs-mysql" {
     ]
   }
 
+  egress {
+    description = "allow all"
+    protocol    = "all"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+# ------------------------------------------------------------#
+# for harvestjob
+# ------------------------------------------------------------#
+resource "aws_iam_role" "ecs-harvestjob" {
+  name = "${var.prj_prefix}-ecs-harvestjob"
+
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_ecs.json
+
+  managed_policy_arns = [
+    data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
+    data.aws_iam_policy.AmazonS3FullAccess.arn,
+    data.aws_iam_policy.AWSElementalMediaPackageFullAccess.arn,
+    data.aws_iam_policy.AWSElementalMediaPackageV2FullAccess.arn,
+  ]
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+resource "aws_security_group" "ecs-harvestjob" {
+  name   = "${var.prj_prefix}-ecs-harvestjob"
+  vpc_id = module.vpc.vpc_id
+
+  ingress = []
   egress {
     description = "allow all"
     protocol    = "all"
