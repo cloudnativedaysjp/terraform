@@ -6,6 +6,6 @@ data "sakuracloud_archive" "ubuntu2204" {
 
 data "sakuracloud_archive" "ubuntu22042" {
   filter {
-    id = "113501244033"
+    id = "113601946995"
   }
 }
