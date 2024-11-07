@@ -1,6 +1,6 @@
 resource "sakuracloud_disk" "sentry_boot" {
   name              = "sentry-boot"
-  source_archive_id = data.sakuracloud_archive.ubuntu22042.id
+  source_archive_id = data.sakuracloud_archive.ubuntu22045.id
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
@@ -15,7 +15,7 @@ resource "sakuracloud_disk" "sentry_docker_volume" {
 
 resource "sakuracloud_disk" "sentry_redis_boot" {
   name              = "sentry-redis-boot"
-  source_archive_id = data.sakuracloud_archive.ubuntu22042.id
+  source_archive_id = data.sakuracloud_archive.ubuntu22045.id
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
@@ -30,7 +30,7 @@ resource "sakuracloud_disk" "sentry_redis_docker_volume" {
 
 resource "sakuracloud_disk" "prometheus_boot" {
   name              = "prometheus"
-  source_archive_id = data.sakuracloud_archive.ubuntu22042.id
+  source_archive_id = data.sakuracloud_archive.ubuntu22045.id
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
@@ -45,7 +45,7 @@ resource "sakuracloud_disk" "prometheus_docker_volume" {
 
 resource "sakuracloud_disk" "loki_boot" {
   name              = "loki"
-  source_archive_id = data.sakuracloud_archive.ubuntu22042.id
+  source_archive_id = data.sakuracloud_archive.ubuntu22045.id
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
