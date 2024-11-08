@@ -4,6 +4,11 @@ resource "sakuracloud_disk" "sentry_boot" {
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
+  lifecycle {
+    ignore_changes = [
+      source_archive_id,
+    ]
+  }
 }
 
 resource "sakuracloud_disk" "sentry_docker_volume" {
@@ -19,6 +24,11 @@ resource "sakuracloud_disk" "sentry_redis_boot" {
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
+  lifecycle {
+    ignore_changes = [
+      source_archive_id,
+    ]
+  }
 }
 
 resource "sakuracloud_disk" "sentry_redis_docker_volume" {
@@ -34,6 +44,11 @@ resource "sakuracloud_disk" "prometheus_boot" {
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
+  lifecycle {
+    ignore_changes = [
+      source_archive_id,
+    ]
+  }
 }
 
 resource "sakuracloud_disk" "prometheus_docker_volume" {
@@ -49,6 +64,11 @@ resource "sakuracloud_disk" "loki_boot" {
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
+  lifecycle {
+    ignore_changes = [
+      source_archive_id,
+    ]
+  }
 }
 
 resource "sakuracloud_disk" "loki_docker_volume" {
@@ -56,6 +76,11 @@ resource "sakuracloud_disk" "loki_docker_volume" {
   plan      = "ssd"
   connector = "virtio"
   size      = 100
+  lifecycle {
+    ignore_changes = [
+      source_archive_id,
+    ]
+  }
 }
 
 resource "sakuracloud_disk" "grafana_boot" {
@@ -64,6 +89,11 @@ resource "sakuracloud_disk" "grafana_boot" {
   plan              = "ssd"
   connector         = "virtio"
   size              = 100
+  lifecycle {
+    ignore_changes = [
+      source_archive_id,
+    ]
+  }
 }
 
 resource "sakuracloud_disk" "grafana_docker_volume" {
