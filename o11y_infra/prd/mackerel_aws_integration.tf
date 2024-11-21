@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "mackerel_aws_integration_assume_role_policy" {
 }
 
 resource "aws_iam_role" "mackerel_aws_integration" {
-  name = "mackerel-aws-integration"
+  name = "mackerel-aws-integration-2"
   path = "/"
   assume_role_policy = data.aws_iam_policy_document.mackerel_aws_integration_assume_role_policy.json
 }
