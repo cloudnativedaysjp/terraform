@@ -7,5 +7,5 @@ variable "vm_password" {
 }
 
 variable "broadcast_webhook_url" {
-  
+
 }

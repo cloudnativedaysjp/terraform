@@ -9,22 +9,22 @@ locals {
     #        hostname     = "nginx02",
     #        secondary_ip = "192.168.71.22"
     #      },
-      # {
-      #   hostname     = "nginx03",
-      #   secondary_ip = "192.168.71.23"
-      # },
-  #  {
-  #    hostname     = "nginx04",
-  #    secondary_ip = "192.168.71.24"
-  #  },
-  #  {
-  #    hostname     = "nginx05",
-  #    secondary_ip = "192.168.71.25"
-  #  },
-  #  {
-  #    hostname     = "nginx06",
-  #    secondary_ip = "192.168.71.26"
-  #  },
+    # {
+    #   hostname     = "nginx03",
+    #   secondary_ip = "192.168.71.23"
+    # },
+    #  {
+    #    hostname     = "nginx04",
+    #    secondary_ip = "192.168.71.24"
+    #  },
+    #  {
+    #    hostname     = "nginx05",
+    #    secondary_ip = "192.168.71.25"
+    #  },
+    #  {
+    #    hostname     = "nginx06",
+    #    secondary_ip = "192.168.71.26"
+    #  },
   ]
 }
 
@@ -64,9 +64,9 @@ resource "sakuracloud_server" "instances" {
   }
 
   user_data = templatefile("./template/nginx-cloud-init.yaml", {
-    vm_password  = var.vm_password,
-    hostname     = each.value.hostname,
-    secondary_ip = each.value.secondary_ip,
+    vm_password           = var.vm_password,
+    hostname              = each.value.hostname,
+    secondary_ip          = each.value.secondary_ip,
     broadcast_webhook_url = var.broadcast_webhook_url,
   })
 

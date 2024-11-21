@@ -1,30 +1,30 @@
 locals {
   ## NOTE: Please modify this if you want to add a new switcher instance.
   switchers = [
-      # {
-      #   hostname     = "switcher01",
-      #   secondary_ip = "192.168.71.11"
-      # },
-      # {
-      #   hostname     = "switcher02",
-      #   secondary_ip = "192.168.71.12"
-      # },
-      # {
-      #   hostname     = "switcher03",
-      #   secondary_ip = "192.168.71.13"
-      # },
-  #  {
-  #    hostname     = "switcher04",
-  #    secondary_ip = "192.168.71.14"
-  #  },
-  #  {
-  #    hostname     = "switcher05",
-  #    secondary_ip = "192.168.71.15"
-  #  },
-  #  {
-  #    hostname     = "switcher06",
-  #    secondary_ip = "192.168.71.16"
-  #  },
+    {
+      hostname     = "switcher01",
+      secondary_ip = "192.168.71.11"
+    },
+    {
+      hostname     = "switcher02",
+      secondary_ip = "192.168.71.12"
+    },
+    {
+      hostname     = "switcher03",
+      secondary_ip = "192.168.71.13"
+    },
+    #  {
+    #    hostname     = "switcher04",
+    #    secondary_ip = "192.168.71.14"
+    #  },
+    #  {
+    #    hostname     = "switcher05",
+    #    secondary_ip = "192.168.71.15"
+    #  },
+    #  {
+    #    hostname     = "switcher06",
+    #    secondary_ip = "192.168.71.16"
+    #  },
   ]
 }
 
@@ -44,11 +44,11 @@ resource "sakuracloud_disk" "switcher_boot" {
 }
 
 resource "sakuracloud_disk" "switcher_data" {
-  for_each          = { for i in local.switchers : i.hostname => i }
-  name              = "${each.value.hostname}-data"
-  plan              = "ssd"
-  connector         = "virtio"
-  size              = 500
+  for_each  = { for i in local.switchers : i.hostname => i }
+  name      = "${each.value.hostname}-data"
+  plan      = "ssd"
+  connector = "virtio"
+  size      = 500
 
   lifecycle {
     ignore_changes = [
@@ -80,10 +80,10 @@ resource "sakuracloud_server" "switcher" {
   }
 
   user_data = templatefile("./template/switcher-cloud-init.yaml", {
-    vm_password  = var.vm_password,
-    vnc_password = var.vnc_password,
-    hostname     = each.value.hostname,
-    secondary_ip = each.value.secondary_ip,
+    vm_password           = var.vm_password,
+    vnc_password          = var.vnc_password,
+    hostname              = each.value.hostname,
+    secondary_ip          = each.value.secondary_ip,
     broadcast_webhook_url = var.broadcast_webhook_url,
   })
 
