@@ -9,7 +9,7 @@ data "aws_iam_policy_document" "mackerel_aws_integration_assume_role_policy" {
     condition {
       test     = "StringEquals"
       variable = "sts:ExternalId"
-      values   = ["3xrDMcIWgrs862LSz72jEv93130iW7fYfto6B5iN"]
+      values   = ["PjNXpXOncvMGHWbVPgN6Yj8E5m19ZtSbtDkGnpub"]
     }
   }
 }
