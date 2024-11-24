@@ -3,8 +3,8 @@ resource "auth0_client" "tfer--0cWWdpGt4CpWjHJ9QIHtPm5GrJLS25lz_Dreamkast-0020-U
   app_type            = "spa"
   callbacks = [
     "http://localhost:3001/discussionboard",
-    "http://localhost:3001/cnds2024/ui",
-    "https://*.dev.cloudnativedays.jp/cnds2024/ui",
+    "http://localhost:3001/cndw2024/ui",
+    "https://*.dev.cloudnativedays.jp/cndw2024/ui",
   ]
   cross_origin_auth                   = "false"
   custom_login_page_on                = "true"
