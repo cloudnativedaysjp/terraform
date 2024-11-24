@@ -176,7 +176,7 @@ resource "auth0_client" "tfer--34CNIWysaolYGdA5FK2OVGRgcNaEWNoU_ArgoCD" {
 
 resource "auth0_client" "tfer--61c91hIk6j8dz2RAaNytOyHFgyKqilTX_Grafana" {
   app_type                            = "regular_web"
-  callbacks                           = ["https://grafana.cloudnativedays.jp/login/generic_oauth", "https://grafana.dev.cloudnativedays.jp/login/generic_oauth", "https://grafana.event.cloudopsdays.com/login/generic_oauth"]
+  callbacks                           = ["https://grafana.cloudnativedays.jp/login/generic_oauth", "https://grafana.dev.cloudnativedays.jp/login/generic_oauth", "https://stg.grafana.cloudnativedays.jp/login/generic_oauth"]
   cross_origin_auth                   = "false"
   custom_login_page_on                = "true"
   grant_types                         = ["authorization_code", "client_credentials", "implicit", "refresh_token"]
@@ -281,7 +281,7 @@ resource "auth0_client" "tfer--9xGK1rAjX2ixlWVWhE0Ycva14B6PQhiH_auth0-account-li
 
 resource "auth0_client" "tfer--IJsMei2A93dLHsEXDJgH75xxUIJu2jeJ_API-0020-Explorer-0020-Application" {
   app_type                            = "non_interactive"
-  cross_origin_auth                   = "false"
+  cross_origin_auth                   = "true"
   custom_login_page_on                = "true"
   grant_types                         = ["client_credentials"]
   is_first_party                      = "true"
@@ -334,7 +334,7 @@ resource "auth0_client" "tfer--Ivee5RoyvPB8PcUdiLZqPnGZSmixkK5N_Nextcloud" {
   allowed_logout_urls                 = ["https://nextcloud.cloudnativedays.jp/*", "https://nextcloud.cloudnativedays.jp/redirect.html", "https://nextcloud2.cloudnativedays.jp/*", "https://nextcloud2.cloudnativedays.jp/redirect.html", "https://uploader.cloudnativedays.jp/*", "https://uploader.cloudnativedays.jp/redirect.html"]
   app_type                            = "spa"
   callbacks                           = ["https://nextcloud.cloudnativedays.jp/apps/user_saml/saml/acs", "https://nextcloud.cloudnativedays.jp/index.php/apps/user_saml/saml/acs", "https://nextcloud2.cloudnativedays.jp/apps/user_saml/saml/acs", "https://nextcloud2.cloudnativedays.jp/index.php/apps/user_saml/saml/acs", "https://uploader.cloudnativedays.jp/apps/user_saml/saml/acs", "https://uploader.cloudnativedays.jp/index.php/apps/user_saml/saml/acs"]
-  cross_origin_auth                   = "false"
+  cross_origin_auth                   = "true"
   custom_login_page_on                = "true"
   grant_types                         = ["authorization_code", "implicit", "refresh_token"]
   is_first_party                      = "true"
@@ -379,7 +379,7 @@ resource "auth0_client" "tfer--JxqrUDloZhPPWKflAQXlmPJgxrI1d5ms_Dreamkast-0020-U
   allowed_logout_urls = ["https://event.cloudnativedays.jp"]
   app_type            = "spa"
   callbacks = [
-    "https://event.cloudnativedays.jp/cnds2024/ui",
+    "https://event.cloudnativedays.jp/cndw2024/ui",
   ]
   cross_origin_auth                   = "false"
   custom_login_page_on                = "true"
@@ -426,7 +426,7 @@ resource "auth0_client" "tfer--JxqrUDloZhPPWKflAQXlmPJgxrI1d5ms_Dreamkast-0020-U
 
 resource "auth0_client" "tfer--OdhY7pRnr51ll6qdpwYS7Iv5u5LeeGlP_ReadOnlyAPI-0028-for-0020-Terraform-0020-import-0029-" {
   app_type                            = "non_interactive"
-  cross_origin_auth                   = "false"
+  cross_origin_auth                   = "true"
   custom_login_page_on                = "true"
   grant_types                         = ["client_credentials"]
   is_first_party                      = "true"
@@ -458,7 +458,7 @@ resource "auth0_client" "tfer--OdhY7pRnr51ll6qdpwYS7Iv5u5LeeGlP_ReadOnlyAPI-0028
 
 resource "auth0_client" "tfer--Piz0aBnXn0vxesyZScc76PgdCB7lCAbk_Dreamkast-0020-API" {
   app_type                            = "non_interactive"
-  cross_origin_auth                   = "false"
+  cross_origin_auth                   = "true"
   custom_login_page_on                = "true"
   grant_types                         = ["client_credentials"]
   is_first_party                      = "true"
@@ -501,7 +501,7 @@ resource "auth0_client" "tfer--Piz0aBnXn0vxesyZScc76PgdCB7lCAbk_Dreamkast-0020-A
 
 resource "auth0_client" "tfer--QnXQCFIndJASnVUy7dO8RAd9neGeFnP6_Dreamkast-0020-API-0020-Gateway-0020-DEV-0020--0028-Test-0020-Application-0029-" {
   app_type                            = "non_interactive"
-  cross_origin_auth                   = "false"
+  cross_origin_auth                   = "true"
   custom_login_page_on                = "true"
   grant_types                         = ["client_credentials"]
   is_first_party                      = "true"
@@ -535,7 +535,7 @@ resource "auth0_client" "tfer--TPeiKSZzmH2JZJPybE290kypTUrWClTk_Dreamkast-0020-U
   allowed_logout_urls = ["https://staging.dev.cloudnativedays.jp"]
   app_type            = "spa"
   callbacks = [
-    "https://staging.dev.cloudnativedays.jp/cnds2024/ui", "http://localhost:3001/cnds2024/ui",
+    "https://staging.dev.cloudnativedays.jp/cndw2024/ui", "http://localhost:3001/cndw2024/ui",
   ]
   cross_origin_auth                   = "false"
   custom_login_page_on                = "true"
@@ -577,11 +577,11 @@ resource "auth0_client" "tfer--TPeiKSZzmH2JZJPybE290kypTUrWClTk_Dreamkast-0020-U
   sso                        = "false"
   sso_disabled               = "false"
   token_endpoint_auth_method = "none"
-  web_origins                = ["http://localhost:3001/cnds2024/ui", "https://staging.dev.cloudnativedays.jp"]
+  web_origins                = ["http://localhost:3001/cndw2024/ui", "https://staging.dev.cloudnativedays.jp"]
 }
 
 resource "auth0_client" "tfer--VcE2MiC04c9ofKhRf3jplPFFtUyyznaX_All-0020-Applications" {
-  cross_origin_auth                   = "false"
+  cross_origin_auth                   = "true"
   custom_login_page_on                = "false"
   is_first_party                      = "true"
   is_token_endpoint_ip_header_trusted = "false"
@@ -604,7 +604,7 @@ resource "auth0_client" "tfer--VcE2MiC04c9ofKhRf3jplPFFtUyyznaX_All-0020-Applica
 
 resource "auth0_client" "tfer--WF6mejuYuwqeb8cMVeX0bHmpYAFzHLSn_Terraform" {
   app_type                            = "non_interactive"
-  cross_origin_auth                   = "false"
+  cross_origin_auth                   = "true"
   custom_login_page_on                = "true"
   grant_types                         = ["client_credentials"]
   is_first_party                      = "true"
@@ -711,9 +711,9 @@ resource "auth0_client" "tfer--bqg8diqDm14YYRIyYKHYhlEMuFhD48yd_Default-0020-App
 }
 
 resource "auth0_client" "tfer--lIrIGrhacjYsZcqEXeauzTmkK5Sz79nL_Cloud-0020-Native-0020-Days-0020---0020--0020-Review" {
-  allowed_logout_urls                 = ["http://*.dev.cloudnativedays.jp/", "http://127.0.0.1:3000/", "http://127.0.0.2:3000/", "http://localhost:3000/", "http://localhost:8080/", "https://*.dev.cloudnativedays.jp/", "https://*.herokuapp.com/", "https://cloudopsdays.com/"]
+  allowed_logout_urls                 = ["http://*.dev.cloudnativedays.jp/", "http://127.0.0.1:3000/", "http://127.0.0.2:3000/", "http://localhost:3000/", "http://localhost:8080/", "https://*.dev.cloudnativedays.jp/"]
   app_type                            = "regular_web"
-  callbacks                           = ["http://*.dev.cloudnativedays.jp/auth/auth0/callback", "http://127.0.0.1:3000/auth/auth0/callback", "http://127.0.0.2:3000/auth/auth0/callback", "http://localhost:3000/auth/auth0/callback", "http://localhost:8080/auth/auth0/callback", "https://*.dev.cloudnativedays.jp/auth/auth0/callback", "http://localhost:8089/auth/auth0/callback", "http://localhost:8080/cnds2024/ui", "http://localhost:8089/cnds2024/ui", "http://localhost:8089"]
+  callbacks                           = ["http://*.dev.cloudnativedays.jp/auth/auth0/callback", "http://127.0.0.1:3000/auth/auth0/callback", "http://127.0.0.2:3000/auth/auth0/callback", "http://localhost:3000/auth/auth0/callback", "http://localhost:8080/auth/auth0/callback", "https://*.dev.cloudnativedays.jp/auth/auth0/callback", "http://localhost:8089/auth/auth0/callback", "http://localhost:8080/cndw2024/ui", "http://localhost:8089/cndw2024/ui", "http://localhost:8089"]
   cross_origin_auth                   = "false"
   custom_login_page_on                = "true"
   grant_types                         = ["authorization_code", "client_credentials", "implicit", "refresh_token"]

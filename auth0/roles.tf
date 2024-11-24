@@ -16,3 +16,8 @@ resource "auth0_role" "roles" {
   name        = each.value
   description = each.value
 }
+
+import {
+  to = auth0_role.roles["CNDW2024-Admin"]
+  id = "rol_UBJHrG1NLdcOkpPG"
+}
