@@ -4,8 +4,9 @@ resource "sakuracloud_server" "sentry" {
     sakuracloud_disk.sentry_boot.id,
     sakuracloud_disk.sentry_docker_volume.id,
   ]
-  core        = 6
-  memory      = 12
+  # TODO: scale down cpu and memory resource
+  core        = 20
+  memory      = 32
   description = "Sentry server for staging"
   tags        = ["app=sentry", "stage=staging", "starred"]
 
@@ -31,8 +32,9 @@ resource "sakuracloud_server" "sentry_redis" {
     sakuracloud_disk.sentry_redis_boot.id,
     sakuracloud_disk.sentry_redis_docker_volume.id
   ]
-  core        = 2
-  memory      = 4
+  # TODO: scale down cpu and memory resource
+  core        = 4
+  memory      = 16
   description = "Sentry Redis server for staging"
   tags        = ["app=redis", "stage=staging", "starred"]
 
