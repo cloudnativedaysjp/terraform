@@ -121,3 +121,43 @@ resource "aws_lb_target_group" "dreamkast_weaver" {
     matcher             = 200
   }
 }
+
+# ------------------------------------------------------------#
+# for pushgateway
+# ------------------------------------------------------------#
+resource "aws_lb_listener_rule" "pushgateway" {
+  listener_arn = aws_lb_listener.alb.arn
+  priority     = 12
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.pushgateway.arn
+  }
+  condition {
+    host_header {
+      values = ["pushgateway.cloudnativedays.jp"]
+    }
+  }
+  condition {
+    path_pattern {
+      values = ["/*"]
+    }
+  }
+}
+resource "aws_lb_target_group" "pushgateway" {
+  name        = "pushgateway"
+  port        = 9091
+  protocol    = "HTTP"
+  vpc_id      = module.vpc.vpc_id
+  target_type = "ip"
+
+  health_check {
+    protocol            = "HTTP"
+    path                = "/"
+    port                = 9091
+    healthy_threshold   = 3
+    unhealthy_threshold = 2
+    timeout             = 5
+    interval            = 30
+    matcher             = 200
+  }
+}
