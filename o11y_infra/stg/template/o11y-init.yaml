@@ -63,6 +63,7 @@ fs_setup:
 mounts:
   - ["/dev/vdb", "/var/lib/docker", "ext4", "defaults", "0", "2"]
 runcmd:
+  - sudo netplan apply
   - sudo mkdir -p /var/lib/docker
   - sudo install -m 0755 -d /etc/apt/keyrings
   - sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -80,4 +81,5 @@ runcmd:
   - docker volume create grafana-data
   - docker volume create loki-data
   - docker volume create prometheus-data
-  - sudo netplan apply
+  - wget -q -O - https://mackerel.io/file/script/setup-all-apt-v2.sh | MACKEREL_APIKEY=${mackerel_api_key} sh
+  - sudo systemctl start mackerel-agent
