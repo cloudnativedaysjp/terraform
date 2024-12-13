@@ -1,0 +1,83 @@
+#cloud-config
+fqdn: ${hostname}
+chpasswd:
+  expire: false
+  users:
+    - name: ubuntu
+      password: ${vm_password}
+      type: text
+users:
+  - default
+  - name: ubuntu
+    gecos: Local
+    lock_passwd: false
+    groups: sudo, users, admin
+    shell: /bin/bash
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    ssh_import_id:
+      - gh:jacopen
+      - gh:inductor
+      - gh:b1gb4by
+      - gh:ureuzy
+      - gh:shukawam
+      - gh:ne-sachirou
+system_info:
+  default_user:
+    name: default-user
+    lock_passwd: false
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+ssh_pwauth: no
+random_seed:
+  file: /dev/urandom
+  command: ["pollinate", "-r", "-s", "https://entropy.ubuntu.com"]
+  command_required: true
+package_upgrade: true
+packages:
+  - curl
+  - vim
+  - git
+  - unzip
+  - gnupg
+  - lsb-release
+  - ca-certificates
+  - dstat
+write_files:
+  - path: /etc/netplan/51-secondary-nic.yaml
+    permissions: "0644"
+    content: |
+      network:
+        version: 2
+        ethernets:
+          ens4:
+            dhcp4: false
+            addresses: [${secondary_ip}/24]
+disk_setup:
+  /dev/vdb:
+    table_type: "gpt"
+    layout: true
+    overwrite: false
+fs_setup:
+  - label: docker-data
+    filesystem: ext4
+    device: /dev/vdb
+mounts:
+  - ["/dev/vdb", "/var/lib/docker", "ext4", "defaults", "0", "2"]
+runcmd:
+  - sudo mkdir -p /var/lib/docker
+  - sudo install -m 0755 -d /etc/apt/keyrings
+  - sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  - sudo chmod a+r /etc/apt/keyrings/docker.asc
+  - |
+    echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  - sudo apt-get update
+  - sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  - sudo groupadd docker
+  - sudo usermod -aG docker ubuntu
+  - docker plugin install grafana/loki-docker-driver:2.9.2 --alias loki --grant-all-permissions
+  - docker volume create grafana-data
+  - docker volume create loki-data
+  - docker volume create prometheus-data
+  - sudo netplan apply

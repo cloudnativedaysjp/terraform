@@ -1,3 +1,30 @@
+resource "sakuracloud_server" "ci" {
+  name = "ci"
+  disks = [
+    sakuracloud_disk.ci_boot.id,
+    sakuracloud_disk.ci_docker_volume.id,
+  ]
+  core        = 1
+  memory      = 1
+  description = "Cloud init testing"
+  tags        = ["app=ci", "stage=staging"]
+
+  network_interface {
+    upstream         = "shared"
+    packet_filter_id = sakuracloud_packet_filter.sentry.id
+  }
+
+  network_interface {
+    upstream = data.sakuracloud_switch.o11y.id
+  }
+
+  user_data = templatefile("./template/o11y-init.yaml", {
+    vm_password           = random_password.password.result,
+    hostname              = "ci"
+    secondary_ip          = "192.168.2.200",
+  })
+}
+
 resource "sakuracloud_server" "sentry" {
   name = "sentry-stg"
   disks = [
