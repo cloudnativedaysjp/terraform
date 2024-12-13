@@ -22,6 +22,7 @@ resource "sakuracloud_server" "ci" {
     vm_password           = random_password.password.result,
     hostname              = "ci"
     secondary_ip          = "192.168.2.200",
+    mackerel_api_key      = var.mackerel_api_key
   })
 }
 
