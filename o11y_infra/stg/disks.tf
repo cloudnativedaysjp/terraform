@@ -1,18 +1,3 @@
-resource "sakuracloud_disk" "ci_boot" {
-  name              = "ci-boot"
-  source_archive_id = data.sakuracloud_archive.ubuntu2404.id
-  plan              = "ssd"
-  connector         = "virtio"
-  size              = 20
-}
-
-resource "sakuracloud_disk" "ci_docker_volume" {
-  name      = "ci-docker-volume"
-  plan      = "ssd"
-  connector = "virtio"
-  size      = 20
-}
-
 resource "sakuracloud_disk" "sentry_boot" {
   name              = "sentry-boot-stg"
   source_archive_id = data.sakuracloud_archive.ubuntu2404.id
