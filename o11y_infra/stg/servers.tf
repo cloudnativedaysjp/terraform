@@ -56,6 +56,7 @@ resource "sakuracloud_server" "prometheus" {
     vm_password           = random_password.password.result,
     hostname              = "prometheus-stg",
     secondary_ip          = "192.168.1.202",
+    mackerel_api_key      = var.mackerel_api_key
   })
 
   lifecycle {
@@ -89,6 +90,7 @@ resource "sakuracloud_server" "loki" {
     vm_password           = random_password.password.result,
     hostname              = "loki-stg",
     secondary_ip          = "192.168.1.203",
+    mackerel_api_key      = var.mackerel_api_key
   })
 
   lifecycle {
@@ -122,6 +124,7 @@ resource "sakuracloud_server" "grafana" {
     vm_password           = random_password.password.result,
     hostname              = "grafana-stg",
     secondary_ip          = "192.168.1.204",
+    mackerel_api_key      = var.mackerel_api_key
   })
 
   lifecycle {
