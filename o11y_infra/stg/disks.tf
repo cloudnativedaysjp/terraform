@@ -10,22 +10,7 @@ resource "sakuracloud_disk" "sentry_docker_volume" {
   name      = "sentry-docker-volume-stg"
   plan      = "ssd"
   connector = "virtio"
-  size      = 100
-}
-
-resource "sakuracloud_disk" "sentry_redis_boot" {
-  name              = "sentry-redis-boot-stg"
-  source_archive_id = data.sakuracloud_archive.ubuntu2404.id
-  plan              = "ssd"
-  connector         = "virtio"
-  size              = 100
-}
-
-resource "sakuracloud_disk" "sentry_redis_docker_volume" {
-  name      = "sentry-redis-docker-volume-stg"
-  plan      = "ssd"
-  connector = "virtio"
-  size      = 100
+  size      = 250
 }
 
 resource "sakuracloud_disk" "prometheus_boot" {
