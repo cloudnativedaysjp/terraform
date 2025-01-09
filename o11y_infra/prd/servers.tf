@@ -15,7 +15,7 @@ resource "sakuracloud_server" "sentry" {
   }
 
   network_interface {
-    upstream = sakuracloud_switch.sentry.id
+    upstream = sakuracloud_switch.o11y.id
   }
 
   user_data = templatefile("./template/sentry-init.yaml", {
@@ -48,7 +48,7 @@ resource "sakuracloud_server" "sentry_redis" {
   }
 
   network_interface {
-    upstream = sakuracloud_switch.sentry.id
+    upstream = sakuracloud_switch.o11y.id
   }
 
   user_data = templatefile("./template/sentry-init.yaml", {
@@ -81,7 +81,7 @@ resource "sakuracloud_server" "prometheus" {
   }
 
   network_interface {
-    upstream = sakuracloud_switch.sentry.id
+    upstream = sakuracloud_switch.o11y.id
   }
 
   user_data = templatefile("./template/sentry-init.yaml", {
@@ -114,7 +114,7 @@ resource "sakuracloud_server" "loki" {
   }
 
   network_interface {
-    upstream = sakuracloud_switch.sentry.id
+    upstream = sakuracloud_switch.o11y.id
   }
 
   user_data = templatefile("./template/sentry-init.yaml", {
@@ -147,7 +147,7 @@ resource "sakuracloud_server" "grafana" {
   }
 
   network_interface {
-    upstream = sakuracloud_switch.sentry.id
+    upstream = sakuracloud_switch.o11y.id
   }
 
   user_data = templatefile("./template/sentry-init.yaml", {
