@@ -1,4 +1,4 @@
-resource "sakuracloud_switch" "o11y" {
+resource "sakuracloud_switch" "sentry" {
   name        = "o11y"
   description = "Network switch for observability team."
   tags        = ["o11y"]
