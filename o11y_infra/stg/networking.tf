@@ -1,6 +1,6 @@
 data "sakuracloud_switch" "o11y" {
   filter {
-    names = ["o11y"]
+    names = ["sentry"]
   }
 }
 
