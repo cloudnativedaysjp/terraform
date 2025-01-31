@@ -16,7 +16,7 @@ resource "aws_route53_record" "loki" {
   name    = "loki.cloudnativedays.jp"
   type    = "A"
   ttl     = "300"
-  records = [sakuracloud_server.loki.ip_address]
+  records = [sakuracloud_server.o11y_stacks.ip_address]
 }
 
 resource "aws_route53_record" "prometheus" {
@@ -24,7 +24,7 @@ resource "aws_route53_record" "prometheus" {
   name    = "prometheus.cloudnativedays.jp"
   type    = "A"
   ttl     = "300"
-  records = [sakuracloud_server.prometheus.ip_address]
+  records = [sakuracloud_server.o11y_stacks.ip_address]
 }
 
 resource "aws_route53_record" "grafana" {
@@ -32,5 +32,5 @@ resource "aws_route53_record" "grafana" {
   name    = "grafana.cloudnativedays.jp"
   type    = "A"
   ttl     = "300"
-  records = [sakuracloud_server.grafana.ip_address]
+  records = [sakuracloud_server.o11y_stacks.ip_address]
 }

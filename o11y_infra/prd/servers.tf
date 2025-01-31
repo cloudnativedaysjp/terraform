@@ -64,96 +64,31 @@ resource "sakuracloud_server" "sentry_redis" {
   }
 }
 
-resource "sakuracloud_server" "prometheus" {
-  name = "prometheus"
+resource "sakuracloud_server" "o11y_stacks" {
+  name = "o11y-stacks-prd"
   disks = [
-    sakuracloud_disk.prometheus_boot.id,
-    sakuracloud_disk.prometheus_docker_volume.id,
+    sakuracloud_disk.o11y_stacks_boot.id,
+    sakuracloud_disk.o11y_stacks_docker_volume.id,
   ]
-  core        = 4
-  memory      = 8
-  description = "Prometheus Server"
-  tags        = ["app=prometheus", "stage=production", "starred"]
+  core         = 4
+  memory       = 8
+  description = "Observability stacks for production"
+  tags         = ["app=grafana", "app=prometheus", "app=loki", "stage=production", "starred"]
 
   network_interface {
-    upstream = "shared"
-    packet_filter_id = sakuracloud_packet_filter.prometheus.id
+    upstream         = "shared"
+    packet_filter_id = sakuracloud_packet_filter.o11y_stacks.id
   }
 
   network_interface {
     upstream = sakuracloud_switch.sentry.id
   }
 
-  user_data = templatefile("./template/sentry-init.yaml", {
-    vm_password           = random_password.password.result,
-    hostname              = "prometheus",
-    secondary_ip          = "192.168.0.202",
-  })
-
-  lifecycle {
-    ignore_changes = [
-      user_data,
-    ]
-  }
-}
-
-resource "sakuracloud_server" "loki" {
-  name = "loki"
-  disks = [
-    sakuracloud_disk.loki_boot.id,
-    sakuracloud_disk.loki_docker_volume.id
-  ]
-  core        = 4
-  memory      = 8
-  description = "Loki Server"
-  tags        = ["app=loki", "stage=production", "starred"]
-
-  network_interface {
-    upstream = "shared"
-    packet_filter_id = sakuracloud_packet_filter.loki.id
-  }
-
-  network_interface {
-    upstream = sakuracloud_switch.sentry.id
-  }
-
-  user_data = templatefile("./template/sentry-init.yaml", {
-    vm_password           = random_password.password.result,
-    hostname              = "loki",
-    secondary_ip          = "192.168.0.203",
-  })
-
-  lifecycle {
-    ignore_changes = [
-      user_data,
-    ]
-  }
-}
-
-resource "sakuracloud_server" "grafana" {
-  name = "grafana"
-  disks = [
-    sakuracloud_disk.grafana_boot.id,
-    sakuracloud_disk.grafana_docker_volume.id
-  ]
-  core        = 4
-  memory      = 8
-  description = "Grafana Server"
-  tags        = ["app=grafana", "stage=production", "starred"]
-
-  network_interface {
-    upstream = "shared"
-    packet_filter_id = sakuracloud_packet_filter.grafana.id
-  }
-
-  network_interface {
-    upstream = sakuracloud_switch.sentry.id
-  }
-
-  user_data = templatefile("./template/sentry-init.yaml", {
-    vm_password           = random_password.password.result,
-    hostname              = "grafana",
-    secondary_ip          = "192.168.0.204",
+  user_data = templatefile("./template/o11y-init.yaml", {
+    vm_password      = random_password.password.result,
+    hostname         = "o11y-stacks-prd",
+    secondary_ip     = "192.168.0.202",
+    mackerel_api_key = var.mackerel_api_key
   })
 
   lifecycle {

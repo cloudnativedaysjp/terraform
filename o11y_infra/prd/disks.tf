@@ -38,67 +38,17 @@ resource "sakuracloud_disk" "sentry_redis_docker_volume" {
   size      = 250
 }
 
-resource "sakuracloud_disk" "prometheus_boot" {
-  name              = "prometheus"
-  source_archive_id = data.sakuracloud_archive.ubuntu22042.id
-  plan              = "ssd"
-  connector         = "virtio"
-  size              = 100
-  lifecycle {
-    ignore_changes = [
-      source_archive_id,
-    ]
-  }
-}
-
-resource "sakuracloud_disk" "prometheus_docker_volume" {
-  name      = "prometheus-docker-volume"
-  plan      = "ssd"
-  connector = "virtio"
-  size      = 100
-}
-
-resource "sakuracloud_disk" "loki_boot" {
-  name              = "loki"
-  source_archive_id = data.sakuracloud_archive.ubuntu22042.id
-  plan              = "ssd"
-  connector         = "virtio"
-  size              = 100
-  lifecycle {
-    ignore_changes = [
-      source_archive_id,
-    ]
-  }
-}
-
-resource "sakuracloud_disk" "loki_docker_volume" {
-  name      = "loki-docker-volume"
-  plan      = "ssd"
-  connector = "virtio"
-  size      = 100
-  lifecycle {
-    ignore_changes = [
-      source_archive_id,
-    ]
-  }
-}
-
-resource "sakuracloud_disk" "grafana_boot" {
-  name              = "grafana"
+resource "sakuracloud_disk" "o11y_stacks_boot" {
+  name              = "o11y-stacks-prd"
   source_archive_id = data.sakuracloud_archive.ubuntu2404.id
   plan              = "ssd"
   connector         = "virtio"
-  size              = 100
-  lifecycle {
-    ignore_changes = [
-      source_archive_id,
-    ]
-  }
+  size              = 20
 }
 
-resource "sakuracloud_disk" "grafana_docker_volume" {
-  name      = "grafana-docker-volume"
+resource "sakuracloud_disk" "o11y_stacks_docker_volume" {
+  name      = "o11y-stacks-docker-volume-prd"
   plan      = "ssd"
   connector = "virtio"
-  size      = 100
+  size      = 250
 }
