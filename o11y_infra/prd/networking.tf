@@ -1,7 +1,7 @@
-resource "sakuracloud_switch" "sentry" {
-  name        = "sentry"
-  description = "sentry"
-  tags        = ["sentry"]
+resource "sakuracloud_switch" "o11y" {
+  name        = "o11y"
+  description = "o11y"
+  tags        = ["o11y"]
 }
 
 resource "sakuracloud_packet_filter" "o11y_stacks" {
