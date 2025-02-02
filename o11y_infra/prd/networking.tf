@@ -5,8 +5,8 @@ resource "sakuracloud_switch" "o11y" {
 }
 
 resource "sakuracloud_packet_filter" "o11y_stacks" {
-  name        = "o11y-stacks-stg"
-  description = "Packet filtering rules for staging o11y stacks VM"
+  name        = "o11y-stacks-prd"
+  description = "Packet filtering rules for production o11y stacks VM"
 }
 
 resource "sakuracloud_packet_filter" "sentry" {
