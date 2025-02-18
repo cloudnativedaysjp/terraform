@@ -176,7 +176,7 @@ resource "auth0_client" "tfer--34CNIWysaolYGdA5FK2OVGRgcNaEWNoU_ArgoCD" {
 
 resource "auth0_client" "tfer--61c91hIk6j8dz2RAaNytOyHFgyKqilTX_Grafana" {
   app_type                            = "regular_web"
-  callbacks                           = ["https://grafana.cloudnativedays.jp/login/generic_oauth", "https://grafana.dev.cloudnativedays.jp/login/generic_oauth", "https://stg.grafana.cloudnativedays.jp/login/generic_oauth"]
+  callbacks                           = ["https://grafana.cloudnativedays.jp/login/generic_oauth", "https://grafana.dev.cloudnativedays.jp/login/generic_oauth", "https://stg.grafana.cloudnativedays.jp/login/generic_oauth", "http://localhost:3000/login/generic_oauth"]
   cross_origin_auth                   = "false"
   custom_login_page_on                = "true"
   grant_types                         = ["authorization_code", "client_credentials", "implicit", "refresh_token"]
