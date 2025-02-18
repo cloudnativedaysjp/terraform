@@ -8,6 +8,7 @@ locals {
     "CNDT2023-Admin",
     "CNDS2024-Admin",
     "CNDW2024-Admin",
+    "CNDS2025-Admin",
   ]
 }
 
@@ -15,9 +16,4 @@ resource "auth0_role" "roles" {
   for_each    = { for i in local.roles : i => i }
   name        = each.value
   description = each.value
-}
-
-import {
-  to = auth0_role.roles["CNDW2024-Admin"]
-  id = "rol_UBJHrG1NLdcOkpPG"
 }
