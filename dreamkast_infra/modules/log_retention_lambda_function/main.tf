@@ -103,7 +103,7 @@ resource "aws_cloudwatch_event_rule" "daily_trigger" {
   provider            = aws.region
   name                = "trigger_log_retention_lambda_daily_${var.aws_region}"
   description         = "Triggers the log retention Lambda function once a day"
-  schedule_expression = "rate(7 day)"
+  schedule_expression = "rate(7 days)"
 }
 
 # CloudWatch Event Target to connect the rule to the Lambda function
