@@ -470,6 +470,51 @@ resource "aws_security_group" "ecs-seaman" {
 }
 
 # ------------------------------------------------------------#
+# for pushgateway
+# ------------------------------------------------------------#
+resource "aws_iam_role" "ecs-pushgateway" {
+  name = "${var.prj_prefix}-ecs-pushgateway"
+
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_ecs.json
+
+  managed_policy_arns = [
+    data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn,
+  ]
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+resource "aws_security_group" "ecs-pushgateway" {
+  name   = "${var.prj_prefix}-ecs-pushgateway"
+  vpc_id = module.vpc.vpc_id
+
+  ingress {
+    description = "tcp/9091"
+    protocol    = "tcp"
+    from_port   = 9091
+    to_port     = 9091
+    security_groups = [
+      aws_security_group.alb.id,
+      aws_security_group.ecs-dreamkast-weaver.id,
+    ]
+  }
+
+  egress {
+    description = "allow all"
+    protocol    = "all"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+# ------------------------------------------------------------#
 # for post-registration
 # ------------------------------------------------------------#
 resource "aws_iam_role" "ecs-post-registration" {
