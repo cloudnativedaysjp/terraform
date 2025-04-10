@@ -14,6 +14,7 @@ locals {
     "dreamkast-ui",
     "dreamkast-weaver",
     "dreamkast-external-scaler",
+    "dreamkast-otelcol",
     "emtec-ecu/emtectl",
     "emtec-ecu/server",
     "seaman",
