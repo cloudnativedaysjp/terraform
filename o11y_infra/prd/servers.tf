@@ -1,46 +1,13 @@
-resource "sakuracloud_server" "sentry" {
-  name = "sentry"
-  disks = [
-    sakuracloud_disk.sentry_boot.id,
-    sakuracloud_disk.sentry_docker_volume.id,
-  ]
-  core        = 16
-  memory      = 32
-  description = "Sentry server"
-  tags        = ["app=sentry", "stage=production", "starred"]
-
-  network_interface {
-    upstream         = "shared"
-    packet_filter_id = sakuracloud_packet_filter.sentry.id
-  }
-
-  network_interface {
-    upstream = sakuracloud_switch.o11y.id
-  }
-
-  user_data = templatefile("./template/sentry-init.yaml", {
-    vm_password           = random_password.password.result,
-    hostname              = "sentry"
-    secondary_ip          = "192.168.0.200",
-  })
-
-  lifecycle {
-    ignore_changes = [
-      user_data,
-    ]
-  }
-}
-
 resource "sakuracloud_server" "o11y_stacks" {
   name = "o11y-stacks-prd"
   disks = [
     sakuracloud_disk.o11y_stacks_boot.id,
     sakuracloud_disk.o11y_stacks_docker_volume.id,
   ]
-  core         = 4
-  memory       = 8
+  core        = 4
+  memory      = 8
   description = "Observability stacks for production"
-  tags         = ["app=grafana", "app=prometheus", "app=loki", "stage=production", "starred"]
+  tags        = ["app=grafana", "app=prometheus", "app=loki", "stage=production", "starred"]
 
   network_interface {
     upstream         = "shared"
