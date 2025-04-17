@@ -48,8 +48,8 @@ resource "sakuracloud_server" "handson_dev01" {
   disks = [
     sakuracloud_disk.handson_dev01_boot.id,
   ]
-  core        = 20
-  memory      = 64
+  core        = 8
+  memory      = 32
   description = "Hands-on Machine 1"
   tags        = ["app=handson", "stage=production", "starred"]
 
@@ -189,6 +189,6 @@ module "vm1" {
   vm_password                = "A!waysbek1nd"
   additional_github_accounts = ["jacopen"]
   sakuracloud_zone           = "is1b"
-  cpu_core = 20
-  memory_size = 64
+  cpu_core = 8
+  memory_size = 32
 }
