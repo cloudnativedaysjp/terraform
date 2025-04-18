@@ -50,6 +50,7 @@ locals {
     "github",
     "uptime_robot",
     "broadcast_switcher",
+    "github_actions_assume_aws_role",
   ]
 }
 resource "tfe_workspace" "ws" {
