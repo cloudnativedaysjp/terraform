@@ -20,7 +20,7 @@ terraform {
 
 data "sakuracloud_archive" "ubuntu" {
   filter {
-    id = "113501244046"
+    names =["Ubuntu Server 24.04", "(cloudimg)"]
   }
 }
 
