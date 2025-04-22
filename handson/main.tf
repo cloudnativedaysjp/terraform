@@ -20,8 +20,7 @@ terraform {
 
 data "sakuracloud_archive" "ubuntu" {
   filter {
-     name   = "Tags"
-     values = ["cloud-init", "distro-ubuntu"]
+     tags = ["cloud-init", "distro-ubuntu", "distro-ver-24.04"]
   }
 }
 
