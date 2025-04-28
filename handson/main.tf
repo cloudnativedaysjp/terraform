@@ -19,9 +19,8 @@ terraform {
 }
 
 data "sakuracloud_archive" "ubuntu" {
-  os_type = "ubuntu"
   filter {
-    tags = ["cloud-init", "distro-ubuntu", "distro-ver-24.04"]
+    tags = ["@size-extendable","cloud-init","distro-ubuntu","distro-ver-24.04","os-linux"]
   }
 }
 
