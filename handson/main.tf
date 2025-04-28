@@ -19,7 +19,9 @@ terraform {
 }
 
 data "sakuracloud_archive" "ubuntu" {
-  name = "ubuntu"
+  filter {
+    tags = ["cloud-init", "distro-ubuntu", "distro-ver-24.04"]
+  }
 }
 
 data "aws_route53_zone" "cloudnativedays" {
