@@ -1,5 +1,5 @@
 locals {
-  redis_instance_type  = "cache.t4g.small"
+  redis_instance_type  = "cache.t4g.micro"
   redis_family         = "redis6.x"
   redis_engine_version = "6.0"
   redis_num_of_nodes   = 3

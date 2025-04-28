@@ -15,5 +15,11 @@ terraform {
 }
 
 provider "aws" {
+  // default provider
   region = "us-west-2"
+}
+
+provider "aws" {
+  alias  = "ap-northeast-1"
+  region = "ap-northeast-1"
 }
