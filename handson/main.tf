@@ -18,7 +18,7 @@ terraform {
   }
 }
 
-data "sakuracloud_archive" "ubuntu2404" {
+data "sakuracloud_archive" "ubuntu" {
   filter {
     tags = ["@size-extendable","cloud-init","distro-ubuntu","distro-ver-24.04","os-linux"]
   }
@@ -31,7 +31,7 @@ data "aws_route53_zone" "cloudnativedays" {
 
 resource "sakuracloud_disk" "handson_dev01_boot" {
   name              = "tailscale"
-  source_archive_id = data.sakuracloud_archive.ubuntu2404.id
+  source_archive_id = data.sakuracloud_archive.ubuntu.id
   plan              = "ssd"
   connector         = "virtio"
   size              = 20
@@ -191,5 +191,5 @@ module "vm1" {
   sakuracloud_zone           = "is1b"
   cpu_core = 8
   memory_size = 32
-  archive_id = data.sakuracloud_archive.ubuntu2404.id
+  archive_id = data.sakuracloud_archive.ubuntu.id
 }
