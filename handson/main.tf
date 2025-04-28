@@ -31,7 +31,7 @@ data "aws_route53_zone" "cloudnativedays" {
 
 resource "sakuracloud_disk" "handson_dev01_boot" {
   name              = "tailscale"
-  source_archive_id = data.sakuracloud_archive.ubuntu.id
+  source_archive_id = data.sakuracloud_archive.ubuntu2404.id
   plan              = "ssd"
   connector         = "virtio"
   size              = 20
