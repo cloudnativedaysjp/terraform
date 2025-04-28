@@ -19,9 +19,7 @@ terraform {
 }
 
 data "sakuracloud_archive" "ubuntu" {
-  filter {
-    name = "ubuntu"
-  }
+  name = "ubuntu"
 }
 
 data "aws_route53_zone" "cloudnativedays" {
