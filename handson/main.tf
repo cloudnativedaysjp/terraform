@@ -191,4 +191,5 @@ module "vm1" {
   sakuracloud_zone           = "is1b"
   cpu_core = 8
   memory_size = 32
+  archive_id = data.sakuracloud_archive.ubuntu2404.id
 }
