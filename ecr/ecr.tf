@@ -13,10 +13,6 @@ locals {
       "dreamkast-ecs",
       "dreamkast-ui",
       "dreamkast-weaver",
-      "dreamkast-external-scaler",
-      "emtec-ecu/emtectl",
-      "emtec-ecu/server",
-      "seaman",
     ],
     "ap-northeast-1" : [
       "dreamkast-ecs",
