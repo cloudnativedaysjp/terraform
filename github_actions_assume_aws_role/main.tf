@@ -29,6 +29,7 @@ locals {
   allowed_github_repositories = [
     "dreamkast",
     "dreamkast-functions",
+    "dreamkast-otelcol",
     "dreamkast-ui",
     "dreamkast-weaver",
     "seaman",
