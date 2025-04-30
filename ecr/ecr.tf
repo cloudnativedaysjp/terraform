@@ -11,11 +11,13 @@ locals {
   repositories = {
     "us-west-2" : [
       "dreamkast-ecs",
+      "dreamkast-otelcol",
       "dreamkast-ui",
       "dreamkast-weaver",
     ],
     "ap-northeast-1" : [
       "dreamkast-ecs",
+      "dreamkast-otelcol",
       "dreamkast-ui",
       "dreamkast-weaver",
       "seaman",
