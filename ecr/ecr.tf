@@ -11,9 +11,10 @@ locals {
   repositories = {
     "us-west-2" : [
       "dreamkast-ecs",
+      "dreamkast-external-scaler",
+      "dreamkast-otelcol",
       "dreamkast-ui",
       "dreamkast-weaver",
-      "dreamkast-external-scaler",
       "emtec-ecu/emtectl",
       "emtec-ecu/server",
       "seaman",
