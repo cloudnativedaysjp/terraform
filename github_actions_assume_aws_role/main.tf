@@ -80,3 +80,8 @@ resource "aws_iam_role_policy_attachment" "ecr-public" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
   role       = aws_iam_role.github_actions.name
 }
+
+resource "aws_iam_role_policy_attachment" "eventbridge" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"
+  role       = aws_iam_role.github_actions.name
+}
