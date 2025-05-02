@@ -28,7 +28,7 @@ resource "aws_iam_role" "github_actions" {
 locals {
   allowed_github_repositories = [
     "dreamkast",
-    "dreamkast-functions",
+    "dreamkast-infra",
     "dreamkast-otelcol",
     "dreamkast-ui",
     "dreamkast-weaver",
