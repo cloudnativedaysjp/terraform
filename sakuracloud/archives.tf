@@ -1,11 +1,11 @@
 data "sakuracloud_archive" "ubuntu2204" {
   filter {
-    id = "113401132828"
+    tags = ["@size-extendable","cloud-init","distro-ubuntu","distro-ver-22.04.5","os-linux"]
   }
 }
 
 data "sakuracloud_archive" "ubuntu22042" {
   filter {
-    id = "113601946995"
+    tags = ["@size-extendable","cloud-init","distro-ubuntu","distro-ver-22.04.5","os-linux"]
   }
 }

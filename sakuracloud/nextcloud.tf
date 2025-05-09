@@ -6,7 +6,7 @@ resource "random_password" "password" {
 
 data "sakuracloud_archive" "ubuntu" {
   filter {
-    id = "113301413483"
+    tags = ["@size-extendable","cloud-init","distro-ubuntu","distro-ver-24.04","os-linux"]
   }
 }
 
