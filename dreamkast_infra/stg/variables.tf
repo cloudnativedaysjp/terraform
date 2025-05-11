@@ -3,7 +3,7 @@
 # ------------------------------------------------------------#
 variable "event_name" {
   # used for the path of dreamkast-ui
-  default = "cndw2024"
+  default = "cnds2025"
 }
 
 variable "prj_prefix" {
