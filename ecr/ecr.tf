@@ -64,13 +64,26 @@ resource "aws_ecr_lifecycle_policy" "us_west_2" {
         },
         {
             "rulePriority": 2,
-            "description": "Expire images older than 30 days",
+            "description": "Expire commmit- images older than 30 days",
             "selection": {
                 "tagStatus": "tagged",
                 "tagPrefixList": ["commit-"],
                 "countType": "sinceImagePushed",
                 "countUnit": "days",
                 "countNumber": 30
+            },
+            "action": {
+                "type": "expire"
+            }
+        },
+        {
+            "rulePriority": 3,
+            "description": "Keey only one main- images, expire all others",
+            "selection": {
+                "tagStatus": "tagged",
+                "tagPrefixList": ["main-"],
+                "countType": "imageCountMoreThan",
+                "countNumber": 1
             },
             "action": {
                 "type": "expire"
