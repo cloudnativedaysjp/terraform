@@ -84,7 +84,7 @@ resource "aws_lambda_function" "log_retention_lambda" {
   function_name = "log_retention_lambda_${var.aws_region}"
   role          = aws_iam_role.lambda_role.arn
   handler       = "lambda_function.lambda_handler"
-  runtime       = "python3.9"
+  runtime       = "python3.12"
   timeout       = 300 # 5 minutes
   memory_size   = 128
 
