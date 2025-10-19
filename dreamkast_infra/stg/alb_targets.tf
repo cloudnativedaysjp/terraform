@@ -30,6 +30,8 @@ resource "aws_lb_target_group" "dreamkast_dk" {
   vpc_id      = data.aws_vpc.dreamkast_dev_vpc.id
   target_type = "ip"
 
+  deregistration_delay = 60
+
   health_check {
     protocol            = "HTTP"
     path                = "/"
@@ -74,6 +76,8 @@ resource "aws_lb_target_group" "dreamkast_ui" {
   vpc_id      = data.aws_vpc.dreamkast_dev_vpc.id
   target_type = "ip"
 
+  deregistration_delay = 60
+
   health_check {
     protocol            = "HTTP"
     path                = "/${var.event_name}/ui"
@@ -113,6 +117,8 @@ resource "aws_lb_target_group" "dreamkast_weaver" {
   protocol    = "HTTP"
   vpc_id      = data.aws_vpc.dreamkast_dev_vpc.id
   target_type = "ip"
+
+  deregistration_delay = 60
 
   health_check {
     protocol            = "HTTP"
