@@ -29,7 +29,7 @@ resource "aws_security_group" "alb" {
 
   egress {
     description = "allow all"
-    protocol    = "all"
+    protocol    = "-1"
     from_port   = 0
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
