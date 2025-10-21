@@ -55,7 +55,7 @@ resource "aws_security_group" "vpc_endpoint" {
 
   ingress {
     description = "allow all"
-    protocol    = "all"
+    protocol    = "-1"
     from_port   = 0
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
