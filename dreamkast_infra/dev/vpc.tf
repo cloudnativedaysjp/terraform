@@ -9,7 +9,7 @@ locals {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.19.0"
+  version = "4.0.2"
 
   name = "${var.prj_prefix}-vpc"
   cidr = local.vpc_cidr
@@ -19,9 +19,12 @@ module "vpc" {
   public_subnets  = [for k, _ in local.azs : cidrsubnet(local.vpc_cidr, 4, k + length(local.azs))]
   intra_subnets   = [for k, _ in local.azs : cidrsubnet(local.vpc_cidr, 4, k + length(local.azs) * 2)]
 
-  enable_nat_gateway = false
-
-  enable_dns_hostnames = true
+  enable_nat_gateway            = false
+  enable_dns_hostnames          = true
+  map_public_ip_on_launch       = true
+  manage_default_network_acl    = false
+  manage_default_route_table    = false
+  manage_default_security_group = false
 
   ### TODO: delete the following after that
   public_subnet_tags = {
@@ -55,7 +58,7 @@ resource "aws_security_group" "vpc_endpoint" {
 
   ingress {
     description = "allow all"
-    protocol    = "all"
+    protocol    = "-1"
     from_port   = 0
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]

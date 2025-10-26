@@ -26,18 +26,20 @@ resource "aws_s3_bucket_public_access_block" "bucket_block" {
 
 # https://github.com/cloudnativedaysjp/dreamkast/issues/1243
 resource "aws_s3_bucket_lifecycle_configuration" "bucket_lifecycle" {
-  for_each = toset(local.dev_s3_paths)
   bucket = aws_s3_bucket.bucket.id
 
-  rule {
-    id     = "delete_shrine_cache_${replace(each.key, "/", "_")}"
-    status = "Enabled"
+  dynamic "rule" {
+    for_each = local.dev_s3_paths
+    content {
+      id     = "delete_shrine_cache_${replace(rule.value, "/", "_")}"
+      status = "Enabled"
 
-    filter {
-      prefix = each.key
-    }
-    expiration {
-      days = 7
+      filter {
+        prefix = rule.value
+      }
+      expiration {
+        days = 7
+      }
     }
   }
 }
