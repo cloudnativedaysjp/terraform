@@ -19,9 +19,12 @@ module "vpc" {
   public_subnets  = [for k, _ in local.azs : cidrsubnet(local.vpc_cidr, 4, k + length(local.azs))]
   intra_subnets   = [for k, _ in local.azs : cidrsubnet(local.vpc_cidr, 4, k + length(local.azs) * 2)]
 
-  enable_nat_gateway = false
-
-  enable_dns_hostnames = true
+  enable_nat_gateway            = false
+  enable_dns_hostnames          = true
+  map_public_ip_on_launch       = true
+  manage_default_network_acl    = false
+  manage_default_route_table    = false
+  manage_default_security_group = false
 
   public_subnet_tags = {
     "kind"                                      = "private"
