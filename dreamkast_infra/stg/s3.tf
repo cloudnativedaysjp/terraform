@@ -50,6 +50,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "archive" {
   rule {
     id     = "ArchiveObjectRule"
     status = "Enabled"
+
+    filter {}
     expiration {
       expired_object_delete_marker = true
     }
