@@ -270,7 +270,7 @@ resource "aws_iam_role_policy" "ecs-dreamkast-streaming-resource" {
 
 resource "aws_security_group" "ecs-dreamkast" {
   name   = "${var.prj_prefix}-ecs-dreamkast"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.this.id
 
   ingress {
     description = "tcp/3000"
@@ -381,7 +381,7 @@ resource "aws_iam_role_policy" "ecs-dreamkast-fifo-worker-streaming-resource" {
 
 resource "aws_security_group" "ecs-dreamkast-fifo-worker" {
   name   = "${var.prj_prefix}-ecs-dreamkast-fifo-worker"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.this.id
 
   egress {
     description = "allow all"
@@ -416,7 +416,7 @@ resource "aws_iam_role_policy_attachment" "ecs-dreamkast-ui-ssm" {
 
 resource "aws_security_group" "ecs-dreamkast-ui" {
   name   = "${var.prj_prefix}-ecs-dreamkast-ui"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.this.id
 
   ingress {
     description = "tcp/3001"
@@ -461,7 +461,7 @@ resource "aws_iam_role_policy_attachment" "ecs-dreamkast-weaver-ssm" {
 
 resource "aws_security_group" "ecs-dreamkast-weaver" {
   name   = "${var.prj_prefix}-ecs-dreamkast-weaver"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.this.id
 
   ingress {
     description = "tcp/8080"
@@ -506,7 +506,7 @@ resource "aws_iam_role_policy_attachment" "ecs-redis-ssm" {
 
 resource "aws_security_group" "ecs-redis" {
   name   = "${var.prj_prefix}-ecs-redis"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.this.id
 
   ingress {
     description = "tcp/6379"
@@ -553,7 +553,7 @@ resource "aws_iam_role_policy_attachment" "ecs-mysql-ssm" {
 
 resource "aws_security_group" "ecs-mysql" {
   name   = "${var.prj_prefix}-ecs-mysql"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.this.id
 
   ingress {
     description = "tcp/3306"
@@ -616,7 +616,7 @@ resource "aws_iam_role_policy_attachment" "ecs-harvestjob-mediapackagev2" {
 
 resource "aws_security_group" "ecs-harvestjob" {
   name   = "${var.prj_prefix}-ecs-harvestjob"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.this.id
 
   ingress = []
   egress {
