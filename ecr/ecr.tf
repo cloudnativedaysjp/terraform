@@ -21,6 +21,7 @@ locals {
       "dreamkast-ui",
       "dreamkast-weaver",
       "seaman",
+      "bastion",
     ],
   }
 }
