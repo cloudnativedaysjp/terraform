@@ -2,6 +2,15 @@
 # for bastion (stepping stone)
 # ------------------------------------------------------------#
 
+# ECS Cluster for bastion
+resource "aws_ecs_cluster" "bastion" {
+  name = "${var.prj_prefix}-bastion"
+
+  tags = {
+    Environment = "${var.prj_prefix}"
+  }
+}
+
 # IAM Role for bastion task
 resource "aws_iam_role" "ecs-bastion" {
   name = "${var.prj_prefix}-ecs-bastion"
@@ -94,3 +103,27 @@ resource "aws_cloudwatch_log_group" "bastion" {
   retention_in_days = 7
 }
 
+# ECS Service for bastion
+resource "aws_ecs_service" "bastion" {
+  name            = "${var.prj_prefix}-bastion"
+  cluster         = aws_ecs_cluster.bastion.id
+  task_definition = aws_ecs_task_definition.bastion.arn
+  desired_count   = 0
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    subnets          = module.vpc.private_subnets
+    security_groups  = [aws_security_group.ecs-bastion.id]
+    assign_public_ip = false
+  }
+
+  # Allow tasks to stop without service trying to restart them
+  # When desired_count is 0, tasks won't be automatically restarted
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+
+  tags = {
+    Environment = "${var.prj_prefix}"
+  }
+}
