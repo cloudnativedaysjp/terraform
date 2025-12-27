@@ -328,7 +328,7 @@ resource "aws_vpc_endpoint" "endpoints_gateway" {
   ])
 
   vpc_id          = aws_vpc.this.id
-  service_name    = "com.amazonaws.${data.aws_region.current.name}.${each.value}"
+  service_name    = "com.amazonaws.${data.aws_region.current.id}.${each.value}"
   route_table_ids = aws_route_table.private[*].id
 
   #tags = {
