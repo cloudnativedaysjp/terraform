@@ -39,7 +39,7 @@ resource "aws_db_parameter_group" "rds_parameter_group" {
 # ------------------------------------------------------------#
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "${var.prj_prefix}-${local.db_instance_name}-subnet"
-  subnet_ids = module.vpc.intra_subnets
+  subnet_ids = aws_subnet.intra[*].id
 }
 
 # ------------------------------------------------------------#
@@ -47,21 +47,21 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 # ------------------------------------------------------------#
 resource "aws_security_group" "allow_rds" {
   name   = "${var.prj_prefix}-${local.db_instance_name}-sg"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.this.id
 
   ingress {
     description = "MySQL from private subnet"
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = module.vpc.private_subnets_cidr_blocks
+    cidr_blocks = aws_subnet.private[*].cidr_block
   }
   ingress {
     description = "MySQL from public subnet"
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = module.vpc.public_subnets_cidr_blocks
+    cidr_blocks = aws_subnet.public[*].cidr_block
   }
 
   egress {
