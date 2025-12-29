@@ -307,7 +307,7 @@ resource "aws_route_table_association" "intra" {
 # ------------------------------------------------------------#
 resource "aws_vpc_endpoint" "s3" {
   vpc_id          = aws_vpc.this.id
-  service_name    = "com.amazonaws.${data.aws_region.current.name}.s3"
+  service_name    = "com.amazonaws.${data.aws_region.current.id}.s3"
   route_table_ids = aws_route_table.private[*].id
 }
 
@@ -329,7 +329,7 @@ resource "aws_service_discovery_service" "dreamkast_dk" {
     }
     routing_policy = "MULTIVALUE"
   }
-  health_check_custom_config {
+  health_check_config {
     failure_threshold = 1
   }
 }
