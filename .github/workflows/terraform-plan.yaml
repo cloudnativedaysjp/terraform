@@ -19,14 +19,27 @@ jobs:
     outputs:
       matrix: ${{ steps.setup.outputs.matrix }}
     steps:
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
       - uses: actions/checkout@v4
 
       - name: Setup tfaction
         uses: suzuki-shunsuke/tfaction/setup@v1.15.5
+        with:
+          github_token: ${{ steps.generate_token.outputs.token }}
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
       - name: Detect changed working directories
         id: setup
         uses: suzuki-shunsuke/tfaction/setup-working-directory@v1.15.5
+        with:
+          github_token: ${{ steps.generate_token.outputs.token }}
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
   plan:
     needs: setup
@@ -51,3 +64,7 @@ jobs:
 
       - name: terraform plan
         uses: suzuki-shunsuke/tfaction/terraform-plan@v1.15.5
+        with:
+          github_token: ${{ steps.generate_token.outputs.token }}
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
