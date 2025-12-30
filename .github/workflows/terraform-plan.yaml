@@ -1,0 +1,53 @@
+name: terraform-plan
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      # tfaction管理に移行するディレクトリを追加
+      - 'broadcast_switcher/**'
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.setup.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup tfaction
+        uses: suzuki-shunsuke/tfaction/setup@v1.15.5
+
+      - name: Detect changed working directories
+        id: setup
+        uses: suzuki-shunsuke/tfaction/setup-working-directory@v1.15.5
+
+  plan:
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+      fail-fast: false
+
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ matrix.terraform_plan_aws_assume_role_arn }}
+          aws-region: ${{ matrix.aws_region }}
+
+      - name: terraform plan
+        uses: suzuki-shunsuke/tfaction/terraform-plan@v1.15.5

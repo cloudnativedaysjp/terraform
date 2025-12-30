@@ -1,0 +1,32 @@
+# tfaction-root.yaml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/suzuki-shunsuke/tfaction/refs/tags/v1.15.5/schema/tfaction-root.json
+
+plan_workflow_name: terraform-plan
+
+terraform_command: terraform
+
+# linter やセキュリティツール
+tflint:
+  enabled: true
+tfsec:
+  enabled: true
+trivy:
+  enabled: false
+
+drift_detection:
+  enabled: false
+  issue_repo_owner: cloudnativedaysjp
+  issue_repo_name: terraform-drifts
+  num_of_issues: 10
+  minimum_detection_interval: 7 # 日
+
+target_groups:
+  - working_directory: .
+    target: .
+    aws_region: ap-northeast-1
+    s3_bucket_name_tfmigrate_history: dreamkast-terraform-tfmigrate-history
+    terraform_command: terraform
+    terraform_plan_config:
+      aws_assume_role_arn: arn:aws:iam::607167088920:role/GitHubActions_Terraform_AWS_terraform_plan
+    terraform_apply_config:
+      aws_assume_role_arn: arn:aws:iam::607167088920:role/GitHubActions_Terraform_AWS_terraform_apply
