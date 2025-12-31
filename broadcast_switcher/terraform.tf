@@ -1,10 +1,10 @@
 terraform {
-  backend "remote" {
-    hostname     = "app.terraform.io"
-    organization = "cloudnativedaysjp"
-    workspaces {
-      name = "broadcast_switcher"
-    }
+  backend "s3" {
+    # Backend configuration is provided via -backend-config flags in GitHub Actions workflow
+    bucket  = "dreamkast-terraform-states"
+    key     = "broadcast_switcher/terraform.tfstate"
+    region  = "ap-northeast-1"
+    encrypt = true
   }
   required_providers {
     sakuracloud = {
@@ -16,9 +16,4 @@ terraform {
       version = "~> 3.0"
     }
   }
-}
-provider "sakuracloud" {
-}
-
-provider "aws" {
 }

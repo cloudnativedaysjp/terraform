@@ -1,0 +1,181 @@
+name: Terraform Workflow
+
+on:
+  workflow_call:
+    inputs:
+      working_directory:
+        description: 'Directory containing Terraform files'
+        required: true
+        type: string
+      terraform_version:
+        description: 'Terraform version to use'
+        required: false
+        type: string
+        default: '1.6.0'
+      s3_state_key:
+        description: 'S3 key path for state file (e.g., broadcast_switcher/terraform.tfstate)'
+        required: true
+        type: string
+      aws_region:
+        description: 'AWS region for operations'
+        required: false
+        type: string
+        default: 'ap-northeast-1'
+      apply_on_merge:
+        description: 'Whether to run terraform apply on merge to main'
+        required: false
+        type: boolean
+        default: true
+      enable_pr_comment:
+        description: 'Whether to post plan output as PR comment'
+        required: false
+        type: boolean
+        default: true
+    secrets:
+      SAKURACLOUD_ACCESS_TOKEN:
+        required: false
+      SAKURACLOUD_ACCESS_TOKEN_SECRET:
+        required: false
+      TF_VAR_vnc_password:
+        required: false
+      TF_VAR_vm_password:
+        required: false
+      TF_VAR_broadcast_webhook_url:
+        required: false
+
+env:
+  AWS_REGION: ${{ inputs.aws_region }}
+  TF_IN_AUTOMATION: true
+  TF_INPUT: false
+  SAKURACLOUD_ACCESS_TOKEN: ${{ secrets.SAKURACLOUD_ACCESS_TOKEN }}
+  SAKURACLOUD_ACCESS_TOKEN_SECRET: ${{ secrets.SAKURACLOUD_ACCESS_TOKEN_SECRET }}
+  TF_VAR_vnc_password: ${{ secrets.TF_VAR_vnc_password }}
+  TF_VAR_vm_password: ${{ secrets.TF_VAR_vm_password }}
+  TF_VAR_broadcast_webhook_url: ${{ secrets.TF_VAR_broadcast_webhook_url }}
+
+jobs:
+  terraform-plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+
+    defaults:
+      run:
+        working-directory: ${{ inputs.working_directory }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (Plan Role)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::607167088920:role/GitHubActions_Terraform_dreamkast_terraform_plan
+          role-session-name: terraform-plan-${{ github.run_id }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ inputs.terraform_version }}
+
+      - name: Terraform Format Check
+        id: fmt
+        run: terraform fmt -check -recursive
+        continue-on-error: true
+
+      - name: Terraform Init
+        id: init
+        run: |
+          terraform init \
+            -backend-config="bucket=dreamkast-terraform-states" \
+            -backend-config="key=${{ inputs.s3_state_key }}" \
+            -backend-config="region=${{ env.AWS_REGION }}" \
+            -backend-config="encrypt=true"
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -input=false
+        continue-on-error: true
+
+      - name: Post PR Comment
+        if: inputs.enable_pr_comment && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          PLAN_OUTPUT: ${{ steps.plan.outputs.stdout }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`terraform
+            ${process.env.PLAN_OUTPUT}
+            \`\`\`
+
+            </details>
+
+            *Module: \`${{ inputs.working_directory }}\`*
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+  terraform-apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && inputs.apply_on_merge
+    permissions:
+      contents: read
+      id-token: write
+
+    defaults:
+      run:
+        working-directory: ${{ inputs.working_directory }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (Apply Role)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::607167088920:role/GitHubActions_Terraform_dreamkast_terraform_apply
+          role-session-name: terraform-apply-${{ github.run_id }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ inputs.terraform_version }}
+
+      - name: Terraform Init
+        run: |
+          terraform init \
+            -backend-config="bucket=dreamkast-terraform-states" \
+            -backend-config="key=${{ inputs.s3_state_key }}" \
+            -backend-config="region=${{ env.AWS_REGION }}" \
+            -backend-config="encrypt=true"
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false

@@ -1,0 +1,32 @@
+name: Broadcast Switcher Terraform
+
+on:
+  pull_request:
+    paths:
+      - 'broadcast_switcher/**'
+      - '.github/workflows/broadcast_switcher.yml'
+      - '.github/workflows/terraform.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'broadcast_switcher/**'
+      - '.github/workflows/broadcast_switcher.yml'
+      - '.github/workflows/terraform.yml'
+
+jobs:
+  terraform:
+    uses: ./.github/workflows/terraform.yml
+    with:
+      working_directory: broadcast_switcher
+      terraform_version: '1.6.0'
+      s3_state_key: 'broadcast_switcher/terraform.tfstate'
+      aws_region: 'ap-northeast-1'
+      apply_on_merge: true
+      enable_pr_comment: true
+    secrets:
+      SAKURACLOUD_ACCESS_TOKEN: ${{ secrets.SAKURACLOUD_ACCESS_TOKEN }}
+      SAKURACLOUD_ACCESS_TOKEN_SECRET: ${{ secrets.SAKURACLOUD_ACCESS_TOKEN_SECRET }}
+      TF_VAR_vnc_password: ${{ secrets.BROADCAST_SWITCHER_VNC_PASSWORD }}
+      TF_VAR_vm_password: ${{ secrets.BROADCAST_SWITCHER_VM_PASSWORD }}
+      TF_VAR_broadcast_webhook_url: ${{ secrets.BROADCAST_SWITCHER_WEBHOOK_URL }}
