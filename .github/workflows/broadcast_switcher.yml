@@ -19,7 +19,7 @@ jobs:
     uses: ./.github/workflows/terraform.yml
     with:
       working_directory: broadcast_switcher
-      terraform_version: '1.6.0'
+      terraform_version: '1.14.2'
       s3_state_key: 'broadcast_switcher/terraform.tfstate'
       aws_region: 'ap-northeast-1'
       apply_on_merge: true
