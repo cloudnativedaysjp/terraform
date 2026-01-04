@@ -30,3 +30,4 @@ jobs:
       TF_VAR_vnc_password: ${{ secrets.BROADCAST_SWITCHER_VNC_PASSWORD }}
       TF_VAR_vm_password: ${{ secrets.BROADCAST_SWITCHER_VM_PASSWORD }}
       TF_VAR_broadcast_webhook_url: ${{ secrets.BROADCAST_SWITCHER_WEBHOOK_URL }}
+      ROLE_TO_ASSUME: ${{ secrets.ROLE_TO_ASSUME }}
