@@ -42,6 +42,8 @@ on:
         required: false
       TF_VAR_broadcast_webhook_url:
         required: false
+      ROLE_TO_ASSUME:
+        required: false
 
 env:
   AWS_REGION: ${{ inputs.aws_region }}
