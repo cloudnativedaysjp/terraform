@@ -74,7 +74,7 @@ jobs:
       - name: Configure AWS credentials (Plan Role)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::607167088920:role/GitHubActions_Terraform_dreamkast_terraform_plan
+          role-to-assume: ${{ secrets.ROLE_TO_ASSUME  }}
           role-session-name: terraform-plan-${{ github.run_id }}
           aws-region: ${{ env.AWS_REGION }}
 
