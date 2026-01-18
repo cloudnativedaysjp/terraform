@@ -18,7 +18,7 @@ variable "mysql_major_version" {
 }
 
 variable "mysql_minor_version" {
-  default = "33"
+  default = "42"
 }
 
 variable "db_instance_name" {

@@ -1,6 +1,6 @@
 locals {
   mysql_major_version      = "8.0"
-  mysql_minor_version      = "33"
+  mysql_minor_version      = "42"
   db_instance_name         = "rds"
   db_instance_class        = "db.t4g.small"
   db_instance_storage_size = 30
