@@ -22,8 +22,8 @@ module "elasticache-redis" {
   multi_az_enabled           = local.elasticache_multi_az
   cluster_size               = local.redis_num_of_nodes
 
-  vpc_id           = module.vpc.vpc_id
-  subnets          = module.vpc.intra_subnets
+  vpc_id           = aws_vpc.this.id
+  subnets          = aws_subnet.intra[*].id
   port             = 6379
   allow_all_egress = true
   additional_security_group_rules = [
@@ -33,7 +33,7 @@ module "elasticache-redis" {
       from_port   = 6379
       to_port     = 6379
       protocol    = "tcp"
-      cidr_blocks = module.vpc.private_subnets_cidr_blocks
+      cidr_blocks = aws_subnet.private[*].cidr_block
     },
     {
       type        = "ingress"
@@ -41,7 +41,7 @@ module "elasticache-redis" {
       from_port   = 6379
       to_port     = 6379
       protocol    = "tcp"
-      cidr_blocks = module.vpc.public_subnets_cidr_blocks
+      cidr_blocks = aws_subnet.public[*].cidr_block
     }
   ]
 

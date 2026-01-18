@@ -2,7 +2,7 @@ resource "aws_lb" "alb" {
   name               = var.prj_prefix
   internal           = false
   load_balancer_type = "application"
-  subnets            = module.vpc.public_subnets
+  subnets            = aws_subnet.public[*].id
 
   security_groups = [
     aws_security_group.alb.id
@@ -17,7 +17,7 @@ resource "aws_lb" "alb" {
 
 resource "aws_security_group" "alb" {
   name   = "${var.prj_prefix}-alb"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.this.id
 
   ingress {
     description = "allow HTTPS"

@@ -23,7 +23,7 @@ resource "aws_lb_target_group" "dreamkast_dk" {
   name        = "dreamkast-production-dk"
   port        = 3000
   protocol    = "HTTP"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = aws_vpc.this.id
   target_type = "ip"
 
   deregistration_delay = 60
@@ -69,7 +69,7 @@ resource "aws_lb_target_group" "dreamkast_ui" {
   name        = "dreamkast-production-ui"
   port        = 3001
   protocol    = "HTTP"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = aws_vpc.this.id
   target_type = "ip"
 
   deregistration_delay = 60
@@ -111,7 +111,7 @@ resource "aws_lb_target_group" "dreamkast_weaver" {
   name        = "dreamkast-production-weaver"
   port        = 8080
   protocol    = "HTTP"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = aws_vpc.this.id
   target_type = "ip"
 
   deregistration_delay = 60
