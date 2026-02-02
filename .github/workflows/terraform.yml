@@ -74,7 +74,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials (Plan Role)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }} 
           role-session-name: terraform-plan-${{ github.run_id }}
@@ -160,7 +160,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials (Apply Role)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: arn:aws:iam::607167088920:role/GitHubActions_Terraform_dreamkast_terraform_apply
           role-session-name: terraform-apply-${{ github.run_id }}
