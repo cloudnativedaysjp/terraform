@@ -17,3 +17,8 @@ terraform {
 provider "aws" {
   region = "us-west-2"
 }
+
+provider "aws" {
+  alias  = "tokyo"
+  region = "ap-northeast-1"
+}
