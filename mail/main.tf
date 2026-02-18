@@ -130,3 +130,21 @@ resource "aws_sesv2_configuration_set" "announcements" {
     suppressed_reasons = ["BOUNCE", "COMPLAINT"]
   }
 }
+
+data "aws_cloudwatch_event_bus" "default" {
+  name = "default"
+}
+
+resource "aws_sesv2_configuration_set_event_destination" "announcements" {
+  configuration_set_name = aws_sesv2_configuration_set.announcements.configuration_set_name
+  event_destination_name = "announcements"
+
+  event_destination {
+    event_bridge_destination {
+      event_bus_arn = data.aws_cloudwatch_event_bus.default.arn
+    }
+
+    enabled              = true
+    matching_event_types = ["BOUNCE", "COMPLAINT"]
+  }
+}
