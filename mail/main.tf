@@ -118,3 +118,15 @@ resource "aws_lambda_function" "transfer_email" {
     }
   }
 }
+
+resource "aws_sesv2_configuration_set" "announcements" {
+  configuration_set_name = "announcements"
+
+  reputation_options {
+    reputation_metrics_enabled = true
+  }
+
+  suppression_options {
+    suppressed_reasons = ["BOUNCE", "COMPLAINT"]
+  }
+}
