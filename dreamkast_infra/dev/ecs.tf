@@ -631,3 +631,50 @@ resource "aws_security_group" "ecs-harvestjob" {
   #  Environment = "${var.prj_prefix}"
   #}
 }
+
+# ------------------------------------------------------------#
+# for sGTM
+# ------------------------------------------------------------#
+resource "aws_iam_role" "ecs-sgtm" {
+  name = "${var.prj_prefix}-ecs-sgtm"
+
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_ecs.json
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
+
+resource "aws_iam_role_policy_attachment" "ecs-sgtm-ssm" {
+  role       = aws_iam_role.ecs-sgtm.name
+  policy_arn = data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn
+}
+
+
+resource "aws_security_group" "ecs-sgtm" {
+  name   = "${var.prj_prefix}-ecs-sgtm"
+  vpc_id = aws_vpc.this.id
+
+  ingress {
+    description = "tcp/8080"
+    protocol    = "tcp"
+    from_port   = 8080
+    to_port     = 8080
+    security_groups = [
+      aws_security_group.alb.id,
+      aws_security_group.ecs-dreamkast.id,
+    ]
+  }
+
+  egress {
+    description = "allow all"
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  #tags = {
+  #  Environment = "${var.prj_prefix}"
+  #}
+}
