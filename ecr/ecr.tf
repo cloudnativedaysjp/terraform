@@ -14,6 +14,7 @@ locals {
       "dreamkast-otelcol",
       "dreamkast-ui",
       "dreamkast-weaver",
+      "dreamkast-sgtm"
     ],
     "ap-northeast-1" : [
       "dreamkast-ecs",
@@ -21,6 +22,7 @@ locals {
       "dreamkast-ui",
       "dreamkast-weaver",
       "seaman",
+      "dreamkast-sgtm"
     ],
   }
 }
