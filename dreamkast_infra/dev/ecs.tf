@@ -650,7 +650,6 @@ resource "aws_iam_role_policy_attachment" "ecs-sgtm-ssm" {
   policy_arn = data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn
 }
 
-
 resource "aws_security_group" "ecs-sgtm" {
   name   = "${var.prj_prefix}-ecs-sgtm"
   vpc_id = aws_vpc.this.id

@@ -134,11 +134,11 @@ resource "aws_lb_target_group" "dreamkast_weaver" {
 
 
 # ------------------------------------------------------------#
-# for dreamkast-sgtm
+# for sGTM
 # ------------------------------------------------------------#
 resource "aws_lb_listener_rule" "dreamkast_sgtm" {
   listener_arn = data.aws_lb_listener.alb.arn
-  priority     = 7
+  priority     = 10
   action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.dreamkast_sgtm.arn
@@ -154,6 +154,7 @@ resource "aws_lb_listener_rule" "dreamkast_sgtm" {
     }
   }
 }
+
 resource "aws_lb_target_group" "dreamkast_sgtm" {
   name        = "dreamkast-staging-sgtm"
   port        = 8080
