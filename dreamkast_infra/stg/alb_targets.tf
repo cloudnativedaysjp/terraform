@@ -131,3 +131,46 @@ resource "aws_lb_target_group" "dreamkast_weaver" {
     matcher             = 200
   }
 }
+
+
+# ------------------------------------------------------------#
+# for dreamkast-sgtm
+# ------------------------------------------------------------#
+resource "aws_lb_listener_rule" "dreamkast_sgtm" {
+  listener_arn = data.aws_lb_listener.alb.arn
+  priority     = 7
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.dreamkast_sgtm.arn
+  }
+  condition {
+    host_header {
+      values = ["sgtm.dev.cloudnativedays.jp"]
+    }
+  }
+  condition {
+    path_pattern {
+      values = ["/*"]
+    }
+  }
+}
+resource "aws_lb_target_group" "dreamkast_sgtm" {
+  name        = "dreamkast-staging-sgtm"
+  port        = 8080
+  protocol    = "HTTP"
+  vpc_id      = data.aws_vpc.dreamkast_dev_vpc.id
+  target_type = "ip"
+
+  deregistration_delay = 60
+
+  health_check {
+    protocol            = "HTTP"
+    path                = "/healthz"
+    port                = 8080
+    healthy_threshold   = 3
+    unhealthy_threshold = 2
+    timeout             = 5
+    interval            = 30
+    matcher             = 200
+  }
+}
