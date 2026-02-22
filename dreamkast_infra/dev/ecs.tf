@@ -662,7 +662,6 @@ resource "aws_security_group" "ecs-sgtm" {
     to_port     = 8080
     security_groups = [
       aws_security_group.alb.id,
-      aws_security_group.ecs-dreamkast.id,
     ]
   }
 
