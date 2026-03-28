@@ -52,8 +52,8 @@ resource "aws_lb_listener" "alb" {
 
     fixed_response {
       content_type = "text/plain"
-      status_code  = "503"
-      message_body = "no appropriately backends"
+      status_code  = "404"
+      message_body = "Not Found"
     }
   }
 
