@@ -20,7 +20,7 @@ terraform {
 
 data "sakuracloud_archive" "ubuntu" {
   filter {
-    tags = ["@size-extendable","cloud-init","distro-ubuntu","distro-ver-24.04","os-linux"]
+    id = "113701786672"
   }
 }
 
@@ -184,11 +184,11 @@ resource "sakuracloud_switch" "switcher" {
 
 module "vm1" {
   source  = "app.terraform.io/cloudnativedaysjp/handson/sacloud"
-  version = "0.0.5"
+  version = "0.0.6"
   machine_id                 = "handson-2"
   vm_password                = "A!waysbek1nd"
   additional_github_accounts = ["jacopen"]
-  sakuracloud_zone           = "is1b"
+  sakuracloud_zone           = "is1a"
   cpu_core = 8
   memory_size = 32
   archive_id = data.sakuracloud_archive.ubuntu.id
