@@ -20,7 +20,7 @@ terraform {
 
 data "sakuracloud_archive" "ubuntu" {
   filter {
-    tags = ["@size-extendable","cloudimg","distro-ubuntu","distro-ver-24.04","os-linux"]
+    id = "113701786718"
   }
 }
 
