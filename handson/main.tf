@@ -20,7 +20,7 @@ terraform {
 
 data "sakuracloud_archive" "ubuntu" {
   filter {
-    id = "113701786718"
+    id = "113701786672"
   }
 }
 
