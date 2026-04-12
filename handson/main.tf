@@ -29,55 +29,6 @@ data "aws_route53_zone" "cloudnativedays" {
   private_zone = false
 }
 
-resource "sakuracloud_disk" "handson_dev01_boot" {
-  name              = "tailscale"
-  source_archive_id = data.sakuracloud_archive.ubuntu.id
-  plan              = "ssd"
-  connector         = "virtio"
-  size              = 20
-
-  lifecycle {
-    ignore_changes = [
-      source_archive_id,
-    ]
-  }
-}
-
-resource "sakuracloud_server" "handson_dev01" {
-  name = "handson-dev01"
-  disks = [
-    sakuracloud_disk.handson_dev01_boot.id,
-  ]
-  core        = 8
-  memory      = 32
-  description = "Hands-on Machine 1"
-  tags        = ["app=handson", "stage=production", "starred"]
-
-  network_interface {
-    upstream         = "shared"
-    packet_filter_id = sakuracloud_packet_filter.handson.id
-  }
-
-  user_data = templatefile("./template/handson-cloud-init.yaml", {
-    vm_password = var.vm_password,
-    hostname    = "handson-dev01",
-  })
-
-  lifecycle {
-    ignore_changes = [
-      user_data,
-    ]
-  }
-}
-
-resource "aws_route53_record" "handson_dev01" {
-  zone_id  = data.aws_route53_zone.cloudnativedays.zone_id
-  name     = "handson-dev01.cloudnativedays.jp"
-  type     = "A"
-  ttl      = "300"
-  records  = [sakuracloud_server.handson_dev01.ip_address]
-}
-
 resource "sakuracloud_packet_filter" "handson" {
   name        = "handson"
   description = "Packet filtering rules for handson VMs"
@@ -188,7 +139,7 @@ module "vm1" {
   machine_id                 = "handson-2"
   vm_password                = "A!waysbek1nd"
   additional_github_accounts = ["jacopen"]
-  sakuracloud_zone           = "is1b"
+  sakuracloud_zone           = "is1a"
   cpu_core = 8
   memory_size = 32
   archive_id = data.sakuracloud_archive.ubuntu.id
