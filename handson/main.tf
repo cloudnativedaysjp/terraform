@@ -9,7 +9,7 @@ terraform {
   required_providers {
     sakuracloud = {
       source  = "sacloud/sakuracloud"
-      version = "~> 2.34.0"
+      version = "2.34.2"
     }
     aws = {
       source  = "hashicorp/aws"
@@ -135,7 +135,7 @@ resource "sakuracloud_switch" "switcher" {
 
 module "vm1" {
   source  = "app.terraform.io/cloudnativedaysjp/handson/sacloud"
-  version = "0.0.5"
+  version = "0.0.6"
   machine_id                 = "handson-2"
   vm_password                = "A!waysbek1nd"
   additional_github_accounts = ["jacopen"]
