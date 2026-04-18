@@ -18,6 +18,10 @@ terraform {
   }
 }
 
+provider "aws" {
+  region = "us-east-1"
+}
+
 data "sakuracloud_archive" "ubuntu" {
   filter {
     tags = ["@size-extendable","cloud-init","distro-ubuntu","distro-ver-24.04.2","os-linux"]
