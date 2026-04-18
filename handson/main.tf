@@ -188,7 +188,7 @@ module "vm1" {
   machine_id                 = "handson-2"
   vm_password                = "A!waysbek1nd"
   additional_github_accounts = ["jacopen"]
-  sakuracloud_zone           = "is1a"
+  sakuracloud_zone           = "is1b"
   cpu_core = 8
   memory_size = 32
   archive_id = data.sakuracloud_archive.ubuntu.id
