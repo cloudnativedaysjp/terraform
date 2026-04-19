@@ -20,62 +20,8 @@ terraform {
 
 data "sakuracloud_archive" "ubuntu" {
   filter {
-    tags = ["@size-extendable","cloud-init","distro-ubuntu","distro-ver-24.04","os-linux"]
+    tags = ["@size-extendable","cloud-init","distro-ubuntu","distro-ver-24.04.2","os-linux"]
   }
-}
-
-data "aws_route53_zone" "cloudnativedays" {
-  name         = "cloudnativedays.jp."
-  private_zone = false
-}
-
-resource "sakuracloud_disk" "handson_dev01_boot" {
-  name              = "tailscale"
-  source_archive_id = data.sakuracloud_archive.ubuntu.id
-  plan              = "ssd"
-  connector         = "virtio"
-  size              = 20
-
-  lifecycle {
-    ignore_changes = [
-      source_archive_id,
-    ]
-  }
-}
-
-resource "sakuracloud_server" "handson_dev01" {
-  name = "handson-dev01"
-  disks = [
-    sakuracloud_disk.handson_dev01_boot.id,
-  ]
-  core        = 8
-  memory      = 32
-  description = "Hands-on Machine 1"
-  tags        = ["app=handson", "stage=production", "starred"]
-
-  network_interface {
-    upstream         = "shared"
-    packet_filter_id = sakuracloud_packet_filter.handson.id
-  }
-
-  user_data = templatefile("./template/handson-cloud-init.yaml", {
-    vm_password = var.vm_password,
-    hostname    = "handson-dev01",
-  })
-
-  lifecycle {
-    ignore_changes = [
-      user_data,
-    ]
-  }
-}
-
-resource "aws_route53_record" "handson_dev01" {
-  zone_id  = data.aws_route53_zone.cloudnativedays.zone_id
-  name     = "handson-dev01.cloudnativedays.jp"
-  type     = "A"
-  ttl      = "300"
-  records  = [sakuracloud_server.handson_dev01.ip_address]
 }
 
 resource "sakuracloud_packet_filter" "handson" {
@@ -184,7 +130,7 @@ resource "sakuracloud_switch" "switcher" {
 
 module "vm1" {
   source  = "app.terraform.io/cloudnativedaysjp/handson/sacloud"
-  version = "0.0.5"
+  version = "0.0.7"
   machine_id                 = "handson-2"
   vm_password                = "A!waysbek1nd"
   additional_github_accounts = ["jacopen"]
