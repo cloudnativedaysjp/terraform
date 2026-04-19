@@ -24,12 +24,6 @@ data "sakuracloud_archive" "ubuntu" {
   }
 }
 
-data "aws_route53_zone" "cloudnativedays" {
-  name         = "cloudnativedays.jp."
-  private_zone = false
-}
-
-
 resource "sakuracloud_packet_filter" "handson" {
   name        = "handson"
   description = "Packet filtering rules for handson VMs"
