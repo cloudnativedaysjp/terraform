@@ -10,6 +10,16 @@ resource "aws_lb" "alb" {
 
   enable_deletion_protection = true
 
+  access_logs {
+    bucket  = aws_s3_bucket.alb_log.id
+    prefix  = "alb"
+    enabled = true
+  }
+
+  depends_on = [
+    aws_s3_bucket_policy.alb_log,
+  ]
+
   #tags = {
   #  Environment = "${var.prj_prefix}"
   #}
