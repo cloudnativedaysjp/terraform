@@ -12,6 +12,7 @@ resource "aws_lb" "alb" {
 
   access_logs {
     bucket  = aws_s3_bucket.alb_log.id
+    prefix  = "alb"
     enabled = true
   }
 

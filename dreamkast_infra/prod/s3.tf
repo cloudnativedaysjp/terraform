@@ -55,6 +55,16 @@ resource "aws_s3_bucket_public_access_block" "alb_log" {
   restrict_public_buckets = true
 }
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "alb_log" {
+  bucket = aws_s3_bucket.alb_log.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
 resource "aws_s3_bucket_lifecycle_configuration" "alb_log" {
   bucket = aws_s3_bucket.alb_log.id
 
@@ -80,7 +90,7 @@ data "aws_iam_policy_document" "alb_log" {
       identifiers = [data.aws_elb_service_account.main.arn]
     }
     actions   = ["s3:PutObject"]
-    resources = ["${aws_s3_bucket.alb_log.arn}/AWSLogs/${var.aws_account_id}/*"]
+    resources = ["${aws_s3_bucket.alb_log.arn}/alb/AWSLogs/${var.aws_account_id}/*"]
   }
 }
 
