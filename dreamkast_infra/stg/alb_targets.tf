@@ -47,6 +47,41 @@ resource "aws_lb_target_group" "dreamkast_dk" {
 # ------------------------------------------------------------#
 # for dreamkast-ui
 # ------------------------------------------------------------#
+# Block WebSocket upgrade requests as a mitigation for
+# https://github.com/vercel/next.js/security/advisories/GHSA-c4j6-fc7j-m34r
+resource "aws_lb_listener_rule" "dreamkast_ui_block_websocket" {
+  listener_arn = data.aws_lb_listener.alb.arn
+  priority     = 2
+  action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      status_code  = "400"
+      message_body = "Bad Request"
+    }
+  }
+  condition {
+    host_header {
+      values = ["staging.dev.cloudnativedays.jp"]
+    }
+  }
+  condition {
+    path_pattern {
+      values = [
+        "/${var.event_name}/ui/*",
+        "/${var.event_name}/ui",
+        "/_next/*"
+      ]
+    }
+  }
+  condition {
+    http_header {
+      http_header_name = "Upgrade"
+      values           = ["websocket"]
+    }
+  }
+}
 resource "aws_lb_listener_rule" "dreamkast_ui" {
   listener_arn = data.aws_lb_listener.alb.arn
   priority     = 3
