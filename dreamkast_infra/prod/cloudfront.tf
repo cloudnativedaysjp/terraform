@@ -18,8 +18,7 @@ resource "aws_cloudfront_cache_policy" "for_mediapackage_v2" {
         items = [
           "Origin",
           "Access-Control-Request-Method",
-          "Access-Control-Allow-Origin",
-          "Access-Control-Request-Header"
+          "Access-Control-Request-Headers"
         ]
       }
     }
@@ -47,8 +46,7 @@ resource "aws_cloudfront_cache_policy" "for_mediapackage_v2_manifest" {
         items = [
           "Origin",
           "Access-Control-Request-Method",
-          "Access-Control-Allow-Origin",
-          "Access-Control-Request-Header"
+          "Access-Control-Request-Headers"
         ]
       }
     }
@@ -76,8 +74,7 @@ resource "aws_cloudfront_cache_policy" "for_mediapackage_v2_segment" {
         items = [
           "Origin",
           "Access-Control-Request-Method",
-          "Access-Control-Allow-Origin",
-          "Access-Control-Request-Header"
+          "Access-Control-Request-Headers"
         ]
       }
     }
