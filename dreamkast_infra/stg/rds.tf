@@ -7,6 +7,14 @@ resource "aws_db_parameter_group" "rds_parameter_group" {
   description = "${var.prj_prefix}-${var.db_instance_name}-parm"
 
   # データベースに設定するパラメーター
+  # MySQL 8.4 では mysql_native_password がデフォルト無効(OFF)。
+  # 既存ユーザ(マスターユーザ含む)は native_password で作成されているため、
+  # アップグレード後も認証できるよう ON で維持する。静的パラメータのため再起動で反映。
+  parameter {
+    name         = "mysql_native_password"
+    value        = "1"
+    apply_method = "pending-reboot"
+  }
   parameter {
     name  = "slow_query_log"
     value = 1
@@ -94,12 +102,13 @@ resource "aws_db_instance" "rds_instance" {
 
   parameter_group_name = aws_db_parameter_group.rds_parameter_group.name
 
-  backup_window              = "18:00-18:30"
-  maintenance_window         = "Sat:19:00-Sat:19:30"
-  backup_retention_period    = 7
-  auto_minor_version_upgrade = false
-  copy_tags_to_snapshot      = true
-  skip_final_snapshot        = true
+  backup_window               = "18:00-18:30"
+  maintenance_window          = "Sat:19:00-Sat:19:30"
+  backup_retention_period     = 7
+  auto_minor_version_upgrade  = false
+  allow_major_version_upgrade = true
+  copy_tags_to_snapshot       = true
+  skip_final_snapshot         = true
 
   tags = {
     Name = "${var.db_instance_name}"
