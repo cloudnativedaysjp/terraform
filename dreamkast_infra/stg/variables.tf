@@ -14,11 +14,11 @@ variable "prj_prefix" {
 #  RDS
 # ------------------------------------------------------------#
 variable "mysql_major_version" {
-  default = "8.0"
+  default = "8.4"
 }
 
 variable "mysql_minor_version" {
-  default = "42"
+  default = "9"
 }
 
 variable "db_instance_name" {
