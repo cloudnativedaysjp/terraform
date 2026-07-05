@@ -1,31 +1,8 @@
 # ------------------------------------------------------------#
 #  RDS parameter group
 # ------------------------------------------------------------#
-# 旧 MySQL 8.0 用パラメータグループ。
-# family は変更不可属性なので 8.4 用は別リソースで新規作成し、こちらは削除せず残す
-# (インスタンスがまだメンバーのうちに削除すると InvalidDBParameterGroupState で失敗するため)。
-# インスタンスを 8.4 用グループへ付け替えた後、別 PR でこのリソースを削除する。
-resource "aws_db_parameter_group" "rds_parameter_group" {
-  name        = "${var.prj_prefix}-${var.db_instance_name}-parametergroup"
-  family      = "mysql8.0"
-  description = "${var.prj_prefix}-${var.db_instance_name}-parm"
-
-  # データベースに設定するパラメーター
-  parameter {
-    name  = "slow_query_log"
-    value = 1
-  }
-  parameter {
-    name  = "long_query_time"
-    value = var.long_query_time
-  }
-  parameter {
-    name  = "log_output"
-    value = "FILE"
-  }
-}
-
-# MySQL 8.4 用パラメータグループ(新規)。インスタンスはこちらをアタッチする。
+# MySQL 8.4 用パラメータグループ。インスタンスはこちらをアタッチする。
+# (旧 8.0 用 rds_parameter_group はインスタンス付け替え完了後に削除済み)
 resource "aws_db_parameter_group" "rds_parameter_group_84" {
   name        = "${var.prj_prefix}-${var.db_instance_name}-parametergroup-mysql${replace(var.mysql_major_version, ".", "")}"
   family      = "mysql${var.mysql_major_version}"
