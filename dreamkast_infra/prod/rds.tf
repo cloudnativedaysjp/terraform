@@ -14,31 +14,8 @@ locals {
 # ------------------------------------------------------------#
 #  RDS parameter group
 # ------------------------------------------------------------#
-# 旧 MySQL 8.0 用パラメータグループ。
-# family は変更不可属性なので 8.4 用は別リソースで新規作成し、こちらは削除せず残す
-# (インスタンスがまだメンバーのうちに削除すると InvalidDBParameterGroupState で失敗するため)。
-# インスタンスを 8.4 用グループへ付け替えた後、別 PR でこのリソースを削除する。
-resource "aws_db_parameter_group" "rds_parameter_group" {
-  name        = "${var.prj_prefix}-${local.db_instance_name}-parametergroup"
-  family      = "mysql8.0"
-  description = "${var.prj_prefix}-${local.db_instance_name}-parm"
-
-  # データベースに設定するパラメーター
-  parameter {
-    name  = "slow_query_log"
-    value = 1
-  }
-  parameter {
-    name  = "long_query_time"
-    value = local.long_query_time
-  }
-  parameter {
-    name  = "log_output"
-    value = "FILE"
-  }
-}
-
-# MySQL 8.4 用パラメータグループ(新規)。インスタンスはこちらをアタッチする。
+# MySQL 8.4 用パラメータグループ。インスタンスはこちらをアタッチする。
+# (旧 8.0 用 rds_parameter_group はインスタンス付け替え完了後に削除済み)
 resource "aws_db_parameter_group" "rds_parameter_group_84" {
   name        = "${var.prj_prefix}-${local.db_instance_name}-parametergroup-mysql${replace(local.mysql_major_version, ".", "")}"
   family      = "mysql${local.mysql_major_version}"
@@ -136,11 +113,8 @@ resource "aws_db_instance" "rds_instance" {
   backup_retention_period     = 7
   auto_minor_version_upgrade  = false
   allow_major_version_upgrade = true
-  # メジャーアップグレードをメンテナンスウィンドウ待ちにせず apply 時に即時実行する。
-  # アップグレード完了後は後段 PR で false(デフォルト)へ戻す。
-  apply_immediately     = true
-  copy_tags_to_snapshot = true
-  skip_final_snapshot   = true
+  copy_tags_to_snapshot       = true
+  skip_final_snapshot         = true
 
   tags = { Name = "${local.db_instance_name}" }
 }
