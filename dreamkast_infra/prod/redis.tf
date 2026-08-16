@@ -26,24 +26,15 @@ module "elasticache-redis" {
   subnets          = aws_subnet.intra[*].id
   port             = 6379
   allow_all_egress = true
-  additional_security_group_rules = [
-    {
-      type        = "ingress"
-      description = "Redis from private subnet"
-      from_port   = 6379
-      to_port     = 6379
-      protocol    = "tcp"
-      cidr_blocks = aws_subnet.private[*].cidr_block
-    },
-    {
-      type        = "ingress"
-      description = "Redis from public subnet"
-      from_port   = 6379
-      to_port     = 6379
-      protocol    = "tcp"
-      cidr_blocks = aws_subnet.public[*].cidr_block
-    }
-  ]
+
+  # 脱Redis (dreamkast#2844 / v4.20.0) により prod のアプリは Redis を参照しなくなった。
+  # ElastiCache には RDS のような stop/start が無いため、削除前の最終確認として
+  # ingress を全て外し、クラスタを残したまま到達不能にする。
+  #
+  # 一定期間問題が無いことを確認できたら、この module ごと削除する。
+  # 切り戻す場合はこの commit を revert すれば元の ingress が復活する
+  # (private / public サブネットの CIDR から 6379/tcp を許可)。
+  additional_security_group_rules = []
 
   replication_group_id     = "${var.prj_prefix}-redis"
   maintenance_window       = "sun:22:00-sun:23:30"
