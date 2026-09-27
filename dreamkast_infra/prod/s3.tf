@@ -59,6 +59,9 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "alb_log" {
   bucket = aws_s3_bucket.alb_log.id
 
   rule {
+    # AWS 側で既定になった SSE-C のブロックに合わせる（未指定だと SSE-C を許可する差分が出る）
+    blocked_encryption_types = ["SSE-C"]
+
     apply_server_side_encryption_by_default {
       sse_algorithm = "AES256"
     }
@@ -123,6 +126,9 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "athena_query_resu
   bucket = aws_s3_bucket.athena_query_results.id
 
   rule {
+    # AWS 側で既定になった SSE-C のブロックに合わせる（未指定だと SSE-C を許可する差分が出る）
+    blocked_encryption_types = ["SSE-C"]
+
     apply_server_side_encryption_by_default {
       sse_algorithm = "AES256"
     }
