@@ -34,7 +34,7 @@ resource "aws_lb_target_group" "dreamkast_dk" {
 
   health_check {
     protocol            = "HTTP"
-    path                = "/"
+    path                = "/up"
     port                = 3000
     healthy_threshold   = 3
     unhealthy_threshold = 2
