@@ -2,9 +2,10 @@
 # Behavior が使うキャッシュポリシー。dreamkast アプリが名前で検索して参照している
 # (app/models/media_package_v2_origin_endpoint.rb#cache_policy_name) ため、名前の変更・削除は不可。
 #
-# Cookie と無関係なクエリ文字列をキャッシュキーに含めるとセグメントのキャッシュが視聴者ごとに
+# Cookie や MediaPackage が解釈しないクエリ文字列をキャッシュキーに含めるとセグメントのキャッシュが視聴者ごとに
 # 分散し、オリジン (MediaPackage V2) へのリクエストが増えるため、Cookie は含めず、
 # クエリ文字列は MediaPackage V2 / LL-HLS が解釈するものだけに絞る。
+# 許可リストは prod/cloudfront.tf と stg/cloudfront.tf で揃えること。
 resource "aws_cloudfront_cache_policy" "for_mediapackage_v2" {
   name        = "MediaPackageV2_stg"
   comment     = ""
