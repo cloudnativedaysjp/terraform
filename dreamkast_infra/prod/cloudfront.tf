@@ -411,7 +411,7 @@ resource "aws_cloudfront_distribution" "video_archive" {
   }
 
   ordered_cache_behavior {
-    path_pattern               = "*cnk*"
+    path_pattern               = "*cndw2026*"
     target_origin_id           = local.origin_s3_uswest2
     viewer_protocol_policy     = "redirect-to-https"
     allowed_methods            = ["HEAD", "GET"]
