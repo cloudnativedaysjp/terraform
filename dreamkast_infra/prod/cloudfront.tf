@@ -164,7 +164,6 @@ resource "aws_cloudfront_distribution" "video_archive" {
 
     connection_attempts = 3
     connection_timeout  = 10
-
   }
 
   origin {
@@ -177,7 +176,6 @@ resource "aws_cloudfront_distribution" "video_archive" {
 
     connection_attempts = 3
     connection_timeout  = 10
-
   }
 
   origin {
@@ -190,7 +188,6 @@ resource "aws_cloudfront_distribution" "video_archive" {
 
     connection_attempts = 3
     connection_timeout  = 10
-
   }
 
   # ---------- Default cache behavior ----------
