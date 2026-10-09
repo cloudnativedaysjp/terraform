@@ -22,15 +22,29 @@ resource "aws_s3_bucket_public_access_block" "bucket_block" {
 resource "aws_s3_bucket_lifecycle_configuration" "bucket_lifecycle" {
   bucket = aws_s3_bucket.bucket.id
 
+  # Shrine の cache ストレージ (prefix: cache/) は一時置き場。
+  # avatar / sponsor_attachment などすべての Uploader の cache が対象。
   rule {
     id     = "delete_shrine_cache"
     status = "Enabled"
 
     filter {
-      prefix = "cache/avatar/"
+      prefix = "cache/"
     }
     expiration {
       days = 7
+    }
+  }
+
+  # 講演動画の Uppy マルチパートアップロード (video_file/) で中断されたものを掃除する。
+  # アプリ側のアップロード有効期限は 24 時間 (MultipartUploadsController)。
+  rule {
+    id     = "abort_incomplete_multipart_upload"
+    status = "Enabled"
+
+    filter {}
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
     }
   }
 }

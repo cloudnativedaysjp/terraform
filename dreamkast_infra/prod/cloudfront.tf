@@ -152,6 +152,8 @@ resource "aws_cloudfront_distribution" "video_archive" {
   comment         = "For video archive distribution (prd)"
 
   # ---------- Origins ----------
+  # アーカイブ動画は視聴頻度が低くオリジンも S3 のため、Origin Shield のリクエスト課金に
+  # 見合う効果が無い。Origin Shield は使わない。
   origin {
     origin_id   = local.origin_s3_useast1
     domain_name = local.origin_s3_useast1
@@ -163,10 +165,6 @@ resource "aws_cloudfront_distribution" "video_archive" {
     connection_attempts = 3
     connection_timeout  = 10
 
-    origin_shield {
-      enabled              = true
-      origin_shield_region = "ap-northeast-1"
-    }
   }
 
   origin {
@@ -180,10 +178,6 @@ resource "aws_cloudfront_distribution" "video_archive" {
     connection_attempts = 3
     connection_timeout  = 10
 
-    origin_shield {
-      enabled              = true
-      origin_shield_region = "ap-northeast-1"
-    }
   }
 
   origin {
@@ -197,10 +191,6 @@ resource "aws_cloudfront_distribution" "video_archive" {
     connection_attempts = 3
     connection_timeout  = 10
 
-    origin_shield {
-      enabled              = true
-      origin_shield_region = "ap-northeast-1"
-    }
   }
 
   # ---------- Default cache behavior ----------
